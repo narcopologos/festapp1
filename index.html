@@ -6,18 +6,22 @@
     <title>Festspel 6.0</title>
     <style>
         :root {
-            --primary: #2a5298;
-            --secondary: #1e3c72;
-            --accent: #ff6b6b;
-            --truth: #48dbfb;
-            --dare: #ff6b6b;
+            /* DITT NYA FÄRGTEMA: MAGMA */
+            --bg-dark: #0f0c29;      /* Riktigt mörk lila/svart */
+            --bg-light: #302b63;     /* Lite ljusare nattfärg */
+            --accent: #ff4b1f;       /* Knallig orange/röd */
+            --accent-glow: #ff9068;  /* Ljusare orange för glow */
+            
+            --truth: #00d2ff;        /* Isblå (för kontrast mot elden) */
+            --dare: #ff0000;         /* Blodröd */
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            /* En mörk, mystisk bakgrundsgradient */
+            background: linear-gradient(to bottom, #000000, #430000); 
             color: white;
             height: 100vh;
             display: flex;
@@ -46,25 +50,57 @@
         .active { display: flex; }
 
         /* --- MENY --- */
-        h1 { margin-bottom: 30px; font-size: 2.5rem; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        h1 { 
+            margin-bottom: 30px; 
+            font-size: 3rem; 
+            font-weight: 900;
+            text-transform: uppercase;
+            font-style: italic;
+            /* Texten ser ut att brinna */
+            color: #fff;
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 20px var(--accent),
+                0 0 40px var(--accent),
+                0 0 80px var(--accent);
+        }
         
         .btn {
             width: 80%;
             max-width: 300px;
             padding: 20px;
-            margin: 10px 0;
-            font-size: 1.2rem;
+            margin: 12px 0;
+            font-size: 1.1rem;
             font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             color: white;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255,255,255,0.4);
-            border-radius: 15px;
+            
+            /* Mörk knapp med färgad kant */
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid var(--accent);
+            border-radius: 50px; /* Mer rundade former */
+            box-shadow: 0 0 15px rgba(255, 75, 31, 0.3); /* Röd skugga */
+            
             cursor: pointer;
             backdrop-filter: blur(5px);
-            transition: transform 0.2s, background 0.2s;
+            transition: 0.2s;
         }
-        .btn:active { transform: scale(0.96); background: rgba(255,255,255,0.3); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .btn:active { 
+            transform: scale(0.95); 
+            background: var(--accent);
+            color: black;
+            box-shadow: 0 0 30px var(--accent); /* Lyser upp när man trycker */
+        }
+        
+        .btn:disabled { 
+            opacity: 0.3; 
+            cursor: not-allowed; 
+            border-color: #555;
+            box-shadow: none;
+        }
 
         /* --- FLASKAN --- */
         #bottle-container {
@@ -76,12 +112,14 @@
             position: relative;
             touch-action: none; 
             border-radius: 50%;
+            /* En svag glödande ring runt flaskan */
+            background: radial-gradient(circle, rgba(255,75,31,0.2) 0%, rgba(0,0,0,0) 70%);
         }
 
         #bottle-img {
             width: auto;
             height: 250px;
-            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.8));
             transform-origin: center center;
             cursor: grab;
             -webkit-user-drag: none;
@@ -93,18 +131,20 @@
         .spin-instruction {
             margin-top: 30px;
             font-style: italic;
+            color: var(--accent);
+            font-weight: bold;
             opacity: 0.8;
             min-height: 1.2em;
-            animation: pulse 2s infinite;
+            animation: pulse 1.5s infinite;
             transition: opacity 0.3s;
         }
 
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; text-shadow: 0 0 10px var(--accent); } 100% { opacity: 0.6; } }
 
         /* --- VÄNDBART KORT --- */
         .card-scene {
             width: 300px;
-            height: 420px;
+            height: 450px;
             perspective: 1000px;
             margin-bottom: 20px;
             cursor: pointer;
@@ -115,9 +155,9 @@
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.6s;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
 
         .card-object.is-flipped { transform: rotateY(180deg); }
@@ -127,63 +167,88 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden; 
-            border-radius: 20px;
+            border-radius: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 30px;
+            padding: 25px;
             box-sizing: border-box;
-            background: white;
-            color: #333;
+            background: #1a1a1a; /* Mörkgrå kortfärg */
+            color: #fff;
+            border: 2px solid #333;
         }
 
+        /* BAKSIDAN: Hett och farligt mönster */
         .face-back {
-            background: repeating-linear-gradient(45deg, #2d3436, #2d3436 10px, #636e72 10px, #636e72 20px);
-            color: white;
-            font-size: 5rem;
+            /* Svart/Röd randig bakgrund */
+            background: repeating-linear-gradient(
+                45deg,
+                #220000,
+                #220000 10px,
+                #440000 10px,
+                #440000 20px
+            );
+            color: var(--accent);
+            font-size: 6rem;
+            text-shadow: 0 0 20px var(--accent);
+            border: 2px solid var(--accent);
         }
 
         .face-front {
             transform: rotateY(180deg);
-            font-size: 1.4rem;
-            font-weight: bold;
+            font-size: 1.3rem;
+            font-weight: 500;
+            line-height: 1.5;
+            background: linear-gradient(135deg, #232526, #414345); /* Metallisk mörk look */
         }
 
         .category-label {
             position: absolute;
-            top: 20px;
+            top: 25px;
             text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            font-weight: bold;
             color: #888;
         }
 
         /* --- VAL AV S/K --- */
         .choice-container {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             width: 100%;
             justify-content: center;
         }
 
         .choice-card {
-            width: 45%;
-            height: 250px;
-            border-radius: 20px;
+            width: 48%;
+            height: 220px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            font-size: 1.4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             cursor: pointer;
             transition: transform 0.2s;
+            border: 2px solid rgba(255,255,255,0.1);
         }
 
-        .choice-card.truth { background: var(--truth); color: #000; }
-        .choice-card.dare { background: var(--dare); color: #fff; }
-        .choice-card:active { transform: scale(0.95); }
+        /* Tydliga kontraster för Sanning/Konka */
+        .choice-card.truth { 
+            background: linear-gradient(135deg, #00c6ff, #0072ff); 
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .choice-card.dare { 
+            background: linear-gradient(135deg, #ff416c, #ff4b1f); 
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .choice-card:active { transform: scale(0.95); filter: brightness(1.2); }
 
         /* --- UI ELEMENTS --- */
         .top-bar {
@@ -199,13 +264,14 @@
         }
 
         .icon-btn {
-            background: rgba(0,0,0,0.3);
-            color: white;
-            border: none;
+            background: rgba(0,0,0,0.5);
+            color: #ccc;
+            border: 1px solid #444;
             padding: 8px 15px;
             border-radius: 20px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
+            backdrop-filter: blur(4px);
         }
 
         #rules-modal {
@@ -215,7 +281,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.95); /* Nästan helt svart bakgrund */
             z-index: 200;
             align-items: center;
             justify-content: center;
@@ -224,35 +290,46 @@
         }
 
         .modal-content {
-            background: white;
-            color: #333;
+            background: #222;
+            color: #eee;
             padding: 30px;
             border-radius: 20px;
             max-width: 500px;
             width: 100%;
             text-align: left;
             position: relative;
+            border: 1px solid #444;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
 
         .close-modal {
             position: absolute;
-            top: 10px;
-            right: 15px;
+            top: 15px;
+            right: 20px;
             font-size: 1.5rem;
             cursor: pointer;
-            color: #888;
+            color: var(--accent);
+        }
+        
+        #rules-title {
+            color: var(--accent);
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
         }
 
         .btn-bottom {
             margin-top: auto;
-            background: #333;
+            background: #fff;
+            color: black;
+            border: none;
             width: 100%;
         }
         
         #loading-msg {
             margin-top: 10px;
             font-size: 0.9rem;
-            color: #ccc;
+            color: #666;
+            font-style: italic;
         }
 
     </style>
@@ -268,7 +345,7 @@
     </div>
 
     <div id="menu-screen" class="screen active">
-        <h1>Festspel</h1>
+        <h1>Festapp1</h1>
         <button class="btn game-btn" onclick="preStartGame('sk')" disabled>Snurra Flaskan / Sannning & Konka</button>
         <button class="btn game-btn" onclick="preStartGame('jha')" disabled>Jag har aldrig</button>
         <button class="btn game-btn" onclick="preStartGame('pek')" disabled>Pekleken</button>
