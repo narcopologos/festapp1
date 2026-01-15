@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="logo.png">
     <style>
         :root {
-            /* NYTT TEMA: NEON TOKYO (Matchar loggan) */
+            /* TEMA: NEON TOKYO (Matchar loggan) */
             --bg-dark: #0f0c29;
             --bg-medium: #302b63;
             --bg-light: #24243e;
@@ -23,7 +23,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            /* Mörk lila/blå nattklubbs-gradient */
             background: linear-gradient(135deg, var(--bg-dark), var(--bg-medium));
             color: white;
             height: 100vh;
@@ -54,14 +53,10 @@
 
         /* --- LOGOTYP --- */
         .main-logo {
-            max-width: 85%;         /* Lagom storlek på mobilen */
+            max-width: 85%;         
             height: auto;
-            margin-bottom: 40px;    /* Luft under loggan */
-            
-            /* Ett mjukt rosa/lila sken bakom loggan för att få den att "lysa" */
+            margin-bottom: 40px;    
             filter: drop-shadow(0 0 20px rgba(255, 107, 203, 0.4));
-            
-            /* Subtil "svävande" animation */
             animation: float 4s ease-in-out infinite;
         }
 
@@ -83,9 +78,7 @@
             letter-spacing: 1px;
             color: white;
             
-            /* Genomskinlig mörk knapp */
             background: rgba(0, 0, 0, 0.5);
-            /* Dubbel border (rosa och cyan) för neon-känsla */
             border: double 4px transparent;
             border-radius: 50px;
             background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
@@ -102,7 +95,7 @@
         
         .btn:active { 
             transform: scale(0.95); 
-            background: rgba(255, 107, 203, 0.3); /* Rosa ton vid tryck */
+            background: rgba(255, 107, 203, 0.3); 
         }
         
         .btn:disabled { 
@@ -121,15 +114,13 @@
             position: relative;
             touch-action: none; 
             border-radius: 50%;
-            /* Glödande ring i cyan/rosa */
-            background: radial-gradient(circle, rgba(72, 219, 251, 0.2) 0%, rgba(0,0,0,0) 70%);
-            border: 2px solid rgba(255, 107, 203, 0.3);
+            /* BORTTAGET: Ingen border eller bakgrundsfärg här längre */
         }
 
         #bottle-img {
             width: auto;
             height: 250px;
-            /* Cyan-färgat sken runt flaskan */
+            /* Behåller glöden på själva flaskan för att den ska se snygg ut mot mörk bakgrund */
             filter: drop-shadow(0 0 15px var(--accent-cyan));
             transform-origin: center center;
             cursor: grab;
@@ -506,55 +497,39 @@
         }
 
         function showResult(type) {
-            // Kontroll så data finns i content
             if (!content[currentGame] || !content[currentGame][type]) {
                 console.error("Saknas data för:", currentGame, type);
                 return;
             }
 
-            // --- NY LOGIK FÖR KORTLEK (Inga dubbletter) ---
-            
-            // 1. Skapa struktur för spelet om den saknas
+            // --- NY LOGIK FÖR KORTLEK ---
             if (!cardDecks[currentGame]) {
                 cardDecks[currentGame] = {};
             }
-
-            // 2. Om leken är tom (eller inte finns än) -> Fyll på med alla kort från originalet
             if (!cardDecks[currentGame][type] || cardDecks[currentGame][type].length === 0) {
-                // Kopiera original-listan till vår spel-lek
                 console.log("Blandar om kortleken...");
                 cardDecks[currentGame][type] = [...content[currentGame][type]];
             }
 
-            // 3. Välj ett slumpmässigt index från den KVARVARANDE leken
             const currentDeck = cardDecks[currentGame][type];
             const randomIndex = Math.floor(Math.random() * currentDeck.length);
-
-            // 4. "Dra" kortet (Hämta texten OCH ta bort den från leken så den inte kommer igen)
-            // splice returnerar en lista, vi tar första elementet [0]
             let rawText = currentDeck.splice(randomIndex, 1)[0]; 
 
-            // ------------------------------------------------
-            
-            // --- VARIABEL-HANTERING ({riktning}) ---
+            // --- VARIABEL-HANTERING ---
             if (rawText.includes("{riktning}")) {
                 const directions = ["höger", "vänster"];
                 const randomDir = directions[Math.floor(Math.random() * directions.length)];
                 rawText = rawText.replace("{riktning}", randomDir);
             }
-            // -------------------------------------------
             
-            // Visa texten
             document.getElementById('res-category').innerText = type === 'all' ? content[currentGame].title : type.toUpperCase();
             document.getElementById('res-text').innerHTML = rawText; 
             
-            // Färga kortet
             const frontFace = document.getElementById('card-front-face');
             if (type === 'sanning') frontFace.style.borderTop = "10px solid #48dbfb";
             else if (type === 'konka') frontFace.style.borderTop = "10px solid #ff6b6b";
             else frontFace.style.borderTop = "none";
 
-            // Återställ vändning
             document.getElementById('the-card').classList.remove('is-flipped');
             isCardFlipped = false;
 
