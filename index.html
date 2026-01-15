@@ -364,7 +364,7 @@
         let isCardFlipped = false;
         let isWaitingForClick = false; 
         let autoNextTimer = null; 
-	let cardDecks = {}; 
+        let cardDecks = {}; 
 
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -419,7 +419,7 @@
             }, 300);
         }
 
-function showResult(type) function showResult(type) {
+        function showResult(type) {
             // Kontroll så data finns i content
             if (!content[currentGame] || !content[currentGame][type]) {
                 console.error("Saknas data för:", currentGame, type);
@@ -473,7 +473,7 @@ function showResult(type) function showResult(type) {
             isCardFlipped = false;
 
             showScreen('result-screen');
-            }
+        }
 
         function flipCard() {
             const card = document.getElementById('the-card');
