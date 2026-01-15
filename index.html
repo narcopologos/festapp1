@@ -268,7 +268,7 @@
     </div>
 
     <div id="menu-screen" class="screen active">
-        <h1>Festapp1</h1>
+        <h1>Festspel</h1>
         <button class="btn game-btn" onclick="preStartGame('sk')" disabled>Snurra Flaskan / Sannning & Konka</button>
         <button class="btn game-btn" onclick="preStartGame('jha')" disabled>Jag har aldrig</button>
         <button class="btn game-btn" onclick="preStartGame('pek')" disabled>Pekleken</button>
@@ -364,6 +364,7 @@
         let isCardFlipped = false;
         let isWaitingForClick = false; 
         let autoNextTimer = null; 
+	let cardDecks = {}; 
 
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -418,45 +419,61 @@
             }, 300);
         }
 
-function showResult(type) {
-            // Kontroll så data finns
+function showResult(type) function showResult(type) {
+            // Kontroll så data finns i content
             if (!content[currentGame] || !content[currentGame][type]) {
                 console.error("Saknas data för:", currentGame, type);
                 return;
             }
 
-            const pool = content[currentGame][type];
-            let rawText = pool[Math.floor(Math.random() * pool.length)];
+            // --- NY LOGIK FÖR KORTLEK (Inga dubbletter) ---
             
-            // --- VARIABEL-HANTERING ---
+            // 1. Skapa struktur för spelet om den saknas
+            if (!cardDecks[currentGame]) {
+                cardDecks[currentGame] = {};
+            }
+
+            // 2. Om leken är tom (eller inte finns än) -> Fyll på med alla kort från originalet
+            if (!cardDecks[currentGame][type] || cardDecks[currentGame][type].length === 0) {
+                // Kopiera original-listan till vår spel-lek
+                console.log("Blandar om kortleken...");
+                cardDecks[currentGame][type] = [...content[currentGame][type]];
+            }
+
+            // 3. Välj ett slumpmässigt index från den KVARVARANDE leken
+            const currentDeck = cardDecks[currentGame][type];
+            const randomIndex = Math.floor(Math.random() * currentDeck.length);
+
+            // 4. "Dra" kortet (Hämta texten OCH ta bort den från leken så den inte kommer igen)
+            // splice returnerar en lista, vi tar första elementet [0]
+            let rawText = currentDeck.splice(randomIndex, 1)[0]; 
+
+            // ------------------------------------------------
             
-            // 1. Kolla om texten innehåller {riktning}
+            // --- VARIABEL-HANTERING ({riktning}) ---
             if (rawText.includes("{riktning}")) {
                 const directions = ["höger", "vänster"];
                 const randomDir = directions[Math.floor(Math.random() * directions.length)];
-                
-                // HÄR ÄR ÄNDRINGEN:
-                // Vi byter ut {riktning} mot ordet, men vi lägger INTE till några <strong>-taggar.
                 rawText = rawText.replace("{riktning}", randomDir);
             }
-
             // -------------------------------------------
             
+            // Visa texten
             document.getElementById('res-category').innerText = type === 'all' ? content[currentGame].title : type.toUpperCase();
+            document.getElementById('res-text').innerHTML = rawText; 
             
-            // Eftersom vi inte använder fetstil kan du använda innerText här (men innerHTML funkar också)
-            document.getElementById('res-text').innerText = rawText; 
-            
+            // Färga kortet
             const frontFace = document.getElementById('card-front-face');
             if (type === 'sanning') frontFace.style.borderTop = "10px solid #48dbfb";
             else if (type === 'konka') frontFace.style.borderTop = "10px solid #ff6b6b";
             else frontFace.style.borderTop = "none";
 
+            // Återställ vändning
             document.getElementById('the-card').classList.remove('is-flipped');
             isCardFlipped = false;
 
             showScreen('result-screen');
-        }
+            }
 
         function flipCard() {
             const card = document.getElementById('the-card');
@@ -577,5 +594,4 @@ function showResult(type) {
         }
     </script>
 </body>
-
 </html>
