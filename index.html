@@ -3,25 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Festspel 6.0</title>
+    <title>Festspel Neon</title>
+    <link rel="icon" type="image/png" href="logo.png">
     <style>
         :root {
-            /* DITT NYA FÄRGTEMA: MAGMA */
-            --bg-dark: #0f0c29;      /* Riktigt mörk lila/svart */
-            --bg-light: #302b63;     /* Lite ljusare nattfärg */
-            --accent: #ff4b1f;       /* Knallig orange/röd */
-            --accent-glow: #ff9068;  /* Ljusare orange för glow */
+            /* NYTT TEMA: NEON TOKYO (Matchar loggan) */
+            --bg-dark: #0f0c29;
+            --bg-medium: #302b63;
+            --bg-light: #24243e;
             
-            --truth: #00d2ff;        /* Isblå (för kontrast mot elden) */
-            --dare: #ff0000;         /* Blodröd */
+            --accent-pink: #ff6bcb;  /* Matchar texten i loggan */
+            --accent-cyan: #48dbfb;  /* Matchar glasen i loggan */
+            
+            --truth: #48dbfb;        /* Cyan */
+            --dare: #ff6bcb;         /* Rosa */
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            /* En mörk, mystisk bakgrundsgradient */
-            background: linear-gradient(to bottom, #000000, #430000); 
+            /* Mörk lila/blå nattklubbs-gradient */
+            background: linear-gradient(135deg, var(--bg-dark), var(--bg-medium));
             color: white;
             height: 100vh;
             display: flex;
@@ -49,23 +52,26 @@
 
         .active { display: flex; }
 
-        /* --- MENY --- */
-        h1 { 
-            margin-bottom: 30px; 
-            font-size: 3rem; 
-            font-weight: 900;
-            text-transform: uppercase;
-            font-style: italic;
-            /* Texten ser ut att brinna */
-            color: #fff;
-            text-shadow: 
-                0 0 5px #fff,
-                0 0 10px #fff,
-                0 0 20px var(--accent),
-                0 0 40px var(--accent),
-                0 0 80px var(--accent);
+        /* --- LOGOTYP --- */
+        .main-logo {
+            max-width: 85%;         /* Lagom storlek på mobilen */
+            height: auto;
+            margin-bottom: 40px;    /* Luft under loggan */
+            
+            /* Ett mjukt rosa/lila sken bakom loggan för att få den att "lysa" */
+            filter: drop-shadow(0 0 20px rgba(255, 107, 203, 0.4));
+            
+            /* Subtil "svävande" animation */
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
         
+        /* --- KNAPPAR --- */
         .btn {
             width: 80%;
             max-width: 300px;
@@ -77,29 +83,32 @@
             letter-spacing: 1px;
             color: white;
             
-            /* Mörk knapp med färgad kant */
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid var(--accent);
-            border-radius: 50px; /* Mer rundade former */
-            box-shadow: 0 0 15px rgba(255, 75, 31, 0.3); /* Röd skugga */
+            /* Genomskinlig mörk knapp */
+            background: rgba(0, 0, 0, 0.5);
+            /* Dubbel border (rosa och cyan) för neon-känsla */
+            border: double 4px transparent;
+            border-radius: 50px;
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                              linear-gradient(to right, var(--accent-pink), var(--accent-cyan));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            
+            box-shadow: 0 0 15px rgba(255, 107, 203, 0.2);
             
             cursor: pointer;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
             transition: 0.2s;
         }
         
         .btn:active { 
             transform: scale(0.95); 
-            background: var(--accent);
-            color: black;
-            box-shadow: 0 0 30px var(--accent); /* Lyser upp när man trycker */
+            background: rgba(255, 107, 203, 0.3); /* Rosa ton vid tryck */
         }
         
         .btn:disabled { 
-            opacity: 0.3; 
+            opacity: 0.4; 
             cursor: not-allowed; 
-            border-color: #555;
-            box-shadow: none;
+            filter: grayscale(1);
         }
 
         /* --- FLASKAN --- */
@@ -112,14 +121,16 @@
             position: relative;
             touch-action: none; 
             border-radius: 50%;
-            /* En svag glödande ring runt flaskan */
-            background: radial-gradient(circle, rgba(255,75,31,0.2) 0%, rgba(0,0,0,0) 70%);
+            /* Glödande ring i cyan/rosa */
+            background: radial-gradient(circle, rgba(72, 219, 251, 0.2) 0%, rgba(0,0,0,0) 70%);
+            border: 2px solid rgba(255, 107, 203, 0.3);
         }
 
         #bottle-img {
             width: auto;
             height: 250px;
-            filter: drop-shadow(0 0 10px rgba(0,0,0,0.8));
+            /* Cyan-färgat sken runt flaskan */
+            filter: drop-shadow(0 0 15px var(--accent-cyan));
             transform-origin: center center;
             cursor: grab;
             -webkit-user-drag: none;
@@ -131,15 +142,16 @@
         .spin-instruction {
             margin-top: 30px;
             font-style: italic;
-            color: var(--accent);
+            color: var(--accent-cyan);
             font-weight: bold;
             opacity: 0.8;
             min-height: 1.2em;
             animation: pulse 1.5s infinite;
             transition: opacity 0.3s;
+            text-shadow: 0 0 10px var(--accent-cyan);
         }
 
-        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; text-shadow: 0 0 10px var(--accent); } 100% { opacity: 0.6; } }
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
 
         /* --- VÄNDBART KORT --- */
         .card-scene {
@@ -156,7 +168,7 @@
             position: relative;
             transform-style: preserve-3d;
             transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
-            border-radius: 15px;
+            border-radius: 20px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
 
@@ -167,32 +179,27 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden; 
-            border-radius: 15px;
+            border-radius: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 25px;
             box-sizing: border-box;
-            background: #1a1a1a; /* Mörkgrå kortfärg */
+            background: var(--bg-light);
             color: #fff;
-            border: 2px solid #333;
+            border: 2px solid var(--accent-pink);
         }
 
-        /* BAKSIDAN: Hett och farligt mönster */
+        /* BAKSIDAN: Neon-mönster */
         .face-back {
-            /* Svart/Röd randig bakgrund */
-            background: repeating-linear-gradient(
-                45deg,
-                #220000,
-                #220000 10px,
-                #440000 10px,
-                #440000 20px
-            );
-            color: var(--accent);
+            background: 
+                radial-gradient(circle at top right, rgba(72, 219, 251, 0.4), transparent),
+                radial-gradient(circle at bottom left, rgba(255, 107, 203, 0.4), transparent),
+                var(--bg-dark);
+            color: var(--accent-pink);
             font-size: 6rem;
-            text-shadow: 0 0 20px var(--accent);
-            border: 2px solid var(--accent);
+            text-shadow: 0 0 20px var(--accent-pink), 0 0 40px var(--accent-cyan);
         }
 
         .face-front {
@@ -200,7 +207,7 @@
             font-size: 1.3rem;
             font-weight: 500;
             line-height: 1.5;
-            background: linear-gradient(135deg, #232526, #414345); /* Metallisk mörk look */
+            background: linear-gradient(135deg, var(--bg-medium), var(--bg-dark));
         }
 
         .category-label {
@@ -210,7 +217,7 @@
             font-size: 0.9rem;
             letter-spacing: 3px;
             font-weight: bold;
-            color: #888;
+            color: var(--accent-cyan);
         }
 
         /* --- VAL AV S/K --- */
@@ -224,7 +231,7 @@
         .choice-card {
             width: 48%;
             height: 220px;
-            border-radius: 15px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -237,16 +244,16 @@
             border: 2px solid rgba(255,255,255,0.1);
         }
 
-        /* Tydliga kontraster för Sanning/Konka */
+        /* Neon-färger för valen */
         .choice-card.truth { 
-            background: linear-gradient(135deg, #00c6ff, #0072ff); 
+            background: linear-gradient(135deg, var(--accent-cyan), #0072ff); 
             color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
         .choice-card.dare { 
-            background: linear-gradient(135deg, #ff416c, #ff4b1f); 
+            background: linear-gradient(135deg, var(--accent-pink), #ff416c); 
             color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
         .choice-card:active { transform: scale(0.95); filter: brightness(1.2); }
 
@@ -265,8 +272,8 @@
 
         .icon-btn {
             background: rgba(0,0,0,0.5);
-            color: #ccc;
-            border: 1px solid #444;
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
             padding: 8px 15px;
             border-radius: 20px;
             font-size: 0.85rem;
@@ -281,7 +288,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95); /* Nästan helt svart bakgrund */
+            background: rgba(15, 12, 41, 0.95);
             z-index: 200;
             align-items: center;
             justify-content: center;
@@ -290,7 +297,7 @@
         }
 
         .modal-content {
-            background: #222;
+            background: var(--bg-medium);
             color: #eee;
             padding: 30px;
             border-radius: 20px;
@@ -298,8 +305,8 @@
             width: 100%;
             text-align: left;
             position: relative;
-            border: 1px solid #444;
-            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            border: 2px solid var(--accent-pink);
+            box-shadow: 0 0 30px rgba(255, 107, 203, 0.3);
         }
 
         .close-modal {
@@ -308,19 +315,20 @@
             right: 20px;
             font-size: 1.5rem;
             cursor: pointer;
-            color: var(--accent);
+            color: var(--accent-pink);
         }
         
         #rules-title {
-            color: var(--accent);
-            border-bottom: 1px solid #444;
+            color: var(--accent-cyan);
+            border-bottom: 1px solid var(--accent-pink);
             padding-bottom: 10px;
         }
 
         .btn-bottom {
             margin-top: auto;
-            background: #fff;
-            color: black;
+            background: linear-gradient(to right, var(--accent-pink), var(--accent-cyan));
+            color: white;
+            font-weight: bold;
             border: none;
             width: 100%;
         }
@@ -328,7 +336,7 @@
         #loading-msg {
             margin-top: 10px;
             font-size: 0.9rem;
-            color: #666;
+            color: var(--accent-cyan);
             font-style: italic;
         }
 
@@ -345,7 +353,8 @@
     </div>
 
     <div id="menu-screen" class="screen active">
-        <h1>Festapp1</h1>
+        <img src="logo.png" alt="Festapp1 Logo" class="main-logo">
+        
         <button class="btn game-btn" onclick="preStartGame('sk')" disabled>Snurra Flaskan / Sannning & Konka</button>
         <button class="btn game-btn" onclick="preStartGame('jha')" disabled>Jag har aldrig</button>
         <button class="btn game-btn" onclick="preStartGame('pek')" disabled>Pekleken</button>
