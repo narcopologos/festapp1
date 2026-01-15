@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Festspel 6.0</title>
+    <style>
+        :root {
+            --primary: #2a5298;
+            --secondary: #1e3c72;
+            --accent: #ff6b6b;
+            --truth: #48dbfb;
+            --dare: #ff6b6b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* --- SKÄRMAR --- */
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .active { display: flex; }
+
+        /* --- MENY --- */
+        h1 { margin-bottom: 30px; font-size: 2.5rem; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        
+        .btn {
+            width: 80%;
+            max-width: 300px;
+            padding: 20px;
+            margin: 10px 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 15px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: transform 0.2s, background 0.2s;
+        }
+        .btn:active { transform: scale(0.96); background: rgba(255,255,255,0.3); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* --- FLASKAN --- */
+        #bottle-container {
+            width: 300px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            touch-action: none; 
+            border-radius: 50%;
+        }
+
+        #bottle-img {
+            width: auto;
+            height: 250px;
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5));
+            transform-origin: center center;
+            cursor: grab;
+            -webkit-user-drag: none;
+            user-drag: none;
+        }
+
+        #bottle-img:active { cursor: grabbing; }
+
+        .spin-instruction {
+            margin-top: 30px;
+            font-style: italic;
+            opacity: 0.8;
+            min-height: 1.2em;
+            animation: pulse 2s infinite;
+            transition: opacity 0.3s;
+        }
+
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+        /* --- VÄNDBART KORT --- */
+        .card-scene {
+            width: 300px;
+            height: 420px;
+            perspective: 1000px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .card-object {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .card-object.is-flipped { transform: rotateY(180deg); }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; 
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            box-sizing: border-box;
+            background: white;
+            color: #333;
+        }
+
+        .face-back {
+            background: repeating-linear-gradient(45deg, #2d3436, #2d3436 10px, #636e72 10px, #636e72 20px);
+            color: white;
+            font-size: 5rem;
+        }
+
+        .face-front {
+            transform: rotateY(180deg);
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .category-label {
+            position: absolute;
+            top: 20px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: #888;
+        }
+
+        /* --- VAL AV S/K --- */
+        .choice-container {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .choice-card {
+            width: 45%;
+            height: 250px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .choice-card.truth { background: var(--truth); color: #000; }
+        .choice-card.dare { background: var(--dare); color: #fff; }
+        .choice-card:active { transform: scale(0.95); }
+
+        /* --- UI ELEMENTS --- */
+        .top-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            box-sizing: border-box;
+            z-index: 100;
+        }
+
+        .icon-btn {
+            background: rgba(0,0,0,0.3);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        #rules-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            text-align: left;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .btn-bottom {
+            margin-top: auto;
+            background: #333;
+            width: 100%;
+        }
+        
+        #loading-msg {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="rules-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="toggleRules()">✖</span>
+            <h2 id="rules-title">Regler</h2>
+            <p id="rules-text">Här står reglerna...</p>
+        </div>
+    </div>
+
+    <div id="menu-screen" class="screen active">
+        <h1>Festspel</h1>
+        <button class="btn game-btn" onclick="preStartGame('sk')" disabled>Snurra Flaskan / Sannning & Konka</button>
+        <button class="btn game-btn" onclick="preStartGame('jha')" disabled>Jag har aldrig</button>
+        <button class="btn game-btn" onclick="preStartGame('pek')" disabled>Pekleken</button>
+        <p id="loading-msg">Laddar frågor...</p>
+    </div>
+
+    <div id="bottle-choice-screen" class="screen">
+        <div class="top-bar"><button class="icon-btn" onclick="goHome()">← Meny</button></div>
+        <h2>Hur vill ni spela?</h2>
+        <button class="btn" onclick="setBottleMode(true)">Digital Flaska (Snurra här)</button>
+        <button class="btn" onclick="setBottleMode(false)">Egen Flaska (Vi har en)</button>
+    </div>
+
+    <div id="bottle-spin-screen" class="screen">
+        <div class="top-bar">
+            <button class="icon-btn" onclick="goHome()">Avsluta</button>
+            <button class="icon-btn" onclick="toggleRules()">Regler ?</button>
+        </div>
+        
+        <div id="bottle-container" onclick="handleContainerClick()">
+            <img src="flaska.png" id="bottle-img" alt="Flaska" draggable="false">
+        </div>
+        <p class="spin-instruction" id="spin-text">Dra snärtigt över flaskan!</p>
+    </div>
+
+    <div id="choice-screen" class="screen">
+        <div class="top-bar">
+            <button class="icon-btn" onclick="goHome()">Avsluta</button>
+            <button class="icon-btn" onclick="toggleRules()">Regler ?</button>
+        </div>
+        <h2>Välj ett kort</h2>
+        <div class="choice-container">
+            <div class="choice-card truth" onclick="showResult('sanning')">Sanning</div>
+            <div class="choice-card dare" onclick="showResult('konka')">Konsekvens</div>
+        </div>
+    </div>
+
+    <div id="result-screen" class="screen">
+        <div class="top-bar">
+            <button class="icon-btn" onclick="goHome()">Avsluta</button>
+            <button class="icon-btn" onclick="toggleRules()">Regler ?</button>
+        </div>
+
+        <div class="card-scene" onclick="flipCard()">
+            <div class="card-object" id="the-card">
+                <div class="card-face face-back">?</div>
+                <div class="card-face face-front" id="card-front-face">
+                    <span class="category-label" id="res-category">Kategori</span>
+                    <p id="res-text">Laddar...</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-bottom" onclick="nextRound()">Nästa runda</button>
+    </div>
+
+    <script>
+        // --- DATA HANTERING ---
+        let content = {}; // Tom från början
+        
+        // Denna funktion körs direkt när sidan öppnas
+        async function loadContent() {
+            try {
+                // Hämta JSON-filen
+                const response = await fetch('questions.json');
+                
+                if (!response.ok) throw new Error("Kunde inte hitta filen");
+                
+                content = await response.json();
+                
+                // Aktivera knapparna
+                document.querySelectorAll('.game-btn').forEach(btn => {
+                    btn.disabled = false;
+                });
+                document.getElementById('loading-msg').style.display = 'none';
+                console.log("Innehåll laddat!");
+                
+            } catch (error) {
+                document.getElementById('loading-msg').innerText = "Fel: Kunde inte ladda frågorna. (Är questions.json uppladdad?)";
+                document.getElementById('loading-msg').style.color = "#ff6b6b";
+                console.error(error);
+            }
+        }
+
+        // Starta laddning
+        loadContent();
+
+
+        // --- LOGIK ---
+        let currentGame = '';
+        let useDigitalBottle = false;
+        let currentRotation = 0;
+        let isCardFlipped = false;
+        let isWaitingForClick = false; 
+        let autoNextTimer = null; 
+
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function goHome() {
+            showScreen('menu-screen');
+            currentGame = '';
+            clearTimeout(autoNextTimer); 
+        }
+
+        function preStartGame(gameId) {
+            if (!content[gameId]) {
+                alert("Spelet laddades inte korrekt.");
+                return;
+            }
+            currentGame = gameId;
+            if (gameId === 'sk') {
+                showScreen('bottle-choice-screen');
+            } else {
+                showResult('all'); 
+            }
+        }
+
+        function setBottleMode(isDigital) {
+            useDigitalBottle = isDigital;
+            if (useDigitalBottle) {
+                showScreen('bottle-spin-screen');
+                resetBottleState(); 
+                setupBottlePhysics();
+            } else {
+                showScreen('choice-screen');
+            }
+        }
+
+        function nextRound() {
+            document.getElementById('the-card').classList.remove('is-flipped');
+            isCardFlipped = false;
+
+            setTimeout(() => {
+                if (currentGame === 'sk') {
+                    if (useDigitalBottle) {
+                        showScreen('bottle-spin-screen');
+                        resetBottleState();
+                    } else {
+                        showScreen('choice-screen');
+                    }
+                } else {
+                    showResult('all'); 
+                }
+            }, 300);
+        }
+
+function showResult(type) {
+            // Kontroll så data finns
+            if (!content[currentGame] || !content[currentGame][type]) {
+                console.error("Saknas data för:", currentGame, type);
+                return;
+            }
+
+            const pool = content[currentGame][type];
+            let rawText = pool[Math.floor(Math.random() * pool.length)];
+            
+            // --- VARIABEL-HANTERING ---
+            
+            // 1. Kolla om texten innehåller {riktning}
+            if (rawText.includes("{riktning}")) {
+                const directions = ["höger", "vänster"];
+                const randomDir = directions[Math.floor(Math.random() * directions.length)];
+                
+                // HÄR ÄR ÄNDRINGEN:
+                // Vi byter ut {riktning} mot ordet, men vi lägger INTE till några <strong>-taggar.
+                rawText = rawText.replace("{riktning}", randomDir);
+            }
+
+            // -------------------------------------------
+            
+            document.getElementById('res-category').innerText = type === 'all' ? content[currentGame].title : type.toUpperCase();
+            
+            // Eftersom vi inte använder fetstil kan du använda innerText här (men innerHTML funkar också)
+            document.getElementById('res-text').innerText = rawText; 
+            
+            const frontFace = document.getElementById('card-front-face');
+            if (type === 'sanning') frontFace.style.borderTop = "10px solid #48dbfb";
+            else if (type === 'konka') frontFace.style.borderTop = "10px solid #ff6b6b";
+            else frontFace.style.borderTop = "none";
+
+            document.getElementById('the-card').classList.remove('is-flipped');
+            isCardFlipped = false;
+
+            showScreen('result-screen');
+        }
+
+        function flipCard() {
+            const card = document.getElementById('the-card');
+            if (isCardFlipped) {
+                card.classList.remove('is-flipped');
+                isCardFlipped = false;
+            } else {
+                card.classList.add('is-flipped');
+                isCardFlipped = true;
+            }
+        }
+
+        function toggleRules() {
+            const modal = document.getElementById('rules-modal');
+            if (modal.style.display === 'flex') {
+                modal.style.display = 'none';
+            } else {
+                const gameData = content[currentGame];
+                document.getElementById('rules-title').innerText = gameData.title;
+                document.getElementById('rules-text').innerHTML = gameData.rules;
+                modal.style.display = 'flex';
+            }
+        }
+
+        // --- FLASK LOGIK ---
+
+        function resetBottleState() {
+            isWaitingForClick = false;
+            clearTimeout(autoNextTimer);
+            document.getElementById('spin-text').innerText = "Dra snärtigt över flaskan!";
+        }
+
+        function handleContainerClick() {
+            if (isWaitingForClick) {
+                forceGoToChoice();
+            }
+        }
+
+        function forceGoToChoice() {
+            clearTimeout(autoNextTimer); 
+            isWaitingForClick = false;
+            showScreen('choice-screen');
+        }
+
+        function setupBottlePhysics() {
+            const container = document.getElementById('bottle-container');
+            let startY = 0;
+            let startTime = 0;
+            let isSpinning = false;
+
+            const handleStart = (y) => {
+                if (isSpinning || isWaitingForClick) return;
+                startY = y;
+                startTime = new Date().getTime();
+            };
+
+            const handleEnd = (y) => {
+                if (isSpinning || isWaitingForClick) return;
+                const endTime = new Date().getTime();
+                const distance = startY - y; 
+                const time = endTime - startTime;
+
+                if (Math.abs(distance) > 30) { 
+                    isSpinning = true; 
+                    spinBottle(distance, time, () => {
+                        isSpinning = false;
+                    });
+                }
+            };
+
+            container.ontouchstart = (e) => handleStart(e.touches[0].clientY);
+            container.ontouchend = (e) => handleEnd(e.changedTouches[0].clientY);
+
+            container.onmousedown = (e) => {
+                e.preventDefault(); 
+                handleStart(e.clientY);
+            };
+            
+            window.onmouseup = (e) => {
+                if (startTime > 0) {
+                    handleEnd(e.clientY);
+                    startTime = 0; 
+                }
+            };
+        }
+
+        function spinBottle(distance, time, callback) {
+            const bottle = document.getElementById('bottle-img');
+            
+            let velocity = 1.5; 
+            if (time < 200) velocity = 3.0; 
+            if (time > 500) velocity = 1.0; 
+
+            const direction = distance > 0 ? 1 : -1;
+            const baseRot = 1080; 
+            const randomRot = Math.random() * 360; 
+            const totalRot = (baseRot + randomRot) * direction;
+
+            currentRotation += totalRot; 
+
+            bottle.style.transition = `transform 3.5s cubic-bezier(0.2, 0.8, 0.2, 1)`;
+            bottle.style.transform = `rotate(${currentRotation}deg)`;
+
+            document.getElementById('spin-text').innerText = "Snurrar...";
+
+            setTimeout(() => {
+                document.getElementById('spin-text').innerText = "Klar! Tryck för att gå vidare...";
+                isWaitingForClick = true; 
+                if (callback) callback();
+
+                autoNextTimer = setTimeout(() => {
+                    if (isWaitingForClick) {
+                        forceGoToChoice();
+                    }
+                }, 7000);
+
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
