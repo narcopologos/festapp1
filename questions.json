@@ -106,7 +106,7 @@
       "Låt gruppen gå igenom dina bilder på telefonen i 1 minut.",
       "Sjung en sång med inlevelse inför gruppen.",
       "Låt personen till {riktning} skriva en status på din Facebook/Instagram.",
-      "Ät en tesked senap eller chilisås.",
+      "Ät en tesked senap eller chilisås, byt sedan plats med valfri person",
       "Låt någon i rummet klippa en tuss av ditt hår (eller drick hela glaset).",
       "Snurra flaskan och ha en stirrtävling med personen flaskan pekar på, den som förlorar måste ta av ett plagg.",
       "Låt personen till {riktning} rufsa till ditt hår",
@@ -370,4 +370,5 @@
     ]
   }
 }
+
 
