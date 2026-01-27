@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Festspel Neon</title>
+    <title>Festapp 2.0</title>
     <link rel="icon" type="image/png" href="logo.png">
     <style>
         :root {
-            /* TEMA: NEON TOKYO (Matchar loggan) */
+            /* TEMA: NEON TOKYO */
             --bg-dark: #0f0c29;
             --bg-medium: #302b63;
             --bg-light: #24243e;
             
-            --accent-pink: #ff6bcb;  /* Matchar texten i loggan */
-            --accent-cyan: #48dbfb;  /* Matchar glasen i loggan */
-            
-            --truth: #48dbfb;        /* Cyan */
-            --dare: #ff6bcb;         /* Rosa */
+            --accent-pink: #ff6bcb;   
+            --accent-cyan: #48dbfb;   
+            --accent-gold: #ffd700;   /* För All-in */
+            --accent-green: #00ff41;  /* För Skaparläge */
         }
 
         body {
@@ -53,9 +52,9 @@
 
         /* --- LOGOTYP --- */
         .main-logo {
-            max-width: 85%;         
+            max-width: 85%;          
             height: auto;
-            margin-bottom: 40px;    
+            margin-bottom: 20px;     
             filter: drop-shadow(0 0 20px rgba(255, 107, 203, 0.4));
             animation: float 4s ease-in-out infinite;
         }
@@ -68,43 +67,137 @@
         
         /* --- KNAPPAR --- */
         .btn {
-            width: 80%;
-            max-width: 300px;
-            padding: 20px;
-            margin: 12px 0;
+            width: 85%;
+            max-width: 320px;
+            padding: 18px;
+            margin: 10px 0;
             font-size: 1.1rem;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: white;
             
-            background: rgba(0, 0, 0, 0.5);
-            border: double 4px transparent;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid transparent; /* Förbered för gradient border */
             border-radius: 50px;
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+            
+            /* Standard Neon Gradient Border */
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
                               linear-gradient(to right, var(--accent-pink), var(--accent-cyan));
             background-origin: border-box;
             background-clip: padding-box, border-box;
             
-            box-shadow: 0 0 15px rgba(255, 107, 203, 0.2);
-            
+            box-shadow: 0 0 15px rgba(255, 107, 203, 0.1);
             cursor: pointer;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
             transition: 0.2s;
+            line-height: 1.2;
         }
         
-        .btn:active { 
-            transform: scale(0.95); 
-            background: rgba(255, 107, 203, 0.3); 
-        }
-        
-        .btn:disabled { 
-            opacity: 0.4; 
-            cursor: not-allowed; 
-            filter: grayscale(1);
+        .btn:active { transform: scale(0.96); }
+        .btn:disabled { opacity: 0.5; filter: grayscale(1); }
+
+        /* Undertitel stilar för knappar */
+        .btn-subtitle {
+            display: block;
+            font-size: 0.75rem;
+            font-style: italic;
+            text-transform: none;
+            opacity: 0.8;
+            margin-top: 4px;
+            font-weight: normal;
+            color: var(--accent-cyan);
         }
 
-        /* --- FLASKAN --- */
+        /* --- MELLANRUM I MENYN --- */
+        .menu-spacer {
+            height: 30px;
+            width: 100%;
+        }
+
+        /* --- ALL-IN KNAPP (GULD) --- */
+        .btn-all-in {
+            color: var(--accent-gold);
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                              linear-gradient(to right, #ffd700, #ff8c00);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+            font-size: 1.3rem;
+        }
+
+        /* --- SKAPARLÄGE KNAPP (HACKER) --- */
+        .btn-creator {
+            color: var(--accent-green);
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                              linear-gradient(to right, #00ff41, #008f11);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
+            font-family: 'Courier New', Courier, monospace; /* Hacker känsla */
+        }
+
+        /* --- MODALER (Regler & Premium) --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 12, 41, 0.95);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background: var(--bg-medium);
+            color: #eee;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center; /* Centrerad text för premium */
+            position: relative;
+            border: 2px solid var(--accent-pink);
+            box-shadow: 0 0 30px rgba(255, 107, 203, 0.3);
+        }
+
+        .modal-left-align { text-align: left; } /* För regler */
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--accent-pink);
+        }
+
+        /* Premium Modal Specifik */
+        .premium-highlight {
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            margin: 10px 0;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .premium-desc {
+            font-size: 1rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            color: #ddd;
+        }
+
+        .btn-buy {
+            background-image: linear-gradient(to right, #ffd700, #ff8c00);
+            color: black;
+            border: none;
+            width: 100%;
+            font-weight: 900;
+        }
+
+        /* --- ÖVRIGT (Från tidigare kod) --- */
         #bottle-container {
             width: 300px;
             height: 300px;
@@ -114,13 +207,11 @@
             position: relative;
             touch-action: none; 
             border-radius: 50%;
-            /* BORTTAGET: Ingen border eller bakgrundsfärg här längre */
         }
 
         #bottle-img {
             width: auto;
             height: 250px;
-            /* Behåller glöden på själva flaskan för att den ska se snygg ut mot mörk bakgrund */
             filter: drop-shadow(0 0 15px var(--accent-cyan));
             transform-origin: center center;
             cursor: grab;
@@ -138,13 +229,10 @@
             opacity: 0.8;
             min-height: 1.2em;
             animation: pulse 1.5s infinite;
-            transition: opacity 0.3s;
-            text-shadow: 0 0 10px var(--accent-cyan);
         }
 
         @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
 
-        /* --- VÄNDBART KORT --- */
         .card-scene {
             width: 300px;
             height: 450px;
@@ -182,7 +270,6 @@
             border: 2px solid var(--accent-pink);
         }
 
-        /* BAKSIDAN: Neon-mönster */
         .face-back {
             background: 
                 radial-gradient(circle at top right, rgba(72, 219, 251, 0.4), transparent),
@@ -211,7 +298,6 @@
             color: var(--accent-cyan);
         }
 
-        /* --- VAL AV S/K --- */
         .choice-container {
             display: flex;
             gap: 15px;
@@ -231,24 +317,16 @@
             text-transform: uppercase;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             cursor: pointer;
-            transition: transform 0.2s;
             border: 2px solid rgba(255,255,255,0.1);
         }
 
-        /* Neon-färger för valen */
         .choice-card.truth { 
             background: linear-gradient(135deg, var(--accent-cyan), #0072ff); 
-            color: white;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
         .choice-card.dare { 
             background: linear-gradient(135deg, var(--accent-pink), #ff416c); 
-            color: white;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
-        .choice-card:active { transform: scale(0.95); filter: brightness(1.2); }
 
-        /* --- UI ELEMENTS --- */
         .top-bar {
             position: absolute;
             top: 0;
@@ -272,54 +350,9 @@
             backdrop-filter: blur(4px);
         }
 
-        #rules-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 12, 41, 0.95);
-            z-index: 200;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .modal-content {
-            background: var(--bg-medium);
-            color: #eee;
-            padding: 30px;
-            border-radius: 20px;
-            max-width: 500px;
-            width: 100%;
-            text-align: left;
-            position: relative;
-            border: 2px solid var(--accent-pink);
-            box-shadow: 0 0 30px rgba(255, 107, 203, 0.3);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--accent-pink);
-        }
-        
-        #rules-title {
-            color: var(--accent-cyan);
-            border-bottom: 1px solid var(--accent-pink);
-            padding-bottom: 10px;
-        }
-
         .btn-bottom {
             margin-top: auto;
             background: linear-gradient(to right, var(--accent-pink), var(--accent-cyan));
-            color: white;
-            font-weight: bold;
             border: none;
             width: 100%;
         }
@@ -335,21 +368,47 @@
 </head>
 <body>
 
-    <div id="rules-modal">
-        <div class="modal-content">
+    <div id="rules-modal" class="modal-overlay">
+        <div class="modal-content modal-left-align">
             <span class="close-modal" onclick="toggleRules()">✖</span>
-            <h2 id="rules-title">Regler</h2>
+            <h2 style="color:var(--accent-cyan); border-bottom:1px solid var(--accent-pink); padding-bottom:10px;" id="rules-title">Regler</h2>
             <p id="rules-text">Här står reglerna...</p>
+        </div>
+    </div>
+
+    <div id="premium-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePremium()">✖</span>
+            <h2 style="text-transform:uppercase; letter-spacing:2px;">Gå All-in?</h2>
+            <div class="premium-highlight">ALLT FÖR 69 KR</div>
+            <p class="premium-desc">
+                🚀 Lås upp <strong>300+ nya kort</strong><br>
+                🛠️ Få tillgång till <strong>Skaparläget</strong><br>
+                ✨ Lås upp <strong>Ultimate Designen</strong><br>
+                🍺 Kostar mindre än en öl i baren!
+            </p>
+            <button class="btn btn-buy" onclick="buyPremium()">LÅS UPP NU (69kr)</button>
+            <p style="font-size:0.8rem; margin-top:15px; opacity:0.6;">Engångskostnad. Inga prenumerationer.</p>
         </div>
     </div>
 
     <div id="menu-screen" class="screen active">
         <img src="logo.png" alt="Festapp1 Logo" class="main-logo">
         
-        <button class="btn game-btn" onclick="preStartGame('sk')" disabled>Snurra Flaskan / Sannning & Konka</button>
+        <button class="btn game-btn" onclick="preStartGame('sk')" disabled>
+            Snurra Flaskan
+            <span class="btn-subtitle">(Sanning eller konsekvens)</span>
+        </button>
+        
         <button class="btn game-btn" onclick="preStartGame('jha')" disabled>Jag har aldrig</button>
         <button class="btn game-btn" onclick="preStartGame('pek')" disabled>Pekleken</button>
+        
         <p id="loading-msg">Laddar frågor...</p>
+
+        <div class="menu-spacer"></div>
+
+        <button id="btn-all-in" class="btn btn-all-in" onclick="checkPremium('all-in')">All-in 💎</button>
+        <button id="btn-creator" class="btn btn-creator" onclick="checkPremium('creator')">Skaparläge 🛠️</button>
     </div>
 
     <div id="bottle-choice-screen" class="screen">
@@ -404,37 +463,58 @@
 
     <script>
         // --- DATA HANTERING ---
-        let content = {}; // Tom från början
-        
-        // Denna funktion körs direkt när sidan öppnas
+        let content = {}; 
+        let isAllIn = false; // Status för premium (False från början)
+
         async function loadContent() {
             try {
-                // Hämta JSON-filen
                 const response = await fetch('questions.json');
-                
                 if (!response.ok) throw new Error("Kunde inte hitta filen");
-                
                 content = await response.json();
                 
-                // Aktivera knapparna
-                document.querySelectorAll('.game-btn').forEach(btn => {
-                    btn.disabled = false;
-                });
+                document.querySelectorAll('.game-btn').forEach(btn => btn.disabled = false);
                 document.getElementById('loading-msg').style.display = 'none';
                 console.log("Innehåll laddat!");
-                
             } catch (error) {
-                document.getElementById('loading-msg').innerText = "Fel: Kunde inte ladda frågorna. (Är questions.json uppladdad?)";
-                document.getElementById('loading-msg').style.color = "#ff6b6b";
+                document.getElementById('loading-msg').innerText = "Fel: Kunde inte ladda frågorna.";
                 console.error(error);
             }
         }
-
-        // Starta laddning
         loadContent();
 
+        // --- PREMIUM LOGIK (NYTT FÖR FESTAPP 2.0) ---
+        
+        function checkPremium(feature) {
+            if (isAllIn) {
+                // Om man redan har betalat
+                if (feature === 'creator') {
+                    alert("Här kommer Skaparläget öppnas! (Kommer i Etapp 3)");
+                    // showScreen('creator-screen'); // Framtida funktion
+                }
+            } else {
+                // Om man är gratisanvändare -> Visa sälj-rutan
+                document.getElementById('premium-modal').style.display = 'flex';
+            }
+        }
 
-        // --- LOGIK ---
+        function closePremium() {
+            document.getElementById('premium-modal').style.display = 'none';
+        }
+
+        function buyPremium() {
+            // SIMULERAT KÖP FÖR TEST
+            isAllIn = true;
+            closePremium();
+            alert("Köp lyckades! Ultimate är nu upplåst. 🚀");
+            
+            // Uppdatera UI: Dölj All-in knappen eftersom man redan har den
+            document.getElementById('btn-all-in').style.display = 'none';
+            
+            // Ändra text på Skaparläge-knappen eller gör den mer aktiv
+            // (För nu räcker det med att den fungerar när man klickar på den)
+        }
+
+        // --- SPEL LOGIK (Befintlig) ---
         let currentGame = '';
         let useDigitalBottle = false;
         let currentRotation = 0;
@@ -455,16 +535,10 @@
         }
 
         function preStartGame(gameId) {
-            if (!content[gameId]) {
-                alert("Spelet laddades inte korrekt.");
-                return;
-            }
+            if (!content[gameId]) { alert("Spelet laddades inte korrekt."); return; }
             currentGame = gameId;
-            if (gameId === 'sk') {
-                showScreen('bottle-choice-screen');
-            } else {
-                showResult('all'); 
-            }
+            if (gameId === 'sk') showScreen('bottle-choice-screen');
+            else showResult('all'); 
         }
 
         function setBottleMode(isDigital) {
@@ -481,7 +555,6 @@
         function nextRound() {
             document.getElementById('the-card').classList.remove('is-flipped');
             isCardFlipped = false;
-
             setTimeout(() => {
                 if (currentGame === 'sk') {
                     if (useDigitalBottle) {
@@ -497,17 +570,11 @@
         }
 
         function showResult(type) {
-            if (!content[currentGame] || !content[currentGame][type]) {
-                console.error("Saknas data för:", currentGame, type);
-                return;
-            }
+            if (!content[currentGame]) return;
 
-            // --- NY LOGIK FÖR KORTLEK ---
-            if (!cardDecks[currentGame]) {
-                cardDecks[currentGame] = {};
-            }
+            if (!cardDecks[currentGame]) cardDecks[currentGame] = {};
             if (!cardDecks[currentGame][type] || cardDecks[currentGame][type].length === 0) {
-                console.log("Blandar om kortleken...");
+                // Här kan vi senare lägga in logik för att bara ladda 20 kort om !isAllIn
                 cardDecks[currentGame][type] = [...content[currentGame][type]];
             }
 
@@ -515,11 +582,9 @@
             const randomIndex = Math.floor(Math.random() * currentDeck.length);
             let rawText = currentDeck.splice(randomIndex, 1)[0]; 
 
-            // --- VARIABEL-HANTERING ---
             if (rawText.includes("{riktning}")) {
                 const directions = ["höger", "vänster"];
-                const randomDir = directions[Math.floor(Math.random() * directions.length)];
-                rawText = rawText.replace("{riktning}", randomDir);
+                rawText = rawText.replace("{riktning}", directions[Math.floor(Math.random() * directions.length)]);
             }
             
             document.getElementById('res-category').innerText = type === 'all' ? content[currentGame].title : type.toUpperCase();
@@ -532,7 +597,6 @@
 
             document.getElementById('the-card').classList.remove('is-flipped');
             isCardFlipped = false;
-
             showScreen('result-screen');
         }
 
@@ -552,15 +616,15 @@
             if (modal.style.display === 'flex') {
                 modal.style.display = 'none';
             } else {
-                const gameData = content[currentGame];
-                document.getElementById('rules-title').innerText = gameData.title;
-                document.getElementById('rules-text').innerHTML = gameData.rules;
-                modal.style.display = 'flex';
+                if (content[currentGame]) {
+                    document.getElementById('rules-title').innerText = content[currentGame].title;
+                    document.getElementById('rules-text').innerHTML = content[currentGame].rules;
+                    modal.style.display = 'flex';
+                }
             }
         }
 
-        // --- FLASK LOGIK ---
-
+        // --- FLASK FYSIK ---
         function resetBottleState() {
             isWaitingForClick = false;
             clearTimeout(autoNextTimer);
@@ -568,9 +632,7 @@
         }
 
         function handleContainerClick() {
-            if (isWaitingForClick) {
-                forceGoToChoice();
-            }
+            if (isWaitingForClick) forceGoToChoice();
         }
 
         function forceGoToChoice() {
@@ -581,14 +643,11 @@
 
         function setupBottlePhysics() {
             const container = document.getElementById('bottle-container');
-            let startY = 0;
-            let startTime = 0;
-            let isSpinning = false;
+            let startY = 0; let startTime = 0; let isSpinning = false;
 
             const handleStart = (y) => {
                 if (isSpinning || isWaitingForClick) return;
-                startY = y;
-                startTime = new Date().getTime();
+                startY = y; startTime = new Date().getTime();
             };
 
             const handleEnd = (y) => {
@@ -599,31 +658,18 @@
 
                 if (Math.abs(distance) > 30) { 
                     isSpinning = true; 
-                    spinBottle(distance, time, () => {
-                        isSpinning = false;
-                    });
+                    spinBottle(distance, time, () => { isSpinning = false; });
                 }
             };
 
             container.ontouchstart = (e) => handleStart(e.touches[0].clientY);
             container.ontouchend = (e) => handleEnd(e.changedTouches[0].clientY);
-
-            container.onmousedown = (e) => {
-                e.preventDefault(); 
-                handleStart(e.clientY);
-            };
-            
-            window.onmouseup = (e) => {
-                if (startTime > 0) {
-                    handleEnd(e.clientY);
-                    startTime = 0; 
-                }
-            };
+            container.onmousedown = (e) => { e.preventDefault(); handleStart(e.clientY); };
+            window.onmouseup = (e) => { if (startTime > 0) { handleEnd(e.clientY); startTime = 0; } };
         }
 
         function spinBottle(distance, time, callback) {
             const bottle = document.getElementById('bottle-img');
-            
             let velocity = 1.5; 
             if (time < 200) velocity = 3.0; 
             if (time > 500) velocity = 1.0; 
@@ -634,23 +680,15 @@
             const totalRot = (baseRot + randomRot) * direction;
 
             currentRotation += totalRot; 
-
             bottle.style.transition = `transform 3.5s cubic-bezier(0.2, 0.8, 0.2, 1)`;
             bottle.style.transform = `rotate(${currentRotation}deg)`;
-
             document.getElementById('spin-text').innerText = "Snurrar...";
 
             setTimeout(() => {
                 document.getElementById('spin-text').innerText = "Klar! Tryck för att gå vidare...";
                 isWaitingForClick = true; 
                 if (callback) callback();
-
-                autoNextTimer = setTimeout(() => {
-                    if (isWaitingForClick) {
-                        forceGoToChoice();
-                    }
-                }, 7000);
-
+                autoNextTimer = setTimeout(() => { if (isWaitingForClick) forceGoToChoice(); }, 7000);
             }, 3500);
         }
     </script>
