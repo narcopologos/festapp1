@@ -127,8 +127,17 @@
             font-family: inherit;
             border: 1px solid rgba(138, 43, 226, 0.5);
         }
+        .center-btn-row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-top: 25px;
+        }
 
         .btn-back {
+            width: 100%;
+             max-width: 320px;
             color: #ddd;
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
                               linear-gradient(to right, #ff414d, #ff4b1f);
@@ -140,15 +149,24 @@
         }
 
         .btn-my-cards {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--accent-cyan);
-            border-radius: 10px;
+            width: 100%; /* Samma bredd som de andra */
+            max-width: 320px; /* Samma maxbredd */
+            padding: 12px;
+            margin-top: 15px;
+            margin-bottom: 15px; /* Luft till Tillbaka-knappen */
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed var(--accent-cyan); /* Streckad kant för att skilja den från action-knappar */
+            border-radius: 50px; /* Rundad som de andra */
             color: var(--accent-cyan);
             font-weight: bold;
             cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.2s;
+        }
+
+        .btn-my-cards:active {
+            background: rgba(72, 219, 251, 0.2);
         }
 
         /* --- MODALER --- */
@@ -614,6 +632,12 @@
         
         <button class="btn-my-cards" onclick="openMyCards()">📂 Mina Kort</button>
 
+        <div id="creator-screen" class="screen">
+        <div class="top-bar">
+            </div>
+
+        <h2 style="color:var(--accent-cyan); margin-bottom:10px;">Skapa nytt kort</h2>
+        
         <div class="creator-container">
             <label class="input-label">Välj korttyp:</label>
             <select id="new-card-type" class="neon-input">
@@ -634,18 +658,20 @@
 
             <div class="share-row">
                 <span class="switch-label">Dela med utvecklaren?</span>
-                
                 <label class="switch">
                     <input type="checkbox" id="new-card-share" checked>
                     <span class="slider round"></span>
                 </label>
-
                 <div class="info-icon" onclick="alert('Om du kryssar i denna kan kortet skickas till utvecklaren i framtiden.')">?</div>
             </div>
 
-            <button class="btn btn-creator" style="margin-top:20px;" onclick="saveCustomCard()">LÄGG TILL KORT</button>
-            
-            <button class="btn btn-back" style="margin-top:10px;" onclick="goHome()">TILLBAKA</button>
+            <div class="center-btn-row">
+                <button class="btn btn-creator" onclick="saveCustomCard()">LÄGG TILL KORT</button>
+                
+                <button class="btn-my-cards" onclick="openMyCards()">📂 Mina Kort</button>
+
+                <button class="btn btn-back" onclick="goHome()">TILLBAKA</button>
+            </div>
         </div>
 
         <div id="success-overlay" class="success-overlay">
@@ -1060,3 +1086,4 @@
     </script>
 </body>
 </html>
+
