@@ -78,10 +78,9 @@
             color: white;
             
             background: rgba(0, 0, 0, 0.6);
-            border: 2px solid transparent; /* Förbered för gradient border */
+            border: 2px solid transparent; 
             border-radius: 50px;
             
-            /* Standard Neon Gradient Border */
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
                               linear-gradient(to right, var(--accent-pink), var(--accent-cyan));
             background-origin: border-box;
@@ -97,7 +96,6 @@
         .btn:active { transform: scale(0.96); }
         .btn:disabled { opacity: 0.5; filter: grayscale(1); }
 
-        /* Undertitel stilar för knappar */
         .btn-subtitle {
             display: block;
             font-size: 0.75rem;
@@ -109,13 +107,8 @@
             color: var(--accent-cyan);
         }
 
-        /* --- MELLANRUM I MENYN --- */
-        .menu-spacer {
-            height: 30px;
-            width: 100%;
-        }
+        .menu-spacer { height: 30px; width: 100%; }
 
-        /* --- ALL-IN KNAPP (GULD) --- */
         .btn-all-in {
             color: var(--accent-gold);
             background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
@@ -124,18 +117,17 @@
             font-size: 1.3rem;
         }
 
-        /* --- SKAPARLÄGE KNAPP (HACKER) --- */
+        /* --- SKAPARLÄGE KNAPP (NY STIL) --- */
         .btn-creator {
-    color: white;
-    /* En djup lila/blå gradient som känns premium och mystisk */
-    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                      linear-gradient(to right, #8e2de2, #4a00e0);
-    box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
-    font-family: inherit; /* Samma typsnitt som övriga appen */
-    border: 1px solid rgba(138, 43, 226, 0.5);
-}
+            color: white;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                              linear-gradient(to right, #8e2de2, #4a00e0);
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
+            font-family: inherit;
+            border: 1px solid rgba(138, 43, 226, 0.5);
+        }
 
-        /* --- MODALER (Regler & Premium) --- */
+        /* --- MODALER --- */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -158,13 +150,13 @@
             border-radius: 20px;
             max-width: 500px;
             width: 100%;
-            text-align: center; /* Centrerad text för premium */
+            text-align: center;
             position: relative;
             border: 2px solid var(--accent-pink);
             box-shadow: 0 0 30px rgba(255, 107, 203, 0.3);
         }
 
-        .modal-left-align { text-align: left; } /* För regler */
+        .modal-left-align { text-align: left; }
 
         .close-modal {
             position: absolute;
@@ -175,7 +167,6 @@
             color: var(--accent-pink);
         }
 
-        /* Premium Modal Specifik */
         .premium-highlight {
             font-size: 1.5rem;
             color: var(--accent-gold);
@@ -199,7 +190,7 @@
             font-weight: 900;
         }
 
-        /* --- ÖVRIGT (Från tidigare kod) --- */
+        /* --- SPELPLAN --- */
         #bottle-container {
             width: 300px;
             height: 300px;
@@ -322,12 +313,8 @@
             border: 2px solid rgba(255,255,255,0.1);
         }
 
-        .choice-card.truth { 
-            background: linear-gradient(135deg, var(--accent-cyan), #0072ff); 
-        }
-        .choice-card.dare { 
-            background: linear-gradient(135deg, var(--accent-pink), #ff416c); 
-        }
+        .choice-card.truth { background: linear-gradient(135deg, var(--accent-cyan), #0072ff); }
+        .choice-card.dare { background: linear-gradient(135deg, var(--accent-pink), #ff416c); }
 
         .top-bar {
             position: absolute;
@@ -365,6 +352,7 @@
             color: var(--accent-cyan);
             font-style: italic;
         }
+
         /* --- SKAPARLÄGE STYLING --- */
         .creator-container {
             width: 100%;
@@ -418,7 +406,6 @@
             opacity: 0.7;
         }
 
-        /* Checkbox Styling */
         .share-row {
             display: flex;
             align-items: center;
@@ -451,7 +438,6 @@
             background-color: var(--accent-green);
         }
 
-        /* Success Animation Popup */
         .success-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -473,7 +459,6 @@
             margin-bottom: 20px;
             box-shadow: 0 0 30px var(--accent-green);
         }
-
     </style>
 </head>
 <body>
@@ -519,6 +504,48 @@
 
         <button id="btn-all-in" class="btn btn-all-in" onclick="checkPremium('all-in')">All-in 💎</button>
         <button id="btn-creator" class="btn btn-creator" onclick="checkPremium('creator')">Skaparläge 🛠️</button>
+    </div>
+
+    <div id="creator-screen" class="screen">
+        <div class="top-bar">
+            <button class="icon-btn" onclick="goHome()">← Meny</button>
+        </div>
+
+        <h2 style="color:var(--accent-cyan); margin-bottom:10px;">Skapa nytt kort</h2>
+        
+        <div class="creator-container">
+            <label class="input-label">Välj korttyp:</label>
+            <select id="new-card-type" class="neon-input">
+                <option value="sanning">Sanning</option>
+                <option value="konka">Konsekvens</option>
+                <option value="jha">Jag har aldrig...</option>
+                <option value="pek">Pekleken</option>
+            </select>
+
+            <label class="input-label">Text på kortet:</label>
+            <textarea id="new-card-text" class="neon-input text-area" placeholder="T.ex. Peka på den som snarkar högst..."></textarea>
+
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:15px;">
+                <label class="input-label" style="margin:0;">Signatur (Valfritt):</label>
+                <div class="info-icon" onclick="alert('Din signatur visas nere i hörnet på kortet när det dyker upp i spelet.')">?</div>
+            </div>
+            <input type="text" id="new-card-sign" class="neon-input" placeholder="T.ex. Festprissen">
+
+            <div class="share-row">
+                <label class="checkbox-container">Dela med utvecklaren?
+                    <input type="checkbox" id="new-card-share" checked>
+                    <span class="checkmark"></span>
+                </label>
+                <div class="info-icon" onclick="alert('Om du kryssar i denna kan kortet skickas till utvecklaren i framtiden. Om det är riktigt bra kan det hamna i den officiella appen för alla!')">?</div>
+            </div>
+
+            <button class="btn btn-creator" style="margin-top:20px;" onclick="saveCustomCard()">LÄGG TILL KORT +</button>
+        </div>
+
+        <div id="success-overlay" class="success-overlay">
+            <div class="checkmark-circle">✓</div>
+            <p>Kort tillagt!</p>
+        </div>
     </div>
 
     <div id="bottle-choice-screen" class="screen">
@@ -570,55 +597,12 @@
 
         <button class="btn btn-bottom" onclick="nextRound()">Nästa runda</button>
     </div>
-    <div id="creator-screen" class="screen">
-        <div class="top-bar">
-            <button class="icon-btn" onclick="goHome()">← Meny</button>
-        </div>
-
-        <h2 style="color:var(--accent-cyan); margin-bottom:10px;">Skapa nytt kort</h2>
-        
-        <div class="creator-container">
-            
-            <label class="input-label">Välj korttyp:</label>
-            <select id="new-card-type" class="neon-input">
-                <option value="sanning">Sanning</option>
-                <option value="konka">Konsekvens</option>
-                <option value="jha">Jag har aldrig...</option>
-                <option value="pek">Pekleken</option>
-            </select>
-
-            <label class="input-label">Text på kortet:</label>
-            <textarea id="new-card-text" class="neon-input text-area" placeholder="T.ex. Peka på den som snarkar högst..."></textarea>
-
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:15px;">
-                <label class="input-label" style="margin:0;">Signatur (Valfritt):</label>
-                <div class="info-icon" onclick="alert('Din signatur visas nere i hörnet på kortet när det dyker upp i spelet.')">?</div>
-            </div>
-            <input type="text" id="new-card-sign" class="neon-input" placeholder="T.ex. Festprissen">
-
-            <div class="share-row">
-                <label class="checkbox-container">Dela med utvecklaren?
-                    <input type="checkbox" id="new-card-share" checked>
-                    <span class="checkmark"></span>
-                </label>
-                <div class="info-icon" onclick="alert('Om du kryssar i denna kan kortet skickas till utvecklaren i framtiden. Om det är riktigt bra kan det hamna i den officiella appen för alla!')">?</div>
-            </div>
-
-            <button class="btn btn-creator" style="margin-top:20px;" onclick="saveCustomCard()">LÄGG TILL KORT +</button>
-
-        </div>
-
-        <div id="success-overlay" class="success-overlay">
-            <div class="checkmark-circle">✓</div>
-            <p>Kort tillagt!</p>
-        </div>
-    </div>
 
     <script>
         // --- DATA HANTERING ---
         let content = {}; 
-        let isAllIn = false; // Status för premium (False från början)
-        let finishedFreeDecks = {}; // NY: Håller koll på om gratisrundan är slut
+        let isAllIn = false; 
+        let finishedFreeDecks = {}; 
 
         async function loadContent() {
             try {
@@ -636,16 +620,13 @@
         }
         loadContent();
 
-        // --- PREMIUM LOGIK (NYTT FÖR FESTAPP 2.0) ---
+        // --- PREMIUM LOGIK ---
         
         function checkPremium(feature) {
             if (isAllIn) {
                 // Om man redan har betalat
-               function checkPremium(feature) {
-            if (isAllIn) {
-                // Om man har betalat
                 if (feature === 'creator') {
-                    showScreen('creator-screen'); // <--- ÄNDRAT HÄR!
+                    showScreen('creator-screen'); 
                 }
             } else {
                 document.getElementById('premium-modal').style.display = 'flex';
@@ -660,17 +641,16 @@
             isAllIn = true;
             closePremium();
             
-            // 1. Töm gamla kortlekar (så vi inte spelar klart de sista 2 gratiskorten)
+            // 1. Töm gamla kortlekar
             cardDecks = {}; 
-            
-            // 2. Ta bort spärren för "slut på kort"
+            // 2. Ta bort spärren
             finishedFreeDecks = {}; 
             
             alert("Köp lyckades! Ultimate är nu upplåst. 🚀");
             document.getElementById('btn-all-in').style.display = 'none';
         }
 
-        // --- SPEL LOGIK (Befintlig) ---
+        // --- SPEL LOGIK ---
         let currentGame = '';
         let useDigitalBottle = false;
         let currentRotation = 0;
@@ -731,7 +711,6 @@
             if (!cardDecks[currentGame]) cardDecks[currentGame] = {};
             const deckId = currentGame + '_' + type;
 
-            // KOLL: Är kortleken slut?
             if (!cardDecks[currentGame][type] || cardDecks[currentGame][type].length === 0) {
                 
                 // Spärr för gratisanvändare
@@ -745,25 +724,19 @@
                 // 1. Hämta originalkorten
                 let allCards = [...content[currentGame][type]];
 
-                // 2. --- NYTT: Hämta egna kort och blanda in dem! ---
-                // Vi gör detta BARA om man är All-in (eftersom skaparläget kräver All-in)
+                // 2. Hämta egna kort och blanda in dem (Bara om All-in)
                 if (isAllIn) {
                     const customCards = JSON.parse(localStorage.getItem('myCustomCards')) || [];
-                    // Filtrera ut kort som matchar aktuellt spel och typ
                     const myCards = customCards.filter(c => c.game === currentGame && (currentGame !== 'sk' || c.type === type));
                     
-                    // Lägg bara till texten från korten i leken
                     myCards.forEach(c => allCards.push(c.text));
-                    
-                    if (myCards.length > 0) {
-                        console.log(`Lade till ${myCards.length} egna kort i leken!`);
-                    }
+                    if (myCards.length > 0) console.log(`Lade till ${myCards.length} egna kort i leken!`);
                 }
-                // ---------------------------------------------------
 
                 if (!isAllIn) {
                     let limit = 20; 
                     if (type === 'sanning' || type === 'konka') limit = 15;
+                    // HÅRD SPÄRR: Ta alltid de första X korten från JSON
                     allCards = allCards.slice(0, limit);
                     allCards.sort(() => Math.random() - 0.5);
                     
@@ -798,6 +771,7 @@
             isCardFlipped = false;
             showScreen('result-screen');
         }
+
         function flipCard() {
             const card = document.getElementById('the-card');
             if (isCardFlipped) {
@@ -820,6 +794,47 @@
                     modal.style.display = 'flex';
                 }
             }
+        }
+
+        // --- SKAPARLÄGE FUNKTIONER ---
+        function saveCustomCard() {
+            const type = document.getElementById('new-card-type').value;
+            let text = document.getElementById('new-card-text').value.trim();
+            const sign = document.getElementById('new-card-sign').value.trim();
+            
+            if (!text) {
+                alert("Du måste skriva något på kortet!");
+                return;
+            }
+
+            if (sign) {
+                text += `<br><br><span style="font-size:0.7em; opacity:0.7; font-style:italic;">— ${sign}</span>`;
+            }
+
+            const newCard = {
+                type: type, 
+                text: text,
+                game: '' 
+            };
+
+            if (type === 'sanning' || type === 'konka') newCard.game = 'sk';
+            else newCard.game = type; 
+
+            let customCards = JSON.parse(localStorage.getItem('myCustomCards')) || [];
+            customCards.push(newCard);
+            localStorage.setItem('myCustomCards', JSON.stringify(customCards));
+
+            const overlay = document.getElementById('success-overlay');
+            overlay.style.display = 'flex';
+            
+            document.getElementById('new-card-text').value = '';
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                if (cardDecks[newCard.game]) {
+                    cardDecks[newCard.game] = null; 
+                }
+            }, 1500);
         }
 
         // --- FLASK FYSIK ---
@@ -889,62 +904,6 @@
                 autoNextTimer = setTimeout(() => { if (isWaitingForClick) forceGoToChoice(); }, 7000);
             }, 3500);
         }
-                function saveCustomCard() {
-            const type = document.getElementById('new-card-type').value;
-            let text = document.getElementById('new-card-text').value.trim();
-            const sign = document.getElementById('new-card-sign').value.trim();
-            
-            if (!text) {
-                alert("Du måste skriva något på kortet!");
-                return;
-            }
-
-            // Om signatur finns, lägg till den i HTML-format i texten
-            if (sign) {
-                text += `<br><br><span style="font-size:0.7em; opacity:0.7; font-style:italic;">— ${sign}</span>`;
-            }
-
-            // Skapa kort-objektet
-            const newCard = {
-                type: type, // 'sanning', 'konka', 'jha', 'pek'
-                text: text,
-                game: '' // Vi räknar ut vilket spel det tillhör nedan
-            };
-
-            // Mappa korttyp till rätt spel-ID i systemet
-            if (type === 'sanning' || type === 'konka') newCard.game = 'sk';
-            else newCard.game = type; // 'jha' eller 'pek'
-
-            // Hämta befintliga egna kort från minnet
-            let customCards = JSON.parse(localStorage.getItem('myCustomCards')) || [];
-            customCards.push(newCard);
-            localStorage.setItem('myCustomCards', JSON.stringify(customCards));
-
-            // Visa success animation
-            const overlay = document.getElementById('success-overlay');
-            overlay.style.display = 'flex';
-            
-            // Återställ formulär
-            document.getElementById('new-card-text').value = '';
-
-            // Dölj success efter 1.5 sekunder
-            setTimeout(() => {
-                overlay.style.display = 'none';
-                
-                // VIKTIGT: Töm den aktiva kortleken för det spelet så det nya kortet kommer med direkt!
-                if (cardDecks[newCard.game]) {
-                    cardDecks[newCard.game] = null; 
-                }
-            }, 1500);
-        }
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
