@@ -462,6 +462,49 @@
 
         <button class="btn btn-bottom" onclick="nextRound()">Nästa runda</button>
     </div>
+    <div id="creator-screen" class="screen">
+        <div class="top-bar">
+            <button class="icon-btn" onclick="goHome()">← Meny</button>
+        </div>
+
+        <h2 style="color:var(--accent-cyan); margin-bottom:10px;">Skapa nytt kort</h2>
+        
+        <div class="creator-container">
+            
+            <label class="input-label">Välj korttyp:</label>
+            <select id="new-card-type" class="neon-input">
+                <option value="sanning">Sanning</option>
+                <option value="konka">Konsekvens</option>
+                <option value="jha">Jag har aldrig...</option>
+                <option value="pek">Pekleken</option>
+            </select>
+
+            <label class="input-label">Text på kortet:</label>
+            <textarea id="new-card-text" class="neon-input text-area" placeholder="T.ex. Peka på den som snarkar högst..."></textarea>
+
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:15px;">
+                <label class="input-label" style="margin:0;">Signatur (Valfritt):</label>
+                <div class="info-icon" onclick="alert('Din signatur visas nere i hörnet på kortet när det dyker upp i spelet.')">?</div>
+            </div>
+            <input type="text" id="new-card-sign" class="neon-input" placeholder="T.ex. Festprissen">
+
+            <div class="share-row">
+                <label class="checkbox-container">Dela med utvecklaren?
+                    <input type="checkbox" id="new-card-share" checked>
+                    <span class="checkmark"></span>
+                </label>
+                <div class="info-icon" onclick="alert('Om du kryssar i denna kan kortet skickas till utvecklaren i framtiden. Om det är riktigt bra kan det hamna i den officiella appen för alla!')">?</div>
+            </div>
+
+            <button class="btn btn-creator" style="margin-top:20px;" onclick="saveCustomCard()">LÄGG TILL KORT +</button>
+
+        </div>
+
+        <div id="success-overlay" class="success-overlay">
+            <div class="checkmark-circle">✓</div>
+            <p>Kort tillagt!</p>
+        </div>
+    </div>
 
     <script>
         // --- DATA HANTERING ---
@@ -733,6 +776,7 @@
     </script>
 </body>
 </html>
+
 
 
 
