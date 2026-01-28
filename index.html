@@ -572,36 +572,71 @@
         }
 
         function showResult(type) {
+            // Säkerhetskoll så att spelet finns
             if (!content[currentGame]) return;
 
+            // Skapa kortleks-hanterare om den inte finns
             if (!cardDecks[currentGame]) cardDecks[currentGame] = {};
+
+            // OM kortleken är tom (eller slut), ladda in nya kort
             if (!cardDecks[currentGame][type] || cardDecks[currentGame][type].length === 0) {
-                // Här kan vi senare lägga in logik för att bara ladda 20 kort om !isAllIn
-                cardDecks[currentGame][type] = [...content[currentGame][type]];
+                
+                // 1. Hämta ALLA kort från JSON-filen först
+                let allCards = [...content[currentGame][type]];
+
+                // 2. LOGIK FÖR BEGRÄNSNING
+                if (!isAllIn) {
+                    // Sätt gränser: 15 för sanning/konka (totalt 30), 20 för övriga spel
+                    let limit = 20; 
+                    if (type === 'sanning' || type === 'konka') limit = 15;
+
+                    // Blanda korten FÖRST, så man inte alltid får samma 20 första alfabetiskt
+                    // Detta gör att gratisversionen ändå känns "levande" men tar slut fort
+                    allCards.sort(() => Math.random() - 0.5);
+
+                    // Klipp av kortleken vid gränsen
+                    allCards = allCards.slice(0, limit);
+                    
+                    console.log(`Gratisversion: Laddade ${allCards.length} kort för ${type}`);
+                } else {
+                    console.log(`Unlimited: Laddade alla ${allCards.length} kort för ${type}`);
+                }
+
+                // Spara den (eventuellt klippta) leken i minnet
+                cardDecks[currentGame][type] = allCards;
             }
 
+            // Hämta kortleken
             const currentDeck = cardDecks[currentGame][type];
+            
+            // Slumpa ett kort från den kvarvarande leken
             const randomIndex = Math.floor(Math.random() * currentDeck.length);
+            // .splice tar bort kortet så det inte kommer igen denna omgång
             let rawText = currentDeck.splice(randomIndex, 1)[0]; 
 
+            // Hantera variabler som {riktning}
             if (rawText.includes("{riktning}")) {
                 const directions = ["höger", "vänster"];
                 rawText = rawText.replace("{riktning}", directions[Math.floor(Math.random() * directions.length)]);
             }
             
+            // Visa text och kategori på skärmen
             document.getElementById('res-category').innerText = type === 'all' ? content[currentGame].title : type.toUpperCase();
             document.getElementById('res-text').innerHTML = rawText; 
             
+            // Färga kanten beroende på korttyp
             const frontFace = document.getElementById('card-front-face');
             if (type === 'sanning') frontFace.style.borderTop = "10px solid #48dbfb";
             else if (type === 'konka') frontFace.style.borderTop = "10px solid #ff6b6b";
             else frontFace.style.borderTop = "none";
 
+            // Återställ kortets rotation inför animeringen
             document.getElementById('the-card').classList.remove('is-flipped');
             isCardFlipped = false;
+            
+            // Visa resultatskärmen
             showScreen('result-screen');
         }
-
         function flipCard() {
             const card = document.getElementById('the-card');
             if (isCardFlipped) {
@@ -696,4 +731,5 @@
     </script>
 </body>
 </html>
+
 
