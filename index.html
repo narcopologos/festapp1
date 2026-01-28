@@ -467,6 +467,7 @@
         // --- DATA HANTERING ---
         let content = {}; 
         let isAllIn = false; // Status för premium (False från början)
+        let finishedFreeDecks = {}; // NY: Håller koll på om gratisrundan är slut
 
         async function loadContent() {
             try {
@@ -504,18 +505,17 @@
         }
 
         function buyPremium() {
-            // SIMULERAT KÖP
             isAllIn = true;
             closePremium();
             
-            // VIKTIGT: Rensa gamla "snåla" kortlekar så vi laddar in alla nya kort direkt!
+            // 1. Töm gamla kortlekar (så vi inte spelar klart de sista 2 gratiskorten)
             cardDecks = {}; 
             
-            alert("Köp lyckades! Ultimate är nu upplåst. 🚀");
+            // 2. Ta bort spärren för "slut på kort"
+            finishedFreeDecks = {}; 
             
-            // Uppdatera UI
+            alert("Köp lyckades! Ultimate är nu upplåst. 🚀");
             document.getElementById('btn-all-in').style.display = 'none';
-            // Här kan vi också tända upp en "Unlimited"-logga senare
         }
 
         // --- SPEL LOGIK (Befintlig) ---
@@ -574,69 +574,74 @@
         }
 
         function showResult(type) {
-            // Säkerhetskoll så att spelet finns
             if (!content[currentGame]) return;
 
             // Skapa kortleks-hanterare om den inte finns
             if (!cardDecks[currentGame]) cardDecks[currentGame] = {};
 
-            // OM kortleken är tom (eller slut), ladda in nya kort
+            // Unikt ID för just denna spelrunda (t.ex. "sk_sanning")
+            const deckId = currentGame + '_' + type;
+
+            // KOLL: Är kortleken slut?
             if (!cardDecks[currentGame][type] || cardDecks[currentGame][type].length === 0) {
                 
-                // 1. Hämta ALLA kort från JSON-filen först
+                // Om man är gratisanvändare OCH redan har spelat slut sin lek -> STOPP!
+                if (!isAllIn && finishedFreeDecks[deckId]) {
+                    // Visa Premium-rutan men med anpassad text
+                    document.querySelector('#premium-modal .premium-highlight').innerText = "KORTEN ÄR SLUT!";
+                    document.querySelector('#premium-modal .premium-desc').innerHTML = "Du har spelat igenom alla gratiskort.<br>Gå <strong>All-in</strong> för att låsa upp hundratals nya kort och fortsätta spela!";
+                    document.getElementById('premium-modal').style.display = 'flex';
+                    return; // Avbryt funktionen här, vänd inte kortet
+                }
+
+                // ----------------------------------------------------
+                // Ladda in nya kort (Detta sker bara första gången för gratisanvändare)
+                // ----------------------------------------------------
+                
                 let allCards = [...content[currentGame][type]];
 
-                // 2. LOGIK FÖR BEGRÄNSNING
                 if (!isAllIn) {
-                    // Sätt gränser: 15 för sanning/konka (totalt 30), 20 för övriga spel
                     let limit = 20; 
                     if (type === 'sanning' || type === 'konka') limit = 15;
 
-                    // Blanda korten FÖRST, så man inte alltid får samma 20 första alfabetiskt
-                    // Detta gör att gratisversionen ändå känns "levande" men tar slut fort
+                    // Blanda först
                     allCards.sort(() => Math.random() - 0.5);
 
-                    // Klipp av kortleken vid gränsen
+                    // Klipp till 20 st
                     allCards = allCards.slice(0, limit);
                     
-                    console.log(`Gratisversion: Laddade ${allCards.length} kort för ${type}`);
+                    // Markera att vi nu har laddat gratisleken en gång. 
+                    // Nästa gång den är slut, kommer spärren ovan att slå till.
+                    finishedFreeDecks[deckId] = true;
+                    
+                    console.log(`Gratisversion: Laddade ${allCards.length} kort. Nästa gång är det stopp.`);
                 } else {
-                    console.log(`Unlimited: Laddade alla ${allCards.length} kort för ${type}`);
+                    console.log(`Unlimited: Laddar om alla ${allCards.length} kort.`);
                 }
 
-                // Spara den (eventuellt klippta) leken i minnet
                 cardDecks[currentGame][type] = allCards;
             }
 
-            // Hämta kortleken
+            // Hämta kort och visa (samma som förut)
             const currentDeck = cardDecks[currentGame][type];
-            
-            // Slumpa ett kort från den kvarvarande leken
             const randomIndex = Math.floor(Math.random() * currentDeck.length);
-            // .splice tar bort kortet så det inte kommer igen denna omgång
             let rawText = currentDeck.splice(randomIndex, 1)[0]; 
 
-            // Hantera variabler som {riktning}
             if (rawText.includes("{riktning}")) {
                 const directions = ["höger", "vänster"];
                 rawText = rawText.replace("{riktning}", directions[Math.floor(Math.random() * directions.length)]);
             }
             
-            // Visa text och kategori på skärmen
             document.getElementById('res-category').innerText = type === 'all' ? content[currentGame].title : type.toUpperCase();
             document.getElementById('res-text').innerHTML = rawText; 
             
-            // Färga kanten beroende på korttyp
             const frontFace = document.getElementById('card-front-face');
             if (type === 'sanning') frontFace.style.borderTop = "10px solid #48dbfb";
             else if (type === 'konka') frontFace.style.borderTop = "10px solid #ff6b6b";
             else frontFace.style.borderTop = "none";
 
-            // Återställ kortets rotation inför animeringen
             document.getElementById('the-card').classList.remove('is-flipped');
             isCardFlipped = false;
-            
-            // Visa resultatskärmen
             showScreen('result-screen');
         }
         function flipCard() {
@@ -733,6 +738,7 @@
     </script>
 </body>
 </html>
+
 
 
 
