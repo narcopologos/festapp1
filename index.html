@@ -833,13 +833,19 @@
         }
 
         function showResult(type) {
-            if (!content[currentGame]) return;
+            // Kontrollera att spelet finns i datan
+            if (!content[currentGame]) {
+                console.error("Spelet hittades inte i JSON");
+                return;
+            }
 
             if (!cardDecks[currentGame]) cardDecks[currentGame] = {};
             const deckId = currentGame + '_' + type;
 
+            // Kontrollera om kortleken behöver laddas
             if (!cardDecks[currentGame][type] || cardDecks[currentGame][type].length === 0) {
                 
+                // Spärr för gratisanvändare: Om "finishedFreeDecks" är satt, stoppa här.
                 if (!isAllIn && finishedFreeDecks[deckId]) {
                     document.querySelector('#premium-modal .premium-highlight').innerText = "KORTEN ÄR SLUT!";
                     document.querySelector('#premium-modal .premium-desc').innerHTML = "Du har spelat igenom alla gratiskort.<br>Gå <strong>All-in</strong> för att låsa upp hundratals nya kort och fortsätta spela!";
@@ -847,38 +853,73 @@
                     return; 
                 }
 
-                let allCards = [...content[currentGame][type]];
+                // --- HÄMTA KORT FRÅN DIN JSON-STRUKTUR ---
+                let allCards = [];
 
+                // Fall 1: Jag har aldrig (jha) eller Pekleken (pek) -> Använder listan "all"
+                if (currentGame === 'jha' || currentGame === 'pek') {
+                    if (content[currentGame]['all']) {
+                        allCards = [...content[currentGame]['all']];
+                    }
+                } 
+                // Fall 2: Snurra Flaskan (sk) -> Använder "sanning" eller "konka"
+                else if (currentGame === 'sk') {
+                    if (content[currentGame][type]) {
+                        allCards = [...content[currentGame][type]];
+                    }
+                }
+
+                // Om inga kort hittades
+                if (allCards.length === 0) {
+                    alert("Kunde inte ladda korten. Kolla JSON-strukturen.");
+                    return;
+                }
+
+                // --- BLANDA IN EGNA KORT (Om man är Premium) ---
                 if (isAllIn) {
                     const customCards = JSON.parse(localStorage.getItem('myCustomCards')) || [];
                     const myCards = customCards.filter(c => c.game === currentGame && (currentGame !== 'sk' || c.type === type));
-                    
                     myCards.forEach(c => allCards.push(c.text));
-                    if (myCards.length > 0) console.log(`Lade till ${myCards.length} egna kort i leken!`);
                 }
 
+                // --- BEGRÄNSNINGS-LOGIK ---
                 if (!isAllIn) {
+                    // GRATIS: Vi tar ALLTID de första 20 korten (index 0-20)
+                    // Detta kräver att du lagt de "öppna" frågorna först i din JSON-fil.
                     let limit = 20; 
-                    if (type === 'sanning' || type === 'konka') limit = 15;
+                    
+                    // Säkerställ att vi inte kraschar om listan är kortare än 20
+                    if (allCards.length < limit) limit = allCards.length;
+
                     allCards = allCards.slice(0, limit);
+                    
+                    // Sen blandar vi dem så ordningen varierar
                     allCards.sort(() => Math.random() - 0.5);
+                    
+                    // Markera att gratis-leken är laddad. Nästa gång den tar slut blir det stopp.
                     finishedFreeDecks[deckId] = true;
+                    console.log(`Gratisversion: Laddade de ${allCards.length} första korten.`);
                 } else {
+                    // PREMIUM: Ladda allt och blanda
                     allCards.sort(() => Math.random() - 0.5);
+                    console.log(`Unlimited: Laddar om alla ${allCards.length} kort.`);
                 }
 
                 cardDecks[currentGame][type] = allCards;
             }
 
+            // Dra ett kort och visa det
             const currentDeck = cardDecks[currentGame][type];
             const randomIndex = Math.floor(Math.random() * currentDeck.length);
             let rawText = currentDeck.splice(randomIndex, 1)[0]; 
 
+            // Hantera {riktning}
             if (rawText.includes("{riktning}")) {
                 const directions = ["höger", "vänster"];
-                rawText = rawText.replace("{riktning}", directions[Math.floor(Math.random() * directions.length)]);
+                rawText = rawText.replace(/{riktning}/g, directions[Math.floor(Math.random() * directions.length)]);
             }
             
+            // Uppdatera UI
             document.getElementById('res-category').innerText = type === 'all' ? content[currentGame].title : type.toUpperCase();
             document.getElementById('res-text').innerHTML = rawText; 
             
@@ -1086,3 +1127,4 @@
     </script>
 </body>
 </html>
+
