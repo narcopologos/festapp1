@@ -504,16 +504,18 @@
         }
 
         function buyPremium() {
-            // SIMULERAT KÖP FÖR TEST
+            // SIMULERAT KÖP
             isAllIn = true;
             closePremium();
+            
+            // VIKTIGT: Rensa gamla "snåla" kortlekar så vi laddar in alla nya kort direkt!
+            cardDecks = {}; 
+            
             alert("Köp lyckades! Ultimate är nu upplåst. 🚀");
             
-            // Uppdatera UI: Dölj All-in knappen eftersom man redan har den
+            // Uppdatera UI
             document.getElementById('btn-all-in').style.display = 'none';
-            
-            // Ändra text på Skaparläge-knappen eller gör den mer aktiv
-            // (För nu räcker det med att den fungerar när man klickar på den)
+            // Här kan vi också tända upp en "Unlimited"-logga senare
         }
 
         // --- SPEL LOGIK (Befintlig) ---
@@ -731,5 +733,6 @@
     </script>
 </body>
 </html>
+
 
 
