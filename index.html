@@ -14,8 +14,9 @@
             
             --accent-pink: #ff6bcb;   
             --accent-cyan: #48dbfb;   
-            --accent-gold: #ffd700;   /* För All-in */
-            --accent-green: #00ff41;  /* För Skaparläge */
+            --accent-gold: #ffd700;   
+            --accent-green: #00ff41;  
+            --accent-red: #ff414d;
         }
 
         body {
@@ -117,7 +118,7 @@
             font-size: 1.3rem;
         }
 
-        /* --- SKAPARLÄGE KNAPP (NY STIL) --- */
+        /* --- SKAPARLÄGE KNAPPAR --- */
         .btn-creator {
             color: white;
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
@@ -125,6 +126,29 @@
             box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
             font-family: inherit;
             border: 1px solid rgba(138, 43, 226, 0.5);
+        }
+
+        .btn-back {
+            color: #ddd;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                              linear-gradient(to right, #ff414d, #ff4b1f);
+            box-shadow: none;
+            font-family: inherit;
+            border: 1px solid rgba(255, 65, 77, 0.3);
+            font-size: 1rem;
+            padding: 15px;
+        }
+
+        .btn-my-cards {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 10px;
+            color: var(--accent-cyan);
+            font-weight: bold;
+            cursor: pointer;
         }
 
         /* --- MODALER --- */
@@ -154,6 +178,8 @@
             position: relative;
             border: 2px solid var(--accent-pink);
             box-shadow: 0 0 30px rgba(255, 107, 203, 0.3);
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
         .modal-left-align { text-align: left; }
@@ -167,6 +193,33 @@
             color: var(--accent-pink);
         }
 
+        /* My Cards List Styles */
+        .my-card-item {
+            background: rgba(0,0,0,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+        .card-text-preview {
+            font-size: 0.9rem;
+            color: #fff;
+            flex: 1;
+            padding-right: 10px;
+        }
+        .delete-btn {
+            background: none;
+            border: none;
+            color: var(--accent-red);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        /* Premium Highlights */
         .premium-highlight {
             font-size: 1.5rem;
             color: var(--accent-gold);
@@ -406,38 +459,75 @@
             opacity: 0.7;
         }
 
+        /* --- NY SWITCH STYLING --- */
         .share-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             margin-top: 20px;
             background: rgba(255,255,255,0.05);
-            padding: 10px;
+            padding: 15px;
             border-radius: 10px;
+            /* Förhindra textmarkering vid klick */
+            -webkit-user-select: none;
+            user-select: none; 
         }
 
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
+        .switch-label {
             font-size: 0.9rem;
+            flex: 1;
+            cursor: pointer;
         }
 
-        .checkbox-container input { display: none; }
-        
-        .checkmark {
-            height: 20px;
-            width: 20px;
-            background-color: #eee;
-            border-radius: 4px;
-            margin-left: 10px;
+        /* The Switch Box */
+        .switch {
             position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+            margin: 0 10px;
         }
 
-        .checkbox-container input:checked ~ .checkmark {
-            background-color: var(--accent-green);
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
         }
 
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--accent-red); /* RÖD som standard (Nej) */
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent-green); /* GRÖN vid Ja */
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--accent-green);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Success Animation Popup */
         .success-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -487,6 +577,16 @@
         </div>
     </div>
 
+    <div id="my-cards-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeMyCards()">✖</span>
+            <h2 style="color:var(--accent-cyan);">Mina egna kort</h2>
+            <div id="my-cards-list-container">
+                </div>
+            <p id="no-cards-msg" style="color:#aaa; font-style:italic;">Du har inte skapat några kort än.</p>
+        </div>
+    </div>
+
     <div id="menu-screen" class="screen active">
         <img src="logo.png" alt="Festapp1 Logo" class="main-logo">
         
@@ -508,11 +608,12 @@
 
     <div id="creator-screen" class="screen">
         <div class="top-bar">
-            <button class="icon-btn" onclick="goHome()">← Meny</button>
-        </div>
+            </div>
 
         <h2 style="color:var(--accent-cyan); margin-bottom:10px;">Skapa nytt kort</h2>
         
+        <button class="btn-my-cards" onclick="openMyCards()">📂 Mina Kort</button>
+
         <div class="creator-container">
             <label class="input-label">Välj korttyp:</label>
             <select id="new-card-type" class="neon-input">
@@ -532,14 +633,19 @@
             <input type="text" id="new-card-sign" class="neon-input" placeholder="T.ex. Festprissen">
 
             <div class="share-row">
-                <label class="checkbox-container">Dela med utvecklaren?
+                <span class="switch-label">Dela med utvecklaren?</span>
+                
+                <label class="switch">
                     <input type="checkbox" id="new-card-share" checked>
-                    <span class="checkmark"></span>
+                    <span class="slider round"></span>
                 </label>
-                <div class="info-icon" onclick="alert('Om du kryssar i denna kan kortet skickas till utvecklaren i framtiden. Om det är riktigt bra kan det hamna i den officiella appen för alla!')">?</div>
+
+                <div class="info-icon" onclick="alert('Om du kryssar i denna kan kortet skickas till utvecklaren i framtiden.')">?</div>
             </div>
 
-            <button class="btn btn-creator" style="margin-top:20px;" onclick="saveCustomCard()">LÄGG TILL KORT +</button>
+            <button class="btn btn-creator" style="margin-top:20px;" onclick="saveCustomCard()">LÄGG TILL KORT</button>
+            
+            <button class="btn btn-back" style="margin-top:10px;" onclick="goHome()">TILLBAKA</button>
         </div>
 
         <div id="success-overlay" class="success-overlay">
@@ -624,7 +730,6 @@
         
         function checkPremium(feature) {
             if (isAllIn) {
-                // Om man redan har betalat
                 if (feature === 'creator') {
                     showScreen('creator-screen'); 
                 }
@@ -640,12 +745,8 @@
         function buyPremium() {
             isAllIn = true;
             closePremium();
-            
-            // 1. Töm gamla kortlekar
             cardDecks = {}; 
-            // 2. Ta bort spärren
             finishedFreeDecks = {}; 
-            
             alert("Köp lyckades! Ultimate är nu upplåst. 🚀");
             document.getElementById('btn-all-in').style.display = 'none';
         }
@@ -713,7 +814,6 @@
 
             if (!cardDecks[currentGame][type] || cardDecks[currentGame][type].length === 0) {
                 
-                // Spärr för gratisanvändare
                 if (!isAllIn && finishedFreeDecks[deckId]) {
                     document.querySelector('#premium-modal .premium-highlight').innerText = "KORTEN ÄR SLUT!";
                     document.querySelector('#premium-modal .premium-desc').innerHTML = "Du har spelat igenom alla gratiskort.<br>Gå <strong>All-in</strong> för att låsa upp hundratals nya kort och fortsätta spela!";
@@ -721,10 +821,8 @@
                     return; 
                 }
 
-                // 1. Hämta originalkorten
                 let allCards = [...content[currentGame][type]];
 
-                // 2. Hämta egna kort och blanda in dem (Bara om All-in)
                 if (isAllIn) {
                     const customCards = JSON.parse(localStorage.getItem('myCustomCards')) || [];
                     const myCards = customCards.filter(c => c.game === currentGame && (currentGame !== 'sk' || c.type === type));
@@ -736,15 +834,11 @@
                 if (!isAllIn) {
                     let limit = 20; 
                     if (type === 'sanning' || type === 'konka') limit = 15;
-                    // HÅRD SPÄRR: Ta alltid de första X korten från JSON
                     allCards = allCards.slice(0, limit);
                     allCards.sort(() => Math.random() - 0.5);
-                    
                     finishedFreeDecks[deckId] = true;
-                    console.log(`Gratisversion: Laddade de ${allCards.length} första korten.`);
                 } else {
                     allCards.sort(() => Math.random() - 0.5);
-                    console.log(`Unlimited: Laddar om alla ${allCards.length} kort.`);
                 }
 
                 cardDecks[currentGame][type] = allCards;
@@ -797,13 +891,15 @@
         }
 
         // --- SKAPARLÄGE FUNKTIONER ---
+        
         function saveCustomCard() {
             const type = document.getElementById('new-card-type').value;
             let text = document.getElementById('new-card-text').value.trim();
             const sign = document.getElementById('new-card-sign').value.trim();
             
+            // 1. Validering: Text måste finnas
             if (!text) {
-                alert("Du måste skriva något på kortet!");
+                alert("Du måste skriva något på kortet för att spara!");
                 return;
             }
 
@@ -835,6 +931,63 @@
                     cardDecks[newCard.game] = null; 
                 }
             }, 1500);
+        }
+
+        // --- MINA KORT HANTERING ---
+        function openMyCards() {
+            const container = document.getElementById('my-cards-list-container');
+            const noCardsMsg = document.getElementById('no-cards-msg');
+            container.innerHTML = ''; // Töm listan först
+
+            let customCards = JSON.parse(localStorage.getItem('myCustomCards')) || [];
+
+            if (customCards.length === 0) {
+                noCardsMsg.style.display = 'block';
+            } else {
+                noCardsMsg.style.display = 'none';
+                // Loopa igenom och skapa HTML för varje kort
+                customCards.forEach((card, index) => {
+                    const cardDiv = document.createElement('div');
+                    cardDiv.className = 'my-card-item';
+                    
+                    // Rensa HTML-taggar för snyggare preview
+                    let cleanText = card.text.replace(/<br>/g, " ").replace(/<[^>]*>?/gm, "");
+                    if(cleanText.length > 30) cleanText = cleanText.substring(0, 30) + "...";
+
+                    cardDiv.innerHTML = `
+                        <div class="card-text-preview">
+                            <strong style="color:var(--accent-cyan);">${card.type.toUpperCase()}:</strong> 
+                            ${cleanText}
+                        </div>
+                        <button class="delete-btn" onclick="deleteCustomCard(${index})">🗑️</button>
+                    `;
+                    container.appendChild(cardDiv);
+                });
+            }
+
+            document.getElementById('my-cards-modal').style.display = 'flex';
+        }
+
+        function closeMyCards() {
+            document.getElementById('my-cards-modal').style.display = 'none';
+        }
+
+        function deleteCustomCard(index) {
+            if(confirm("Är du säker på att du vill ta bort detta kort?")) {
+                let customCards = JSON.parse(localStorage.getItem('myCustomCards')) || [];
+                // Ta bort kortet på det indexet
+                let removedCard = customCards.splice(index, 1)[0];
+                
+                localStorage.setItem('myCustomCards', JSON.stringify(customCards));
+                
+                // Nollställ kortleken för det spelet så kortet försvinner direkt om man spelar
+                if(removedCard && cardDecks[removedCard.game]) {
+                    cardDecks[removedCard.game] = null;
+                }
+
+                // Ladda om listan
+                openMyCards();
+            }
         }
 
         // --- FLASK FYSIK ---
