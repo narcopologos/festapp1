@@ -576,10 +576,8 @@
         function showResult(type) {
             if (!content[currentGame]) return;
 
-            // Skapa kortleks-hanterare om den inte finns
             if (!cardDecks[currentGame]) cardDecks[currentGame] = {};
 
-            // Unikt ID för just denna spelrunda (t.ex. "sk_sanning")
             const deckId = currentGame + '_' + type;
 
             // KOLL: Är kortleken slut?
@@ -587,42 +585,39 @@
                 
                 // Om man är gratisanvändare OCH redan har spelat slut sin lek -> STOPP!
                 if (!isAllIn && finishedFreeDecks[deckId]) {
-                    // Visa Premium-rutan men med anpassad text
                     document.querySelector('#premium-modal .premium-highlight').innerText = "KORTEN ÄR SLUT!";
                     document.querySelector('#premium-modal .premium-desc').innerHTML = "Du har spelat igenom alla gratiskort.<br>Gå <strong>All-in</strong> för att låsa upp hundratals nya kort och fortsätta spela!";
                     document.getElementById('premium-modal').style.display = 'flex';
-                    return; // Avbryt funktionen här, vänd inte kortet
+                    return; 
                 }
 
-                // ----------------------------------------------------
-                // Ladda in nya kort (Detta sker bara första gången för gratisanvändare)
-                // ----------------------------------------------------
-                
+                // Hämta original-listan
                 let allCards = [...content[currentGame][type]];
 
                 if (!isAllIn) {
                     let limit = 20; 
                     if (type === 'sanning' || type === 'konka') limit = 15;
 
-                    // Blanda först
-                    allCards.sort(() => Math.random() - 0.5);
-
-                    // Klipp till 20 st
+                    // --- HÄR ÄR ÄNDRINGEN FÖR ATT STOPPA FUSK ---
+                    // Vi tar ALLTID de första X korten från JSON-listan.
+                    // Detta gör att poolen av kort är statisk för gratisanvändare.
                     allCards = allCards.slice(0, limit);
+
+                    // Sen blandar vi dem så det blir ett spel av det
+                    allCards.sort(() => Math.random() - 0.5);
+                    // ---------------------------------------------
                     
-                    // Markera att vi nu har laddat gratisleken en gång. 
-                    // Nästa gång den är slut, kommer spärren ovan att slå till.
                     finishedFreeDecks[deckId] = true;
-                    
-                    console.log(`Gratisversion: Laddade ${allCards.length} kort. Nästa gång är det stopp.`);
+                    console.log(`Gratisversion: Laddade de ${allCards.length} första korten.`);
                 } else {
+                    // För premium: Blanda allt
+                    allCards.sort(() => Math.random() - 0.5);
                     console.log(`Unlimited: Laddar om alla ${allCards.length} kort.`);
                 }
 
                 cardDecks[currentGame][type] = allCards;
             }
 
-            // Hämta kort och visa (samma som förut)
             const currentDeck = cardDecks[currentGame][type];
             const randomIndex = Math.floor(Math.random() * currentDeck.length);
             let rawText = currentDeck.splice(randomIndex, 1)[0]; 
@@ -738,6 +733,7 @@
     </script>
 </body>
 </html>
+
 
 
 
