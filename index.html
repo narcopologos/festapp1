@@ -118,7 +118,7 @@
             font-size: 1.3rem;
         }
 
-        /* --- SKAPARLÄGE KNAPPAR --- */
+        /* --- SKAPARLÄGE KNAPPAR & LAYOUT --- */
         .btn-creator {
             color: white;
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
@@ -127,6 +127,8 @@
             font-family: inherit;
             border: 1px solid rgba(138, 43, 226, 0.5);
         }
+
+        /* Container för att centrera knapparna */
         .center-btn-row {
             display: flex;
             flex-direction: column;
@@ -137,7 +139,7 @@
 
         .btn-back {
             width: 100%;
-             max-width: 320px;
+            max-width: 320px;
             color: #ddd;
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
                               linear-gradient(to right, #ff414d, #ff4b1f);
@@ -146,17 +148,21 @@
             border: 1px solid rgba(255, 65, 77, 0.3);
             font-size: 1rem;
             padding: 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
         }
 
         .btn-my-cards {
-            width: 100%; /* Samma bredd som de andra */
-            max-width: 320px; /* Samma maxbredd */
+            width: 100%; 
+            max-width: 320px; 
             padding: 12px;
             margin-top: 15px;
             margin-bottom: 15px; /* Luft till Tillbaka-knappen */
             background: rgba(255, 255, 255, 0.05);
-            border: 1px dashed var(--accent-cyan); /* Streckad kant för att skilja den från action-knappar */
-            border-radius: 50px; /* Rundad som de andra */
+            border: 1px dashed var(--accent-cyan); /* Streckad kant */
+            border-radius: 50px; 
             color: var(--accent-cyan);
             font-weight: bold;
             cursor: pointer;
@@ -486,7 +492,6 @@
             background: rgba(255,255,255,0.05);
             padding: 15px;
             border-radius: 10px;
-            /* Förhindra textmarkering vid klick */
             -webkit-user-select: none;
             user-select: none; 
         }
@@ -630,14 +635,6 @@
 
         <h2 style="color:var(--accent-cyan); margin-bottom:10px;">Skapa nytt kort</h2>
         
-        <button class="btn-my-cards" onclick="openMyCards()">📂 Mina Kort</button>
-
-        <div id="creator-screen" class="screen">
-        <div class="top-bar">
-            </div>
-
-        <h2 style="color:var(--accent-cyan); margin-bottom:10px;">Skapa nytt kort</h2>
-        
         <div class="creator-container">
             <label class="input-label">Välj korttyp:</label>
             <select id="new-card-type" class="neon-input">
@@ -658,10 +655,12 @@
 
             <div class="share-row">
                 <span class="switch-label">Dela med utvecklaren?</span>
+                
                 <label class="switch">
                     <input type="checkbox" id="new-card-share" checked>
                     <span class="slider round"></span>
                 </label>
+
                 <div class="info-icon" onclick="alert('Om du kryssar i denna kan kortet skickas till utvecklaren i framtiden.')">?</div>
             </div>
 
@@ -1086,4 +1085,3 @@
     </script>
 </body>
 </html>
-
