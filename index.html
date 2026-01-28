@@ -365,6 +365,114 @@
             color: var(--accent-cyan);
             font-style: italic;
         }
+        /* --- SKAPARLÄGE STYLING --- */
+        .creator-container {
+            width: 100%;
+            max-width: 350px;
+            text-align: left;
+        }
+
+        .input-label {
+            display: block;
+            color: var(--accent-cyan);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .neon-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--accent-pink);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .neon-input:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(72, 219, 251, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .text-area {
+            height: 100px;
+            resize: none;
+        }
+
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        /* Checkbox Styling */
+        .share-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-container input { display: none; }
+        
+        .checkmark {
+            height: 20px;
+            width: 20px;
+            background-color: #eee;
+            border-radius: 4px;
+            margin-left: 10px;
+            position: relative;
+        }
+
+        .checkbox-container input:checked ~ .checkmark {
+            background-color: var(--accent-green);
+        }
+
+        /* Success Animation Popup */
+        .success-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 300;
+        }
+        
+        .checkmark-circle {
+            font-size: 4rem;
+            color: var(--accent-green);
+            border: 4px solid var(--accent-green);
+            border-radius: 50%;
+            width: 80px; height: 80px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 0 30px var(--accent-green);
+        }
 
     </style>
 </head>
@@ -776,6 +884,7 @@
     </script>
 </body>
 </html>
+
 
 
 
