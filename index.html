@@ -641,12 +641,13 @@
         function checkPremium(feature) {
             if (isAllIn) {
                 // Om man redan har betalat
+               function checkPremium(feature) {
+            if (isAllIn) {
+                // Om man har betalat
                 if (feature === 'creator') {
-                    alert("Här kommer Skaparläget öppnas! (Kommer i Etapp 3)");
-                    // showScreen('creator-screen'); // Framtida funktion
+                    showScreen('creator-screen'); // <--- ÄNDRAT HÄR!
                 }
             } else {
-                // Om man är gratisanvändare -> Visa sälj-rutan
                 document.getElementById('premium-modal').style.display = 'flex';
             }
         }
@@ -728,13 +729,12 @@
             if (!content[currentGame]) return;
 
             if (!cardDecks[currentGame]) cardDecks[currentGame] = {};
-
             const deckId = currentGame + '_' + type;
 
             // KOLL: Är kortleken slut?
             if (!cardDecks[currentGame][type] || cardDecks[currentGame][type].length === 0) {
                 
-                // Om man är gratisanvändare OCH redan har spelat slut sin lek -> STOPP!
+                // Spärr för gratisanvändare
                 if (!isAllIn && finishedFreeDecks[deckId]) {
                     document.querySelector('#premium-modal .premium-highlight').innerText = "KORTEN ÄR SLUT!";
                     document.querySelector('#premium-modal .premium-desc').innerHTML = "Du har spelat igenom alla gratiskort.<br>Gå <strong>All-in</strong> för att låsa upp hundratals nya kort och fortsätta spela!";
@@ -742,26 +742,34 @@
                     return; 
                 }
 
-                // Hämta original-listan
+                // 1. Hämta originalkorten
                 let allCards = [...content[currentGame][type]];
+
+                // 2. --- NYTT: Hämta egna kort och blanda in dem! ---
+                // Vi gör detta BARA om man är All-in (eftersom skaparläget kräver All-in)
+                if (isAllIn) {
+                    const customCards = JSON.parse(localStorage.getItem('myCustomCards')) || [];
+                    // Filtrera ut kort som matchar aktuellt spel och typ
+                    const myCards = customCards.filter(c => c.game === currentGame && (currentGame !== 'sk' || c.type === type));
+                    
+                    // Lägg bara till texten från korten i leken
+                    myCards.forEach(c => allCards.push(c.text));
+                    
+                    if (myCards.length > 0) {
+                        console.log(`Lade till ${myCards.length} egna kort i leken!`);
+                    }
+                }
+                // ---------------------------------------------------
 
                 if (!isAllIn) {
                     let limit = 20; 
                     if (type === 'sanning' || type === 'konka') limit = 15;
-
-                    // --- HÄR ÄR ÄNDRINGEN FÖR ATT STOPPA FUSK ---
-                    // Vi tar ALLTID de första X korten från JSON-listan.
-                    // Detta gör att poolen av kort är statisk för gratisanvändare.
                     allCards = allCards.slice(0, limit);
-
-                    // Sen blandar vi dem så det blir ett spel av det
                     allCards.sort(() => Math.random() - 0.5);
-                    // ---------------------------------------------
                     
                     finishedFreeDecks[deckId] = true;
                     console.log(`Gratisversion: Laddade de ${allCards.length} första korten.`);
                 } else {
-                    // För premium: Blanda allt
                     allCards.sort(() => Math.random() - 0.5);
                     console.log(`Unlimited: Laddar om alla ${allCards.length} kort.`);
                 }
@@ -881,9 +889,58 @@
                 autoNextTimer = setTimeout(() => { if (isWaitingForClick) forceGoToChoice(); }, 7000);
             }, 3500);
         }
+                function saveCustomCard() {
+            const type = document.getElementById('new-card-type').value;
+            let text = document.getElementById('new-card-text').value.trim();
+            const sign = document.getElementById('new-card-sign').value.trim();
+            
+            if (!text) {
+                alert("Du måste skriva något på kortet!");
+                return;
+            }
+
+            // Om signatur finns, lägg till den i HTML-format i texten
+            if (sign) {
+                text += `<br><br><span style="font-size:0.7em; opacity:0.7; font-style:italic;">— ${sign}</span>`;
+            }
+
+            // Skapa kort-objektet
+            const newCard = {
+                type: type, // 'sanning', 'konka', 'jha', 'pek'
+                text: text,
+                game: '' // Vi räknar ut vilket spel det tillhör nedan
+            };
+
+            // Mappa korttyp till rätt spel-ID i systemet
+            if (type === 'sanning' || type === 'konka') newCard.game = 'sk';
+            else newCard.game = type; // 'jha' eller 'pek'
+
+            // Hämta befintliga egna kort från minnet
+            let customCards = JSON.parse(localStorage.getItem('myCustomCards')) || [];
+            customCards.push(newCard);
+            localStorage.setItem('myCustomCards', JSON.stringify(customCards));
+
+            // Visa success animation
+            const overlay = document.getElementById('success-overlay');
+            overlay.style.display = 'flex';
+            
+            // Återställ formulär
+            document.getElementById('new-card-text').value = '';
+
+            // Dölj success efter 1.5 sekunder
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                
+                // VIKTIGT: Töm den aktiva kortleken för det spelet så det nya kortet kommer med direkt!
+                if (cardDecks[newCard.game]) {
+                    cardDecks[newCard.game] = null; 
+                }
+            }, 1500);
+        }
     </script>
 </body>
 </html>
+
 
 
 
