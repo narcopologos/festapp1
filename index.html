@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="logo.png">
     <style>
         :root {
-            /* TEMA: NEON TOKYO */
+            /* STANDARD TEMA: NEON TOKYO */
             --bg-dark: #0f0c29;
             --bg-medium: #302b63;
             --bg-light: #24243e;
@@ -17,6 +17,34 @@
             --accent-gold: #ffd700;   
             --accent-green: #00ff41;  
             --accent-red: #ff414d;
+            
+            --btn-grad-1: rgba(0,0,0,0.6);
+            --btn-grad-2: rgba(0,0,0,0.6);
+            --btn-border-grad: linear-gradient(to right, var(--accent-pink), var(--accent-cyan));
+        }
+
+        /* --- PREMIUM TEMA (Guld & Lyx) --- */
+        body.premium-theme {
+            /* Mörkare, lyxigare bakgrund */
+            --bg-dark: #000000;
+            --bg-medium: #1c1c1c; 
+            --bg-light: #2a2a2a;
+
+            /* Guld och Lila accenter */
+            --accent-pink: #ffd700; /* Guld istället för rosa */
+            --accent-cyan: #9d00ff; /* Lila istället för cyan */
+            
+            /* Guld-gradient på knappar */
+            --btn-border-grad: linear-gradient(to right, #ffd700, #b8860b, #ffd700);
+            
+            /* Bakgrundsbild (valfritt, men snyggt med en subtil effekt) */
+            background: radial-gradient(circle at center, #1c1c1c 0%, #000000 100%);
+        }
+
+        /* Justera All-in knappen i premiumläget (gör den diskretare eller dölj helt om du vill) */
+        body.premium-theme .btn-all-in {
+            filter: grayscale(1); 
+            opacity: 0.5;
         }
 
         body {
@@ -31,6 +59,7 @@
             overflow: hidden;
             user-select: none;
             -webkit-user-select: none;
+            transition: background 1s ease; /* Snygg övergång vid köp */
         }
 
         /* --- SKÄRMAR --- */
@@ -61,6 +90,11 @@
             animation: float 4s ease-in-out infinite;
         }
 
+        /* Ändra skuggan på loggan i premium-läge */
+        body.premium-theme .main-logo {
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6)); /* Guldskugga */
+        }
+
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
@@ -84,27 +118,32 @@
             border-radius: 50px;
             
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                              linear-gradient(to right, var(--accent-pink), var(--accent-cyan));
+                              var(--btn-border-grad);
             background-origin: border-box;
             background-clip: padding-box, border-box;
             
-            box-shadow: 0 0 15px rgba(255, 107, 203, 0.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
             cursor: pointer;
             backdrop-filter: blur(5px);
-            transition: 0.2s;
+            transition: 0.3s;
             line-height: 1.2;
         }
         
+        /* Specifik guld-skugga för premium */
+        body.premium-theme .btn {
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
+            color: #fff;
+        }
+
         .btn:active { transform: scale(0.96); }
         .btn:disabled { opacity: 0.5; filter: grayscale(1); }
 
-        /* Undertitel: Samma stil som huvudtexten men mindre */
         .btn-subtitle {
             display: block;
             font-size: 0.75rem;
             font-weight: normal; 
-            font-style: normal; /* Ej kursiv */
-            color: white;       /* Samma färg som huvudtexten */
+            font-style: normal;
+            color: white;       
             opacity: 0.9;
             margin-top: 4px;
             text-transform: none;
@@ -120,13 +159,12 @@
             font-size: 1.3rem;
         }
 
-        /* --- NY STIL FÖR ALL-IN INFO TEXT --- */
         .all-in-info-text {
-            color: rgba(255, 255, 255, 0.7); /* Lite transparent vit för snyggare look */
+            color: rgba(255, 255, 255, 0.7);
             font-size: 0.8rem;
             margin-top: 10px;
             line-height: 1.4;
-            text-align: center; /* Centrerad */
+            text-align: center;
             width: 90%;
             max-width: 350px;
             font-weight: 500;
@@ -140,6 +178,14 @@
             box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
             font-family: inherit;
             border: 1px solid rgba(138, 43, 226, 0.5);
+        }
+        
+        /* Anpassa skaparknappen för premiumtema (mer guld/lila) */
+        body.premium-theme .btn-creator {
+             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                              linear-gradient(to right, #9d00ff, #ffd700);
+             border: 1px solid #ffd700;
+             box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
         }
 
         .center-btn-row {
@@ -187,6 +233,12 @@
         .btn-my-cards:active {
             background: rgba(72, 219, 251, 0.2);
         }
+        
+        /* Justera mina kort-knappen för premium */
+        body.premium-theme .btn-my-cards {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
 
         /* --- MODALER --- */
         .modal-overlay {
@@ -196,7 +248,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 12, 41, 0.95);
+            background: rgba(0, 0, 0, 0.95); /* Lite mörkare för premiumkänsla */
             z-index: 200;
             align-items: center;
             justify-content: center;
@@ -218,6 +270,11 @@
             max-height: 80vh;
             overflow-y: auto;
         }
+        
+        body.premium-theme .modal-content {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
 
         .modal-left-align { text-align: left; }
 
@@ -229,6 +286,8 @@
             cursor: pointer;
             color: var(--accent-pink);
         }
+        
+        body.premium-theme .close-modal { color: var(--accent-gold); }
 
         /* My Cards List Styles */
         .my-card-item {
@@ -311,6 +370,10 @@
             user-drag: none;
         }
 
+        body.premium-theme #bottle-img {
+             filter: drop-shadow(0 0 15px var(--accent-gold)); /* Guldskugga på flaskan */
+        }
+
         #bottle-img:active { cursor: grabbing; }
 
         .spin-instruction {
@@ -322,6 +385,8 @@
             min-height: 1.2em;
             animation: pulse 1.5s infinite;
         }
+        
+        body.premium-theme .spin-instruction { color: var(--accent-gold); }
 
         @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
 
@@ -361,6 +426,10 @@
             color: #fff;
             border: 2px solid var(--accent-pink);
         }
+        
+        body.premium-theme .card-face { 
+            border-color: var(--accent-gold); 
+        }
 
         .face-back {
             background: 
@@ -370,6 +439,15 @@
             color: var(--accent-pink);
             font-size: 6rem;
             text-shadow: 0 0 20px var(--accent-pink), 0 0 40px var(--accent-cyan);
+        }
+        
+        body.premium-theme .face-back {
+            background: 
+                radial-gradient(circle at top right, rgba(157, 0, 255, 0.4), transparent), /* Lila */
+                radial-gradient(circle at bottom left, rgba(255, 215, 0, 0.4), transparent), /* Guld */
+                var(--bg-dark);
+            color: var(--accent-gold);
+            text-shadow: 0 0 20px var(--accent-gold), 0 0 40px var(--accent-cyan);
         }
 
         .face-front {
@@ -389,6 +467,8 @@
             font-weight: bold;
             color: var(--accent-cyan);
         }
+        
+        body.premium-theme .category-label { color: var(--accent-gold); }
 
         .choice-container {
             display: flex;
@@ -414,6 +494,11 @@
 
         .choice-card.truth { background: linear-gradient(135deg, var(--accent-cyan), #0072ff); }
         .choice-card.dare { background: linear-gradient(135deg, var(--accent-pink), #ff416c); }
+        
+        /* Justera val-korten lite för premium */
+        body.premium-theme .choice-card.truth { background: linear-gradient(135deg, #9d00ff, #0072ff); }
+        body.premium-theme .choice-card.dare { background: linear-gradient(135deg, #ffd700, #ff8c00); color: black; }
+
 
         .top-bar {
             position: absolute;
@@ -437,12 +522,21 @@
             cursor: pointer;
             backdrop-filter: blur(4px);
         }
+        
+        body.premium-theme .icon-btn {
+            color: var(--accent-gold);
+            border-color: var(--accent-gold);
+        }
 
         .btn-bottom {
             margin-top: auto;
             background: linear-gradient(to right, var(--accent-pink), var(--accent-cyan));
             border: none;
             width: 100%;
+        }
+        
+        body.premium-theme .btn-bottom {
+            background: linear-gradient(to right, #ffd700, #9d00ff);
         }
         
         #loading-msg {
@@ -467,6 +561,8 @@
             margin-top: 15px;
             font-weight: bold;
         }
+        
+        body.premium-theme .input-label { color: var(--accent-gold); }
 
         .neon-input {
             width: 100%;
@@ -481,11 +577,18 @@
             outline: none;
             transition: 0.3s;
         }
+        
+        body.premium-theme .neon-input { border-color: var(--accent-gold); }
 
         .neon-input:focus {
             border-color: var(--accent-cyan);
             box-shadow: 0 0 10px rgba(72, 219, 251, 0.3);
             background: rgba(0, 0, 0, 0.5);
+        }
+        
+        body.premium-theme .neon-input:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
         }
 
         .text-area {
@@ -765,6 +868,11 @@
         // KOLLA OM PREMIUM ÄR KÖPT (Hämtas från minnet)
         let isAllIn = localStorage.getItem('hasBoughtPremium') === 'true'; 
 
+        // APPLICERA TEMA DIREKT OM KÖPT
+        if (isAllIn) {
+            document.body.classList.add('premium-theme');
+        }
+
         let finishedFreeDecks = {}; 
 
         async function loadContent() {
@@ -814,6 +922,9 @@
             // SPARA KÖP
             isAllIn = true;
             localStorage.setItem('hasBoughtPremium', 'true');
+
+            // AKTIVERA TEMA
+            document.body.classList.add('premium-theme');
 
             closePremium();
             cardDecks = {}; 
