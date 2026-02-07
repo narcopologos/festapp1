@@ -2,7 +2,7 @@
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="initial-scale=1, width=device-width, height=device-height, viewport-fit=cover">
     <title>Festapp 2.0</title>
     <link rel="icon" type="image/png" href="logo.png">
     <style>
@@ -56,21 +56,24 @@
         }
 
         /* --- SKÄRMAR --- */
-        .screen {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            padding: 20px;
-            box-sizing: border-box;
-            text-align: center;
-            overflow-y: auto; 
-        }
+       .screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    overflow-y: auto; 
+    /* NYTT: Skapa plats för knapparna i toppen så de inte nuddar kortet */
+    padding-top: calc(env(safe-area-inset-top) + 80px); 
+    padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
+}
 
         .active { display: flex; }
 
@@ -297,7 +300,14 @@
         .spin-instruction { margin-top: 30px; font-style: italic; color: var(--accent-cyan); font-weight: bold; opacity: 0.8; min-height: 1.2em; animation: pulse 1.5s infinite; }
         body.premium-theme .spin-instruction { color: var(--accent-cyan); }
 
-        .card-scene { width: 300px; height: 450px; perspective: 1000px; margin-bottom: 20px; cursor: pointer; }
+        .card-scene {
+    width: 85vw; /* Anpassar sig efter skärmbredd */
+    max-width: 320px;
+    height: 60vh; /* Anpassar sig efter skärmhöjd */
+    max-height: 450px;
+    perspective: 1000px;
+    margin: auto; /* Hjälper till med centreringen */
+}
         .card-object { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         .card-object.is-flipped { transform: rotateY(180deg); }
 
@@ -370,7 +380,17 @@
             color: #d500f9; box-shadow: 0 0 20px rgba(213, 0, 249, 0.4);
         }
 
-        .top-bar { position: absolute; top: 0; left: 0; width: 100%; padding: 15px; display: flex; justify-content: space-between; box-sizing: border-box; z-index: 100; }
+        .top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: calc(env(safe-area-inset-top) + 10px) 15px 15px 15px; /* Magisk marginal för flärpen */
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    z-index: 100;
+}
         .icon-btn { background: rgba(0,0,0,0.5); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; backdrop-filter: blur(4px); }
         body.premium-theme .icon-btn { color: var(--accent-gold); border-color: var(--accent-gold); }
 
@@ -926,3 +946,4 @@
     </script>
 </body>
 </html>
+
