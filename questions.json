@@ -1,7 +1,7 @@
 {
   "sk": {
     "title": "Sanning eller Konsekvens",
-    "rules": "1. Snurra flaskan.<br>2. Den flaskan pekar på måste välja Sanning eller Konsekvens.<br>3. Utför uppgiften eller svara ärligt.<br>4. Vägrar man? Drick 3 klunkar!",
+    "rules": "1. Snurra flaskan.<br>2. Den flaskan pekar på måste välja Sanning eller Konsekvens.<br>3. Utför uppgiften eller svara ärligt.<br>4. Om man vägrar så straffas man på lämpligt sätt, vanligtvis genom att dricka något",
     "sanning": [
       "Vem i rummet skulle du helst byta liv med?",
       "Vad är det mest olagliga du gjort?",
@@ -370,5 +370,6 @@
     ]
   }
 }
+
 
 
