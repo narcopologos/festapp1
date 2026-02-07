@@ -329,7 +329,15 @@
             background-image: 
                 radial-gradient(circle at top right, rgba(0, 229, 255, 0.2), transparent),
                 radial-gradient(circle at bottom left, rgba(213, 0, 249, 0.2), transparent),
-                linear-gradient(135deg, #1a0b2e, #000);
+                linear-gradient(135deg, #1a0b2e, #000), 
+                linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); /* Guldet längst ner */
+            
+            /* Viktigt: De första 3 lagren ska vara inuti kortet (padding-box), 
+               det sista lagret (guldet) ska gå hela vägen ut i ramen (border-box) */
+            background-clip: padding-box, padding-box, padding-box, border-box;
+            background-origin: padding-box, padding-box, padding-box, border-box;
+            
+            border: 5px solid transparent; /* Skapar utrymmet för guldramen */
             color: var(--accent-gold);
             text-shadow: 0 0 30px var(--accent-gold);
         }
@@ -961,6 +969,7 @@
     </script>
 </body>
 </html>
+
 
 
 
