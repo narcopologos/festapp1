@@ -386,6 +386,14 @@
             justify-content: center; 
             padding-top: env(safe-area-inset-top);
         }
+        #creator-screen {
+    /* "flex-start" gör att innehållet börjar i toppen istället för mitten */
+    justify-content: flex-start; 
+    
+    /* Vi nollställer den stora paddingen och använder bara exakt det som krävs för klockan/flärpen + lite luft */
+    padding-top: calc(env(safe-area-inset-top) + 20px); 
+    padding-bottom: 20px;
+}
 
     </style>
 </head>
@@ -443,23 +451,24 @@
     </div>
 
     <div id="creator-screen" class="screen">
-        <div class="top-bar"></div>
-        <h2 style="color:var(--accent-cyan); margin-bottom:10px;">Skapa nytt kort</h2>
         <div class="creator-container">
-           <label class="input-label" for="new-card-type">Välj korttyp:</label>
+           <label class="input-label" for="new-card-type" style="margin-top:0;">Välj korttyp:</label>
             <select id="new-card-type" class="neon-input">
                 <option value="sanning">Sanning</option>
                 <option value="konka">Konsekvens</option>
                 <option value="jha">Jag har aldrig...</option>
                 <option value="pek">Pekleken</option>
             </select>
+
            <label class="input-label" for="new-card-text">Text på kortet:</label>
             <textarea id="new-card-text" class="neon-input text-area" placeholder="T.ex. Peka på den som snarkar högst..."></textarea>
+            
             <div style="display:flex; align-items:center; justify-content:space-between; margin-top:15px;">
                <label class="input-label" for="new-card-sign" style="margin:0;">Signatur (Valfritt):</label>
                 <div class="info-icon" onclick="alert('Din signatur visas nere i hörnet på kortet när det dyker upp i spelet.')">?</div>
             </div>
             <input type="text" id="new-card-sign" class="neon-input" placeholder="T.ex. Festprissen">
+            
             <div class="share-row">
                 <span class="switch-label">Dela med utvecklaren?</span>
                 <label class="switch">
@@ -468,6 +477,19 @@
                 </label>
                 <div class="info-icon" onclick="alert('Dela ditt kort med utvecklaren...')">?</div>
             </div>
+            
+            <div class="center-btn-row">
+                <button class="btn btn-creator" onclick="saveCustomCard()">+ LÄGG TILL KORT</button>
+                <button class="btn-my-cards" onclick="openMyCards()">📂 Mina Kort</button>
+                <button class="btn btn-back" onclick="goHome()">TILLBAKA</button>
+            </div>
+        </div>
+        
+        <div id="success-overlay" class="success-overlay">
+            <div class="checkmark-circle">✓</div>
+            <p>Kort tillagt!</p>
+        </div>
+    </div>
             <div class="center-btn-row">
                 <button class="btn btn-creator" onclick="saveCustomCard()">+ LÄGG TILL KORT</button>
                 <button class="btn-my-cards" onclick="openMyCards()">📂 Mina Kort</button>
