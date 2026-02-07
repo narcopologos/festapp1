@@ -243,6 +243,8 @@
             transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); 
             border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); 
             -webkit-user-drag: none; /* VIKTIGT FÖR APK */
+            will-change: transform;
+    backface-visibility: hidden; /* Döljer baksidan vid vändning för prestanda */
         }
         .card-object.is-flipped { transform: rotateY(180deg); }
 
@@ -269,6 +271,10 @@
             
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             animation: goldPulse 4s ease-in-out infinite;
+            /* NYTT: Förbereder webbläsaren på att skuggan och formen ändras */
+            will-change: transform, box-shadow;
+            /* NYTT: Hårdvaruacceleration hack */
+            transform: translateZ(0);
         }
 
         /* Ökar glöden när man trycker (men ingen storleksändring för att undvika buggar) */
@@ -883,6 +889,7 @@
     </script>
 </body>
 </html>
+
 
 
 
