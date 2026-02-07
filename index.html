@@ -23,20 +23,13 @@
 
         /* --- PREMIUM TEMA (Deep Space Nebula) --- */
         body.premium-theme {
-            /* En djupare, mörkare rymd-gradient */
             background: linear-gradient(
                 300deg,
-                #050511, /* Nästan svart */
-                #1a0b2e, /* Djup lila */
-                #000000, 
-                #0f2027, /* Mörk teal */
-                #203a43, 
-                #2b0052
+                #050511, #1a0b2e, #000000, #0f2027, #203a43, #2b0052
             );
             background-size: 400% 400%;
             animation: cosmicFlow 25s ease infinite;
 
-            /* Justerade accentfärger för premium */
             --accent-pink: #d500f9; 
             --accent-cyan: #00e5ff; 
         }
@@ -130,78 +123,51 @@
 
         /* --- PREMIUM KNAPP-STYLER --- */
 
-        /* 1. SPELKNAPPAR: SPACE/NEON (Blå/Lila/Cyan) */
+        /* 1. SPELKNAPPAR: SPACE/NEON */
         body.premium-theme .game-btn {
-            background: linear-gradient(
-                90deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5)
-            ), 
-            /* Den levande gradienten */
-            linear-gradient(
-                110deg, 
-                #090919 0%,   /* Mörk rymd */
-                #2b0052 25%,  /* Djup lila */
-                #00e5ff 50%,  /* NEON CYAN (Ljusstrålen) */
-                #2b0052 75%,  /* Djup lila */
-                #090919 100%  /* Mörk rymd */
-            );
-            
+            background: linear-gradient(90deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+            linear-gradient(110deg, #090919 0%, #2b0052 25%, #00e5ff 50%, #2b0052 75%, #090919 100%);
             background-size: 200% 100%; 
             background-origin: border-box;
             background-clip: padding-box, border-box;
-            
             animation: fluidShine 5s linear infinite;
-            
             box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
             border: 2px solid transparent;
             color: #fff;
             text-shadow: 0 0 5px rgba(0, 229, 255, 0.6);
         }
 
-        /* 2. SKAPARLÄGE: GOLD/LUXURY (Sticker ut) */
+        /* 2. SKAPARLÄGE: GOLD/LUXURY */
         body.premium-theme .btn-creator {
-            background: linear-gradient(
-                90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.6)
-            ), 
-            linear-gradient(
-                110deg, 
-                #b8860b 0%, 
-                #ffd700 20%, 
-                #ffffff 50%, /* Vitare blänk */
-                #ffd700 80%, 
-                #b8860b 100%
-            );
-            
+            background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+            linear-gradient(110deg, #b8860b 0%, #ffd700 20%, #ffffff 50%, #ffd700 80%, #b8860b 100%);
             background-size: 200% 100%; 
             background-origin: border-box;
             background-clip: padding-box, border-box;
-            
             animation: fluidShine 4s linear infinite;
-            
             box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
             border: 2px solid transparent;
             color: #fff;
             text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
 
-        /* 3. NÄSTA RUNDA (Levande gradient) */
+        /* 3. NÄSTA RUNDA (NIGHTCLUB / FLASHY BORDER) */
         body.premium-theme .btn-bottom {
-            background: linear-gradient(
-                90deg, 
-                #2b0052 0%, 
-                #d500f9 25%, 
-                #00e5ff 50%, 
-                #d500f9 75%, 
-                #2b0052 100%
-            );
+            background: rgba(0, 0, 0, 0.3); /* Transparent */
+            border: 2px solid transparent;
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                              linear-gradient(90deg, #00e5ff, #d500f9, #00e5ff); /* Cyan/Lila Neon */
             background-size: 200% 100%;
-            animation: fluidShine 6s linear infinite;
-            box-shadow: 0 0 25px rgba(213, 0, 249, 0.3);
-            border: none;
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            animation: fluidShine 3s linear infinite; /* Snabbare rörelse */
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.3), inset 0 0 10px rgba(213, 0, 249, 0.2);
             color: #fff;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
+            font-size: 1.2rem;
+            letter-spacing: 2px;
         }
 
-        /* Animation delays */
         body.premium-theme .game-btn:nth-of-type(1) { animation-delay: 0s; }
         body.premium-theme .game-btn:nth-of-type(2) { animation-delay: 1.2s; } 
         body.premium-theme .game-btn:nth-of-type(3) { animation-delay: 2.4s; } 
@@ -300,7 +266,6 @@
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: var(--accent-pink); }
         body.premium-theme .close-modal { color: var(--accent-gold); }
 
-        /* --- MY CARDS LIST & PREMIUM MODAL TEXT --- */
         .my-card-item { background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px; display: flex; justify-content: space-between; align-items: center; text-align: left; margin-bottom: 5px; border-radius: 5px; }
         .card-text-preview { font-size: 0.9rem; color: #fff; flex: 1; padding-right: 10px; }
         .delete-btn { background: none; border: none; color: var(--accent-red); font-size: 1.2rem; cursor: pointer; }
@@ -336,18 +301,17 @@
         .card-object { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         .card-object.is-flipped { transform: rotateY(180deg); }
 
-        /* --- "REAL GOLD" BORDER FÖR PREMIUM --- */
+        /* --- REAL GOLD BORDER + 3D SKUGGA --- */
         .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px; box-sizing: border-box; background: var(--bg-light); color: #fff; border: 2px solid var(--accent-pink); }
         
         body.premium-theme .card-face { 
-            /* Teknik för äkta metall-look */
-            border: 4px solid transparent; /* Genomskinlig för att visa gradienten under */
+            border: 5px solid transparent; 
             background-image: 
-                linear-gradient(135deg, #1a0b2e, #000), /* Innehållets bakgrund */
-                linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); /* Guldgradient som ram */
+                linear-gradient(135deg, #1a0b2e, #000), 
+                linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); 
             background-origin: border-box;
-            background-clip: padding-box, border-box; /* Klipp så gradienten bara syns i ramen */
-            box-shadow: 0 0 20px rgba(191, 149, 63, 0.4); /* Gyllene glöd */
+            background-clip: padding-box, border-box; 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.9), inset 0 0 50px rgba(0,0,0,0.5); /* Djupare 3D skugga */
         }
 
         .face-back { background: radial-gradient(circle at top right, rgba(72, 219, 251, 0.4), transparent), radial-gradient(circle at bottom left, rgba(255, 107, 203, 0.4), transparent), var(--bg-dark); color: var(--accent-pink); font-size: 6rem; text-shadow: 0 0 20px var(--accent-pink), 0 0 40px var(--accent-cyan); }
@@ -355,22 +319,30 @@
             background-image: 
                 radial-gradient(circle at top right, rgba(0, 229, 255, 0.2), transparent),
                 radial-gradient(circle at bottom left, rgba(213, 0, 249, 0.2), transparent),
-                linear-gradient(135deg, #1a0b2e, #000); /* Måste upprepa linear-gradient här för att inte tappa metallramen */
+                linear-gradient(135deg, #1a0b2e, #000);
             color: var(--accent-gold);
             text-shadow: 0 0 30px var(--accent-gold);
         }
 
         .face-front { transform: rotateY(180deg); font-size: 1.3rem; font-weight: 500; line-height: 1.5; background: linear-gradient(135deg, var(--bg-medium), var(--bg-dark)); }
-        
         body.premium-theme .face-front {
-            /* Samma teknik här för att behålla ramen */
              background-image: 
                 linear-gradient(135deg, #2a1a3a, #050511), 
                 linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
         }
 
         .category-label { position: absolute; top: 25px; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 3px; font-weight: bold; color: var(--accent-cyan); }
-        body.premium-theme .category-label { color: var(--accent-gold); }
+        
+        /* PREMIUM RUBRIKER */
+        body.premium-theme .category-label { 
+            font-size: 1.8rem; /* Större */
+            letter-spacing: 2px;
+            font-weight: 900;
+        }
+        
+        /* Specifika färger för premium-rubrikerna (JS sätter klasser) */
+        .text-sanning { color: #00e5ff; text-shadow: 0 0 15px rgba(0, 229, 255, 0.6); }
+        .text-konsekvens { color: #d500f9; text-shadow: 0 0 15px rgba(213, 0, 249, 0.6); }
 
         /* --- FLASHIG BORDER FÖR PREMIUM VAL-KORT --- */
         .choice-container { display: flex; gap: 15px; width: 100%; justify-content: center; }
@@ -382,28 +354,20 @@
         
         /* PREMIUM FLASHY BORDERS */
         body.premium-theme .choice-card {
-            border: 3px solid transparent; /* Plats för neonramen */
+            border: 3px solid transparent; 
             background-origin: border-box;
             background-clip: padding-box, border-box;
-            box-shadow: 0 0 25px rgba(0,0,0,0.5); /* Grundskugga */
+            box-shadow: 0 0 25px rgba(0,0,0,0.5); 
         }
 
-        /* Flashy Cyan Border för Sanning */
         body.premium-theme .choice-card.truth { 
-            background-image: 
-                linear-gradient(135deg, #090919, #2b0052), /* Mörk insida */
-                linear-gradient(135deg, #00e5ff, #2979ff, #00e5ff); /* Lysande ram */
-            color: #00e5ff;
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+            background-image: linear-gradient(135deg, #090919, #2b0052), linear-gradient(135deg, #00e5ff, #2979ff, #00e5ff); 
+            color: #00e5ff; box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
         }
 
-        /* Flashy Pink/Purple Border för Konsekvens */
         body.premium-theme .choice-card.dare { 
-            background-image: 
-                linear-gradient(135deg, #090919, #2b0052), 
-                linear-gradient(135deg, #d500f9, #aa00ff, #d500f9); 
-            color: #d500f9;
-            box-shadow: 0 0 20px rgba(213, 0, 249, 0.4);
+            background-image: linear-gradient(135deg, #090919, #2b0052), linear-gradient(135deg, #d500f9, #aa00ff, #d500f9); 
+            color: #d500f9; box-shadow: 0 0 20px rgba(213, 0, 249, 0.4);
         }
 
         .top-bar { position: absolute; top: 0; left: 0; width: 100%; padding: 15px; display: flex; justify-content: space-between; box-sizing: border-box; z-index: 100; }
@@ -429,16 +393,13 @@
             <span class="close-modal" onclick="closePremium()">✖</span>
             <h2 style="text-transform:uppercase; letter-spacing:2px;">GÅ ALL-IN?</h2>
             <div class="premium-highlight">69 KR FÖR RUBBET!</div>
-            
             <div class="premium-list">
                 🚀 Lås upp 500+ nya kort<br>
                 🛠️ Få tillgång till Skaparläget<br>
                 ✨ Stick ut från mängden med ny unik design!<br>
                 🍺 Sponsra utvecklaren med en öl
             </div>
-            
             <div class="premium-desc" style="display:none;"></div>
-
             <button class="btn btn-buy" onclick="buyPremium()">LÅS UPP FÖR ALLTID (69kr)</button>
             <p style="font-size:0.8rem; margin-top:15px; opacity:0.6;">Engångskostnad. Inga prenumerationer.</p>
         </div>
@@ -448,31 +409,23 @@
         <div class="modal-content">
             <span class="close-modal" onclick="closeMyCards()">✖</span>
             <h2 style="color:var(--accent-cyan);">Mina egna kort</h2>
-            <div id="my-cards-list-container">
-                </div>
+            <div id="my-cards-list-container"></div>
             <p id="no-cards-msg" style="color:#aaa; font-style:italic;">Du har inte skapat några kort än.</p>
         </div>
     </div>
 
     <div id="menu-screen" class="screen active">
         <img src="logo.png" alt="Festapp1 Logo" class="main-logo">
-        
         <button class="btn game-btn" onclick="preStartGame('sk')" disabled>
             Snurra Flaskan
             <span class="btn-subtitle">(Sanning eller konsekvens)</span>
         </button>
-        
         <button class="btn game-btn" onclick="preStartGame('jha')" disabled>Jag har aldrig</button>
         <button class="btn game-btn" onclick="preStartGame('pek')" disabled>Pekleken</button>
-        
         <p id="loading-msg">Laddar frågor...</p>
-
         <button id="btn-creator" class="btn btn-creator" style="margin-top:10px;" onclick="checkPremium('creator')">Skaparläge 🛠️</button>
-
         <div class="menu-spacer"></div>
-
         <button id="btn-all-in" class="btn btn-all-in" onclick="checkPremium('all-in')">All-in 💎</button>
-        
         <div id="all-in-info" class="all-in-info-text">
             500+ kort, ny unik design och tillgång till skaparläget för 69kr.<br>Engångskostnad.
         </div>
@@ -480,9 +433,7 @@
 
     <div id="creator-screen" class="screen">
         <div class="top-bar"></div>
-
         <h2 style="color:var(--accent-cyan); margin-bottom:10px;">Skapa nytt kort</h2>
-        
         <div class="creator-container">
             <label class="input-label">Välj korttyp:</label>
             <select id="new-card-type" class="neon-input">
@@ -491,36 +442,27 @@
                 <option value="jha">Jag har aldrig...</option>
                 <option value="pek">Pekleken</option>
             </select>
-
             <label class="input-label">Text på kortet:</label>
             <textarea id="new-card-text" class="neon-input text-area" placeholder="T.ex. Peka på den som snarkar högst..."></textarea>
-
             <div style="display:flex; align-items:center; justify-content:space-between; margin-top:15px;">
                 <label class="input-label" style="margin:0;">Signatur (Valfritt):</label>
                 <div class="info-icon" onclick="alert('Din signatur visas nere i hörnet på kortet när det dyker upp i spelet.')">?</div>
             </div>
             <input type="text" id="new-card-sign" class="neon-input" placeholder="T.ex. Festprissen">
-
             <div class="share-row">
                 <span class="switch-label">Dela med utvecklaren?</span>
-                
                 <label class="switch">
                     <input type="checkbox" id="new-card-share" checked>
                     <span class="slider round"></span>
                 </label>
-
-                <div class="info-icon" onclick="alert('Dela ditt kort med utvecklaren, är det ett riktigt bra sådant kan det läggas till i appen och visas i framtida spel tillsammans med din signatur.')">?</div>
+                <div class="info-icon" onclick="alert('Dela ditt kort med utvecklaren...')">?</div>
             </div>
-
             <div class="center-btn-row">
                 <button class="btn btn-creator" onclick="saveCustomCard()">+ LÄGG TILL KORT</button>
-                
                 <button class="btn-my-cards" onclick="openMyCards()">📂 Mina Kort</button>
-
                 <button class="btn btn-back" onclick="goHome()">TILLBAKA</button>
             </div>
         </div>
-
         <div id="success-overlay" class="success-overlay">
             <div class="checkmark-circle">✓</div>
             <p>Kort tillagt!</p>
@@ -539,11 +481,10 @@
             <button class="icon-btn" onclick="goHome()">Avsluta</button>
             <button class="icon-btn" onclick="toggleRules()">Regler ?</button>
         </div>
-        
         <div id="bottle-container" onclick="handleContainerClick()">
             <img src="flaska.png" id="bottle-img" alt="Flaska" draggable="false">
         </div>
-        <p class="spin-instruction" id="spin-text">Dra snärtigt över flaskan!</p>
+        <p class="spin-instruction" id="spin-text">Svep för att snurra flaskan</p>
     </div>
 
     <div id="choice-screen" class="screen">
@@ -563,7 +504,6 @@
             <button class="icon-btn" onclick="goHome()">Avsluta</button>
             <button class="icon-btn" onclick="toggleRules()">Regler ?</button>
         </div>
-
         <div class="card-scene" onclick="flipCard()">
             <div class="card-object" id="the-card">
                 <div class="card-face face-back">?</div>
@@ -573,7 +513,6 @@
                 </div>
             </div>
         </div>
-
         <button class="btn btn-bottom" onclick="nextRound()">Nästa runda</button>
     </div>
 
@@ -786,13 +725,39 @@
                 rawText = rawText.replace(/{riktning}/g, directions[Math.floor(Math.random() * directions.length)]);
             }
             
-            document.getElementById('res-category').innerText = type === 'all' ? content[currentGame].title : type.toUpperCase();
+            // --- FIXAD RUBRIK LOGIK FÖR PREMIUM ---
+            let categoryTitle = "";
+            let categoryClass = "";
+            
+            if (type === 'konka') {
+                categoryTitle = "KONSEKVENS";
+                categoryClass = "text-konsekvens";
+            } else if (type === 'sanning') {
+                categoryTitle = "SANNING";
+                categoryClass = "text-sanning";
+            } else {
+                categoryTitle = content[currentGame].title;
+            }
+            
+            const catLabel = document.getElementById('res-category');
+            catLabel.innerText = categoryTitle;
+            
+            // Återställ och sätt klass för färg i premium
+            catLabel.className = "category-label"; 
+            if (isAllIn) catLabel.classList.add(categoryClass);
+
             document.getElementById('res-text').innerHTML = rawText; 
             
             const frontFace = document.getElementById('card-front-face');
-            if (type === 'sanning') frontFace.style.borderTop = "10px solid #48dbfb";
-            else if (type === 'konka') frontFace.style.borderTop = "10px solid #ff6b6b";
-            else frontFace.style.borderTop = "none";
+            
+            // --- FIX FÖR ATT INTE RITA ÖVER GULDRAMEN I PREMIUM ---
+            if (!isAllIn) {
+                if (type === 'sanning') frontFace.style.borderTop = "10px solid #48dbfb";
+                else if (type === 'konka') frontFace.style.borderTop = "10px solid #ff6b6b";
+                else frontFace.style.borderTop = "none";
+            } else {
+                 frontFace.style.borderTop = "none"; // Tar bort eventuella gamla stilar i premium
+            }
 
             document.getElementById('the-card').classList.remove('is-flipped');
             isCardFlipped = false;
@@ -823,8 +788,7 @@
             }
         }
 
-        // --- SKAPARLÄGE & FIREBASE FUNKTIONER ---
-        
+        // --- SKAPARLÄGE & FIREBASE ---
         async function saveCustomCard() {
             const type = document.getElementById('new-card-type').value;
             let text = document.getElementById('new-card-text').value.trim();
@@ -865,7 +829,6 @@
             const overlay = document.getElementById('success-overlay');
             overlay.style.display = 'flex';
             document.getElementById('new-card-text').value = '';
-
             setTimeout(() => {
                 overlay.style.display = 'none';
                 if (cardDecks[newCard.game]) {
@@ -878,7 +841,6 @@
             const container = document.getElementById('my-cards-list-container');
             const noCardsMsg = document.getElementById('no-cards-msg');
             container.innerHTML = ''; 
-
             let customCards = JSON.parse(localStorage.getItem('myCustomCards')) || [];
 
             if (customCards.length === 0) {
@@ -888,10 +850,8 @@
                 customCards.forEach((card, index) => {
                     const cardDiv = document.createElement('div');
                     cardDiv.className = 'my-card-item';
-                    
                     let cleanText = card.text.replace(/<br>/g, " ").replace(/<[^>]*>?/gm, "");
                     if(cleanText.length > 30) cleanText = cleanText.substring(0, 30) + "...";
-
                     cardDiv.innerHTML = `
                         <div class="card-text-preview">
                             <strong style="color:var(--accent-cyan);">${card.type.toUpperCase()}:</strong> 
@@ -905,9 +865,7 @@
             document.getElementById('my-cards-modal').style.display = 'flex';
         }
 
-        function closeMyCards() {
-            document.getElementById('my-cards-modal').style.display = 'none';
-        }
+        function closeMyCards() { document.getElementById('my-cards-modal').style.display = 'none'; }
 
         function deleteCustomCard(index) {
             if(confirm("Är du säker på att du vill ta bort detta kort?")) {
@@ -925,40 +883,23 @@
         function resetBottleState() {
             isWaitingForClick = false;
             clearTimeout(autoNextTimer);
-            document.getElementById('spin-text').innerText = "Dra snärtigt över flaskan!";
+            document.getElementById('spin-text').innerText = "Svep för att snurra flaskan";
         }
 
-        function handleContainerClick() {
-            if (isWaitingForClick) forceGoToChoice();
-        }
-
-        function forceGoToChoice() {
-            clearTimeout(autoNextTimer); 
-            isWaitingForClick = false;
-            showScreen('choice-screen');
-        }
+        function handleContainerClick() { if (isWaitingForClick) forceGoToChoice(); }
+        function forceGoToChoice() { clearTimeout(autoNextTimer); isWaitingForClick = false; showScreen('choice-screen'); }
 
         function setupBottlePhysics() {
             const container = document.getElementById('bottle-container');
             let startY = 0; let startTime = 0; let isSpinning = false;
-
-            const handleStart = (y) => {
-                if (isSpinning || isWaitingForClick) return;
-                startY = y; startTime = new Date().getTime();
-            };
-
+            const handleStart = (y) => { if (isSpinning || isWaitingForClick) return; startY = y; startTime = new Date().getTime(); };
             const handleEnd = (y) => {
                 if (isSpinning || isWaitingForClick) return;
                 const endTime = new Date().getTime();
                 const distance = startY - y; 
                 const time = endTime - startTime;
-
-                if (Math.abs(distance) > 30) { 
-                    isSpinning = true; 
-                    spinBottle(distance, time, () => { isSpinning = false; });
-                }
+                if (Math.abs(distance) > 30) { isSpinning = true; spinBottle(distance, time, () => { isSpinning = false; }); }
             };
-
             container.ontouchstart = (e) => handleStart(e.touches[0].clientY);
             container.ontouchend = (e) => handleEnd(e.changedTouches[0].clientY);
             container.onmousedown = (e) => { e.preventDefault(); handleStart(e.clientY); };
@@ -967,18 +908,14 @@
 
         function spinBottle(distance, time, callback) {
             const bottle = document.getElementById('bottle-img');
-            let velocity = 1.5; 
-            if (time < 200) velocity = 3.0; 
-            if (time > 500) velocity = 1.0; 
+            let velocity = 1.5; if (time < 200) velocity = 3.0; if (time > 500) velocity = 1.0; 
             const direction = distance > 0 ? 1 : -1;
-            const baseRot = 1080; 
-            const randomRot = Math.random() * 360; 
+            const baseRot = 1080; const randomRot = Math.random() * 360; 
             const totalRot = (baseRot + randomRot) * direction;
             currentRotation += totalRot; 
             bottle.style.transition = `transform 3.5s cubic-bezier(0.2, 0.8, 0.2, 1)`;
             bottle.style.transform = `rotate(${currentRotation}deg)`;
             document.getElementById('spin-text').innerText = "Snurrar...";
-
             setTimeout(() => {
                 document.getElementById('spin-text').innerText = "Klar! Tryck för att gå vidare...";
                 isWaitingForClick = true; 
