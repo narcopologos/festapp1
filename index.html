@@ -662,27 +662,41 @@
         }
 
         function nextRound() {
-            // 1. Vänd tillbaka kortet
+            // Återställ alltid kortet så det inte är vänt när man kommer tillbaka
             document.getElementById('the-card').classList.remove('is-flipped');
             isCardFlipped = false;
 
-            // 2. NYTT: Byt färg på baksidan (slumpa mellan 0 och 360 grader)
-            // Detta sker direkt så man ser det medan kortet vänds tillbaka
-            const randomHue = Math.floor(Math.random() * 360);
-            document.querySelector('.face-back').style.setProperty('--back-hue', randomHue + 'deg');
-
-            // 3. Ladda nästa kort efter en kort fördröjning (när kortet är dolt)
-            setTimeout(() => {
-                if (currentGame === 'sk') {
-                    if (useDigitalBottle) {
-                        showScreen('bottle-spin-screen');
-                        resetBottleState();
-                    } else {
-                        showScreen('choice-screen');
-                    }
+            // SPECIALREGEL FÖR SANNING ELLER KONSEKVENS (Snabbare flöde)
+            if (currentGame === 'sk') {
+                // Hoppa direkt till valet utan animationer eller fördröjning
+                if (useDigitalBottle) {
+                    showScreen('bottle-spin-screen');
+                    resetBottleState();
                 } else {
-                    showResult('all'); 
+                    showScreen('choice-screen');
                 }
+                return; // Avbryt funktionen här, kör inte koden nedanför
+            }
+
+            // FÖR ÖVRIGA SPEL (JHA, PEKLEKEN) - VISA ATT NYTT KORT LADDAS
+            
+            // 1. Byt färg på baksidan (slumpa mellan 0 och 360 grader)
+            // Detta sker medan kortet vänds tillbaka
+            const randomHue = Math.floor(Math.random() * 360);
+            
+            // Vi använder setTimeout(0) för att se till att CSS hinner uppfatta ändringen
+            setTimeout(() => {
+                const backFace = document.querySelector('.face-back');
+                if(backFace) {
+                     backFace.style.filter = `hue-rotate(${randomHue}deg)`;
+                     // Om du vill använda CSS-variabeln istället (som vi la till förut):
+                     // backFace.style.setProperty('--back-hue', randomHue + 'deg');
+                }
+            }, 0);
+
+            // 2. Vänta ut vänd-animationen (300ms) innan vi laddar ny text
+            setTimeout(() => {
+                showResult('all'); 
             }, 300);
         }
 
