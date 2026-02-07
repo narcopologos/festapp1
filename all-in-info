@@ -58,12 +58,12 @@
             touch-action: manipulation;
         }
 
-        /* --- SKÄRMAR & LAYOUT FIX --- */
+        /* --- SKÄRMAR & LAYOUT --- */
         .screen {
             display: none;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* Centrerar kortet vertikalt */
+            justify-content: center;
             width: 100%;
             height: 100%;
             position: absolute;
@@ -73,25 +73,20 @@
             box-sizing: border-box;
             text-align: center;
             overflow-y: auto;
-            
-            /* HÄR ÄR FIXEN FÖR ATT KORTET HAMNAR FÖR HÖGT:
-               Vi ökar padding-top rejält (från 80px till 130px).
-               Detta tvingar ner "mitten" av skärmen. */
+            /* Layout-fix för att kortet inte ska hamna för högt */
             padding-top: calc(env(safe-area-inset-top) + 130px);
             padding-bottom: calc(env(safe-area-inset-bottom) + 30px);
         }
 
         .active { display: flex; }
 
-        /* --- TOP BAR FIX --- */
+        /* --- TOP BAR --- */
         .top-bar {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            /* HÄR ÄR FIXEN FÖR KLOCKAN/SYSTEMIKONER:
-               Vi ökar bas-värdet från 10px till 40px. 
-               Även om telefonen säger att "safe area" är 0, så får vi 40px luft. */
+            /* Layout-fix för klocka/statusrad */
             padding: calc(env(safe-area-inset-top) + 40px) 20px 10px 20px;
             display: flex;
             justify-content: space-between;
@@ -103,7 +98,7 @@
             background: rgba(0,0,0,0.6); 
             color: var(--accent-cyan); 
             border: 1px solid var(--accent-cyan); 
-            padding: 10px 18px; /* Lite större träffyta */
+            padding: 10px 18px; 
             border-radius: 20px; 
             font-size: 0.9rem; 
             font-weight: bold;
@@ -244,7 +239,6 @@
             border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); 
             -webkit-user-drag: none; /* VIKTIGT FÖR APK */
             will-change: transform;
-    backface-visibility: hidden; /* Döljer baksidan vid vändning för prestanda */
         }
         .card-object.is-flipped { transform: rotateY(180deg); }
 
@@ -271,13 +265,12 @@
             
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             animation: goldPulse 4s ease-in-out infinite;
-            /* NYTT: Förbereder webbläsaren på att skuggan och formen ändras */
+            
             will-change: transform, box-shadow;
-            /* NYTT: Hårdvaruacceleration hack */
-            transform: translateZ(0);
+            /* FIX: Tog bort 'transform: translateZ(0)' härifrån då det krockade med kortets rotation */
         }
 
-        /* Ökar glöden när man trycker (men ingen storleksändring för att undvika buggar) */
+        /* Ökar glöden när man trycker */
         body.premium-theme .card-object:active .card-face {
             box-shadow: 0 0 60px rgba(191, 149, 63, 0.8), 0 15px 30px rgba(0, 0, 0, 0.9);
         }
@@ -297,7 +290,13 @@
             color: var(--accent-gold); text-shadow: 0 0 30px var(--accent-gold);
         }
 
-        .face-front { transform: rotateY(180deg); font-size: 1.3rem; font-weight: 500; line-height: 1.5; background: linear-gradient(135deg, var(--bg-medium), var(--bg-dark)); }
+        /* FRAMSIDAN (TEXTEN) */
+        .face-front { 
+            transform: rotateY(180deg) !important; /* !important säkrar att kortet alltid är vänt rätt */
+            font-size: 1.3rem; font-weight: 500; line-height: 1.5; 
+            background: linear-gradient(135deg, var(--bg-medium), var(--bg-dark)); 
+        }
+        
         body.premium-theme .face-front {
              background-image: linear-gradient(135deg, #2a1a3a, #050511), linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
         }
@@ -328,11 +327,16 @@
         .btn-bottom { margin-top: auto; background: linear-gradient(to right, var(--accent-pink), var(--accent-cyan)); border: none; width: 100%; }
 
         #menu-screen .btn {
-    margin: 6px 0; /* Tajtare än standard 10px */
-    padding: 15px; /* Lite smalare knappar */
-    justify-content: center; 
-    padding-top: env(safe-area-inset-top); /* Tar bort den extra 130px paddingen här */
-}
+            margin: 6px 0; /* Tajtare än standard 10px */
+            padding: 15px; /* Lite smalare knappar */
+            justify-content: center; 
+            padding-top: env(safe-area-inset-top); /* Tar bort den extra 130px paddingen här */
+        }
+        /* SPECIFIK JUSTERING FÖR MENYN */
+        #menu-screen {
+            justify-content: center; 
+            padding-top: env(safe-area-inset-top);
+        }
 
     </style>
 </head>
@@ -394,14 +398,14 @@
         <h2 style="color:var(--accent-cyan); margin-bottom:10px;">Skapa nytt kort</h2>
         <div class="creator-container">
            <label class="input-label" for="new-card-type">Välj korttyp:</label>
-<select id="new-card-type" class="neon-input">
+            <select id="new-card-type" class="neon-input">
                 <option value="sanning">Sanning</option>
                 <option value="konka">Konsekvens</option>
                 <option value="jha">Jag har aldrig...</option>
                 <option value="pek">Pekleken</option>
             </select>
-       <label class="input-label" for="new-card-text">Text på kortet:</label>
-<textarea id="new-card-text" class="neon-input text-area" placeholder="T.ex. Peka på den som snarkar högst..."></textarea>
+           <label class="input-label" for="new-card-text">Text på kortet:</label>
+            <textarea id="new-card-text" class="neon-input text-area" placeholder="T.ex. Peka på den som snarkar högst..."></textarea>
             <div style="display:flex; align-items:center; justify-content:space-between; margin-top:15px;">
                <label class="input-label" for="new-card-sign" style="margin:0;">Signatur (Valfritt):</label>
                 <div class="info-icon" onclick="alert('Din signatur visas nere i hörnet på kortet när det dyker upp i spelet.')">?</div>
@@ -904,15 +908,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
