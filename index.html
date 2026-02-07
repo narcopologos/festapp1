@@ -465,17 +465,17 @@
         <div class="top-bar"></div>
         <h2 style="color:var(--accent-cyan); margin-bottom:10px;">Skapa nytt kort</h2>
         <div class="creator-container">
-            <label class="input-label">Välj korttyp:</label>
-            <select id="new-card-type" class="neon-input">
+           <label class="input-label" for="new-card-type">Välj korttyp:</label>
+<select id="new-card-type" class="neon-input">
                 <option value="sanning">Sanning</option>
                 <option value="konka">Konsekvens</option>
                 <option value="jha">Jag har aldrig...</option>
                 <option value="pek">Pekleken</option>
             </select>
-            <label class="input-label">Text på kortet:</label>
-            <textarea id="new-card-text" class="neon-input text-area" placeholder="T.ex. Peka på den som snarkar högst..."></textarea>
+       <label class="input-label" for="new-card-text">Text på kortet:</label>
+<textarea id="new-card-text" class="neon-input text-area" placeholder="T.ex. Peka på den som snarkar högst..."></textarea>
             <div style="display:flex; align-items:center; justify-content:space-between; margin-top:15px;">
-                <label class="input-label" style="margin:0;">Signatur (Valfritt):</label>
+               <label class="input-label" for="new-card-sign" style="margin:0;">Signatur (Valfritt):</label>
                 <div class="info-icon" onclick="alert('Din signatur visas nere i hörnet på kortet när det dyker upp i spelet.')">?</div>
             </div>
             <input type="text" id="new-card-sign" class="neon-input" placeholder="T.ex. Festprissen">
@@ -969,6 +969,7 @@
     </script>
 </body>
 </html>
+
 
 
 
