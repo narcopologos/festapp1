@@ -7,43 +7,26 @@
     <link rel="icon" type="image/png" href="logo.png">
     <style>
         :root {
-            /* STANDARD TEMA: NEON TOKYO */
+            /* STANDARD TEMA */
             --bg-dark: #0f0c29;
             --bg-medium: #302b63;
             --bg-light: #24243e;
-            
-            --accent-pink: #ff6bcb;   
-            --accent-cyan: #48dbfb;   
-            --accent-gold: #ffd700;   
-            --accent-green: #00ff41;  
+            --accent-pink: #ff6bcb;
+            --accent-cyan: #48dbfb;
+            --accent-gold: #ffd700;
+            --accent-green: #00ff41;
             --accent-red: #ff414d;
-            
             --btn-border-grad: linear-gradient(to right, var(--accent-pink), var(--accent-cyan));
         }
 
-        /* --- PREMIUM TEMA (Deep Space Nebula) --- */
-body.premium-theme {
-    /* En lyxig mix av djupt lila, guld och rymdsvart i 45 grader */
-    background: linear-gradient(
-        45deg,
-        #0a0415, /* Nästan svart lila */
-        #2e004f, /* Djup purpur */
-        #aa771c, /* Matt guld */
-        #4a0e8f, /* Kraftig lila */
-        #000000, /* Svart för djup */
-        #8b6b13  /* Mörkt guld */
-    );
-    
-    /* Detta gör att bakgrunden kan flyta runt */
-    background-size: 400% 400% !important;
-    
-    /* Startar rörelsen */
-    animation: cosmicFlow 20s ease infinite;
-
-    /* Dina premium-neonfärger */
-    --accent-pink: #d500f9; 
-    --accent-cyan: #00e5ff; 
-}
+        /* --- PREMIUM TEMA --- */
+        body.premium-theme {
+            background: linear-gradient(45deg, #0a0415, #2e004f, #aa771c, #4a0e8f, #000000, #8b6b13);
+            background-size: 400% 400% !important;
+            animation: cosmicFlow 20s ease infinite;
+            --accent-pink: #d500f9;
+            --accent-cyan: #00e5ff;
+        }
 
         @keyframes cosmicFlow {
             0% { background-position: 0% 50%; }
@@ -66,40 +49,78 @@ body.premium-theme {
             transition: background 1s ease;
         }
 
-        /* --- SKÄRMAR --- */
-       .screen {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 20px;
-    box-sizing: border-box;
-    text-align: center;
-    overflow-y: auto; 
-    /* NYTT: Skapa plats för knapparna i toppen så de inte nuddar kortet */
-    padding-top: calc(env(safe-area-inset-top) + 80px); 
-    padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
-}
+        /* --- APP-KÄNSLA (ANTI-WEB) --- */
+        .card-scene, .card-object, .card-face, .btn {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            touch-action: manipulation;
+        }
+
+        /* --- SKÄRMAR & LAYOUT FIX --- */
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Centrerar kortet vertikalt */
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            overflow-y: auto;
+            
+            /* HÄR ÄR FIXEN FÖR ATT KORTET HAMNAR FÖR HÖGT:
+               Vi ökar padding-top rejält (från 80px till 130px).
+               Detta tvingar ner "mitten" av skärmen. */
+            padding-top: calc(env(safe-area-inset-top) + 130px);
+            padding-bottom: calc(env(safe-area-inset-bottom) + 30px);
+        }
 
         .active { display: flex; }
 
+        /* --- TOP BAR FIX --- */
+        .top-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            /* HÄR ÄR FIXEN FÖR KLOCKAN/SYSTEMIKONER:
+               Vi ökar bas-värdet från 10px till 40px. 
+               Även om telefonen säger att "safe area" är 0, så får vi 40px luft. */
+            padding: calc(env(safe-area-inset-top) + 40px) 20px 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            box-sizing: border-box;
+            z-index: 100;
+        }
+
+        .icon-btn { 
+            background: rgba(0,0,0,0.6); 
+            color: var(--accent-cyan); 
+            border: 1px solid var(--accent-cyan); 
+            padding: 10px 18px; /* Lite större träffyta */
+            border-radius: 20px; 
+            font-size: 0.9rem; 
+            font-weight: bold;
+            cursor: pointer; 
+            backdrop-filter: blur(4px); 
+        }
+        body.premium-theme .icon-btn { color: var(--accent-gold); border-color: var(--accent-gold); }
+
         /* --- LOGOTYP --- */
         .main-logo {
-            max-width: 85%;          
+            max-width: 85%;
             height: auto;
-            margin-bottom: 20px;     
+            margin-bottom: 20px;
             filter: drop-shadow(0 0 20px rgba(255, 107, 203, 0.4));
             animation: float 4s ease-in-out infinite;
         }
-
-        body.premium-theme .main-logo {
-            filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.6));
-        }
+        body.premium-theme .main-logo { filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.6)); }
 
         @keyframes float {
             0% { transform: translateY(0px); }
@@ -107,175 +128,76 @@ body.premium-theme {
             100% { transform: translateY(0px); }
         }
 
-        /* Animationen som får guldskenet att "andas" */
-@keyframes goldPulse {
-    0% { box-shadow: 0 0 30px rgba(191, 149, 63, 0.3), 0 25px 50px rgba(0, 0, 0, 0.9); }
-    50% { box-shadow: 0 0 50px rgba(191, 149, 63, 0.6), 0 25px 50px rgba(0, 0, 0, 0.9); }
-    100% { box-shadow: 0 0 30px rgba(191, 149, 63, 0.3), 0 25px 50px rgba(0, 0, 0, 0.9); }
-}
-        
-        /* --- KNAPPAR (STANDARD) --- */
+        @keyframes goldPulse {
+            0% { box-shadow: 0 0 30px rgba(191, 149, 63, 0.3), 0 25px 50px rgba(0, 0, 0, 0.9); }
+            50% { box-shadow: 0 0 50px rgba(191, 149, 63, 0.6), 0 25px 50px rgba(0, 0, 0, 0.9); }
+            100% { box-shadow: 0 0 30px rgba(191, 149, 63, 0.3), 0 25px 50px rgba(0, 0, 0, 0.9); }
+        }
+
+        /* --- KNAPPAR & MENY --- */
         .btn {
-            width: 85%;
-            max-width: 320px;
-            padding: 18px;
-            margin: 10px 0;
-            font-size: 1.1rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: white;
-            
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid transparent; 
-            border-radius: 50px;
-            
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                              var(--btn-border-grad);
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
-            
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-            transition: 0.3s;
-            line-height: 1.2;
+            width: 85%; max-width: 320px; padding: 18px; margin: 10px 0;
+            font-size: 1.1rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;
+            color: white; background: rgba(0, 0, 0, 0.6); border: 2px solid transparent; border-radius: 50px;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), var(--btn-border-grad);
+            background-origin: border-box; background-clip: padding-box, border-box;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05); cursor: pointer; backdrop-filter: blur(5px);
+            transition: 0.3s; line-height: 1.2;
         }
 
-        /* --- PREMIUM KNAPP-STYLER --- */
-
-        /* 1. SPELKNAPPAR: SPACE/NEON */
+        /* PREMIUM KNAPPAR */
         body.premium-theme .game-btn {
-            background: linear-gradient(90deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+            background: linear-gradient(90deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
             linear-gradient(110deg, #090919 0%, #2b0052 25%, #00e5ff 50%, #2b0052 75%, #090919 100%);
-            background-size: 200% 100%; 
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
-            animation: fluidShine 5s linear infinite;
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
-            border: 2px solid transparent;
-            color: #fff;
-            text-shadow: 0 0 5px rgba(0, 229, 255, 0.6);
+            background-size: 200% 100%; background-origin: border-box; background-clip: padding-box, border-box;
+            animation: fluidShine 5s linear infinite; box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+            border: 2px solid transparent; color: #fff; text-shadow: 0 0 5px rgba(0, 229, 255, 0.6);
         }
-
-        /* 2. SKAPARLÄGE: GOLD/LUXURY */
         body.premium-theme .btn-creator {
-            background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+            background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
             linear-gradient(110deg, #b8860b 0%, #ffd700 20%, #ffffff 50%, #ffd700 80%, #b8860b 100%);
-            background-size: 200% 100%; 
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
-            animation: fluidShine 4s linear infinite;
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
-            border: 2px solid transparent;
-            color: #fff;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            background-size: 200% 100%; background-origin: border-box; background-clip: padding-box, border-box;
+            animation: fluidShine 4s linear infinite; box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+            border: 2px solid transparent; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
-
-        /* 3. NÄSTA RUNDA (NIGHTCLUB / FLASHY BORDER) */
         body.premium-theme .btn-bottom {
-            background: rgba(0, 0, 0, 0.3); /* Transparent */
-            border: 2px solid transparent;
-            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
-                              linear-gradient(90deg, #00e5ff, #d500f9, #00e5ff); /* Cyan/Lila Neon */
-            background-size: 200% 100%;
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
-            animation: fluidShine 3s linear infinite; /* Snabbare rörelse */
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.3), inset 0 0 10px rgba(213, 0, 249, 0.2);
-            color: #fff;
-            text-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
-            font-size: 1.2rem;
-            letter-spacing: 2px;
+            background: rgba(0, 0, 0, 0.3); border: 2px solid transparent;
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), linear-gradient(90deg, #00e5ff, #d500f9, #00e5ff);
+            background-size: 200% 100%; background-origin: border-box; background-clip: padding-box, border-box;
+            animation: fluidShine 3s linear infinite; box-shadow: 0 0 20px rgba(0, 229, 255, 0.3), inset 0 0 10px rgba(213, 0, 249, 0.2);
+            color: #fff; text-shadow: 0 0 10px rgba(0, 229, 255, 0.8); font-size: 1.2rem; letter-spacing: 2px;
         }
 
         body.premium-theme .game-btn:nth-of-type(1) { animation-delay: 0s; }
-        body.premium-theme .game-btn:nth-of-type(2) { animation-delay: 1.2s; } 
-        body.premium-theme .game-btn:nth-of-type(3) { animation-delay: 2.4s; } 
+        body.premium-theme .game-btn:nth-of-type(2) { animation-delay: 1.2s; }
+        body.premium-theme .game-btn:nth-of-type(3) { animation-delay: 2.4s; }
         body.premium-theme .btn-creator { animation-delay: 0.5s; }
 
-        @keyframes fluidShine {
-            0% { background-position: 200% 0; }
-            100% { background-position: 0% 0; }
-        }
+        @keyframes fluidShine { 0% { background-position: 200% 0; } 100% { background-position: 0% 0; } }
 
         .btn:active { transform: scale(0.96); }
-        .btn:disabled { opacity: 0.5; filter: grayscale(1); }
-
-        .btn-subtitle {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: normal; 
-            font-style: normal;
-            color: white;       
-            opacity: 0.9;
-            margin-top: 4px;
-            text-transform: none;
-        }
-
+        .btn-subtitle { display: block; font-size: 0.75rem; font-weight: normal; color: white; opacity: 0.9; margin-top: 4px; text-transform: none; }
         .menu-spacer { height: 30px; width: 100%; }
 
-        body.premium-theme .btn-all-in {
-            filter: grayscale(1); 
-            opacity: 0.3;
-            animation: none;
-            background: rgba(255,255,255,0.1);
-            box-shadow: none;
-            color: #aaa;
-        }
+        body.premium-theme .btn-all-in { filter: grayscale(1); opacity: 0.3; animation: none; background: rgba(255,255,255,0.1); box-shadow: none; color: #aaa; }
+        .btn-all-in { color: var(--accent-gold); background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), linear-gradient(to right, #ffd700, #ff8c00); box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); font-size: 1.3rem; }
+        .all-in-info-text { color: rgba(255, 255, 255, 0.7); font-size: 0.8rem; margin-top: 10px; line-height: 1.4; text-align: center; width: 90%; max-width: 350px; font-weight: 500; }
 
-        .btn-all-in {
-            color: var(--accent-gold);
-            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                              linear-gradient(to right, #ffd700, #ff8c00);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
-            font-size: 1.3rem;
-        }
-
-        .all-in-info-text {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.8rem;
-            margin-top: 10px;
-            line-height: 1.4;
-            text-align: center;
-            width: 90%;
-            max-width: 350px;
-            font-weight: 500;
-        }
-
-        /* --- SKAPARLÄGE STYLING --- */
+        /* --- SKAPARLÄGE & INPUTS --- */
         .center-btn-row { display: flex; flex-direction: column; align-items: center; width: 100%; margin-top: 25px; }
         .creator-container { width: 100%; max-width: 350px; text-align: left; }
-
         .input-label { display: block; color: var(--accent-cyan); font-size: 0.9rem; margin-bottom: 5px; margin-top: 15px; font-weight: bold; }
         body.premium-theme .input-label { color: var(--accent-gold); }
-
         .neon-input { width: 100%; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--accent-pink); color: white; padding: 12px; border-radius: 10px; font-size: 1rem; font-family: inherit; box-sizing: border-box; outline: none; transition: 0.3s; }
         body.premium-theme .neon-input { border-color: var(--accent-gold); }
-
         .neon-input:focus { border-color: var(--accent-cyan); box-shadow: 0 0 10px rgba(72, 219, 251, 0.3); background: rgba(0, 0, 0, 0.5); }
         body.premium-theme .neon-input:focus { border-color: var(--accent-gold); box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
-
         .text-area { height: 100px; resize: none; }
         .info-icon { width: 20px; height: 20px; border: 1px solid #fff; border-radius: 50%; text-align: center; line-height: 20px; font-size: 0.8rem; cursor: pointer; opacity: 0.7; }
 
-        .btn-back {
-            width: 100%; max-width: 320px; color: #ddd;
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), linear-gradient(to right, #ff414d, #ff4b1f);
-            box-shadow: none; font-family: inherit; border: 1px solid rgba(255, 65, 77, 0.3);
-            font-size: 1rem; padding: 15px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 10px;
-        }
-        body.premium-theme .btn-back {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), linear-gradient(to right, #ff414d, #ff4b1f);
-            animation: none; box-shadow: none; border-color: rgba(255, 65, 77, 0.5);
-        }
-
-        .btn-my-cards {
-            width: 100%; max-width: 320px; padding: 12px; margin-top: 15px; margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--accent-cyan);
-            border-radius: 50px; color: var(--accent-cyan); font-weight: bold; cursor: pointer;
-            text-transform: uppercase; letter-spacing: 1px; transition: 0.2s;
-        }
+        .btn-back { width: 100%; max-width: 320px; color: #ddd; background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), linear-gradient(to right, #ff414d, #ff4b1f); box-shadow: none; font-family: inherit; border: 1px solid rgba(255, 65, 77, 0.3); font-size: 1rem; padding: 15px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        body.premium-theme .btn-back { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), linear-gradient(to right, #ff414d, #ff4b1f); animation: none; box-shadow: none; border-color: rgba(255, 65, 77, 0.5); }
+        .btn-my-cards { width: 100%; max-width: 320px; padding: 12px; margin-top: 15px; margin-bottom: 15px; background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--accent-cyan); border-radius: 50px; color: var(--accent-cyan); font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; }
         .btn-my-cards:active { background: rgba(72, 219, 251, 0.2); }
         body.premium-theme .btn-my-cards { border-color: var(--accent-gold); color: var(--accent-gold); }
 
@@ -286,7 +208,6 @@ body.premium-theme {
         .modal-left-align { text-align: left; }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: var(--accent-pink); }
         body.premium-theme .close-modal { color: var(--accent-gold); }
-
         .my-card-item { background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px; display: flex; justify-content: space-between; align-items: center; text-align: left; margin-bottom: 5px; border-radius: 5px; }
         .card-text-preview { font-size: 0.9rem; color: #fff; flex: 1; padding-right: 10px; }
         .delete-btn { background: none; border: none; color: var(--accent-red); font-size: 1.2rem; cursor: pointer; }
@@ -305,213 +226,100 @@ body.premium-theme {
         input:checked + .slider { background-color: var(--accent-green); }
         input:focus + .slider { box-shadow: 0 0 1px var(--accent-green); }
         input:checked + .slider:before { transform: translateX(24px); }
-
         .success-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 300; }
         .checkmark-circle { font-size: 4rem; color: var(--accent-green); border: 4px solid var(--accent-green); border-radius: 50%; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: 0 0 30px var(--accent-green); }
 
-        /* --- SPELPLAN & KORT STYLES --- */
-        #bottle-container { width: 300px; height: 300px; display: flex; align-items: center; justify-content: center; position: relative; touch-action: none; border-radius: 50%; }
-        #bottle-img { width: auto; height: 250px; filter: drop-shadow(0 0 15px var(--accent-cyan)); transform-origin: center center; cursor: grab; -webkit-user-drag: none; user-drag: none; }
-        body.premium-theme #bottle-img { filter: drop-shadow(0 0 25px var(--accent-cyan)); }
-        #bottle-img:active { cursor: grabbing; }
+        /* --- KORT SCEN & OBJEKT --- */
+        .card-scene {
+            width: 85vw; max-width: 320px; 
+            height: 60vh; max-height: 450px;
+            perspective: 1000px;
+            margin: auto; /* Centrerar kortet i den tillgängliga ytan */
+        }
 
-        .spin-instruction { margin-top: 30px; font-style: italic; color: var(--accent-cyan); font-weight: bold; opacity: 0.8; min-height: 1.2em; animation: pulse 1.5s infinite; }
-        body.premium-theme .spin-instruction { color: var(--accent-cyan); }
+        .card-object { 
+            width: 100%; height: 100%; 
+            position: relative; transform-style: preserve-3d; 
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); 
+            border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); 
+            -webkit-user-drag: none; /* VIKTIGT FÖR APK */
+        }
+        .card-object.is-flipped { transform: rotateY(180deg); }
 
-     Här är den kompletta koden för hela det avsnitt du klistrade in.
+        /* --- KORTENS UTSEENDE (FACES) --- */
+        .card-face { 
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden; 
+            border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            padding: 25px; box-sizing: border-box; background: var(--bg-light); color: #fff; border: 2px solid var(--accent-pink); 
+        }
 
-Jag har bakat in "Anti-Web"-koden (som gör att det känns som en native Android-app) direkt i klasserna, och lagt till Premium-glöden utan skalning för att undvika hack i animationen.
+        /* --- PREMIUM KORT DESIGN (GULD & GLÖD) --- */
+        body.premium-theme .card-face { 
+            border: 5px solid transparent; 
+            background-image: 
+                linear-gradient(135deg, #1a0b2e, #000), 
+                linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); 
+            background-origin: border-box;
+            background-clip: padding-box, border-box; 
 
-Ersätt hela det blocket du visade mig med detta:
+            box-shadow: 
+                0 0 40px rgba(191, 149, 63, 0.4),
+                0 25px 50px rgba(0, 0, 0, 0.9),
+                inset 0 0 15px rgba(251, 245, 183, 0.2);
+            
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: goldPulse 4s ease-in-out infinite;
+        }
 
-CSS
-/* --- APP-KÄNSLA (ANTI-WEB) --- */
-/* Detta gör att appen känns stum och responsiv som en riktig Android-app */
-.card-scene, .card-object, .card-face {
-    -webkit-tap-highlight-color: transparent; /* Tar bort blå blinkning vid tryck */
-    -webkit-user-select: none; /* Ingen textmarkering */
-    user-select: none;
-    -webkit-touch-callout: none; /* Inga menyer vid långtryck */
-    touch-action: manipulation; /* Snabbare respons */
-}
+        /* Ökar glöden när man trycker (men ingen storleksändring för att undvika buggar) */
+        body.premium-theme .card-object:active .card-face {
+            box-shadow: 0 0 60px rgba(191, 149, 63, 0.8), 0 15px 30px rgba(0, 0, 0, 0.9);
+        }
 
-/* --- KORTENS LAYOUT --- */
-.card-scene {
-    width: 85vw;
-    max-width: 320px;
-    height: 60vh;
-    max-height: 450px;
-    perspective: 1000px;
-    margin: auto;
-}
-
-.card-object { 
-    width: 100%; 
-    height: 100%; 
-    position: relative; 
-    transform-style: preserve-3d; 
-    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); 
-    border-radius: 20px; 
-    box-shadow: 0 20px 50px rgba(0,0,0,0.8); 
-    
-    /* VIKTIGT FÖR APK: Förhindrar att man drar iväg bilden */
-    -webkit-user-drag: none;
-}
-
-.card-object.is-flipped { transform: rotateY(180deg); }
-
-/* --- STANDARD UTSEENDE --- */
-.card-face { 
-    position: absolute; 
-    width: 100%; 
-    height: 100%; 
-    backface-visibility: hidden; 
-    border-radius: 20px; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center; 
-    padding: 25px; 
-    box-sizing: border-box; 
-    background: var(--bg-light); 
-    color: #fff; 
-    border: 2px solid var(--accent-pink); 
-}
-
-/* --- PREMIUM TEMA (GULD & GLÖD) --- */
-body.premium-theme .card-face { 
-    border: 5px solid transparent; 
-    
-    /* Bakgrundslagren för guldramen */
-    background-image: 
-        linear-gradient(135deg, #1a0b2e, #000), 
-        linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); 
-    background-origin: border-box;
-    background-clip: padding-box, border-box; 
-
-    /* Konstant lyxig glöd + djup skugga */
-    box-shadow: 
-        0 0 40px rgba(191, 149, 63, 0.4),
-        0 25px 50px rgba(0, 0, 0, 0.9),
-        inset 0 0 15px rgba(251, 245, 183, 0.2);
-    
-    /* Mjukar upp skugg-övergången */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
-    /* Pulserande guld-effekt */
-    animation: goldPulse 4s ease-in-out infinite;
-}
-
-/* --- INTERAKTION (HÅLLA FINGER PÅ KORTET) --- */
-/* Här ökar vi bara glöden, men INGEN skalning/storleksändring för att undvika buggar på Android */
-body.premium-theme .card-object:active .card-face {
-    box-shadow: 
-        0 0 60px rgba(191, 149, 63, 0.8), /* Kraftigare sken */
-        0 15px 30px rgba(0, 0, 0, 0.9);
-    
-    /* OBS: Ingen transform: scale() här! */
-}
-    /* NYTT: Tre lager skugga för maximal premium-känsla */
-    box-shadow: 
-        0 0 40px rgba(191, 149, 63, 0.4),   /* 1. Det yttre mjuka guld-skenet */
-        0 25px 50px rgba(0, 0, 0, 0.9),      /* 2. Tung 3D-skugga som ger djup */
-        inset 0 0 15px rgba(251, 245, 183, 0.2); /* 3. Inre glans längs kanten */
-    
-    /* Valfritt: Gör att kortet "lyfter" lite när man rör det */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    animation: goldPulse 4s ease-in-out infinite;
-}
-
-/* Extra lyx: Öka glöden när man håller på kortet (på webben) */
-body.premium-theme .card-object:active .card-face {
-    box-shadow: 
-        0 0 60px rgba(191, 149, 63, 0.6), 
-        0 15px 30px rgba(0, 0, 0, 0.9);
-    transform: scale(1.02);
-}
-
+        /* BAKSIDAN AV KORTET */
         .face-back { background: radial-gradient(circle at top right, rgba(72, 219, 251, 0.4), transparent), radial-gradient(circle at bottom left, rgba(255, 107, 203, 0.4), transparent), var(--bg-dark); color: var(--accent-pink); font-size: 6rem; text-shadow: 0 0 20px var(--accent-pink), 0 0 40px var(--accent-cyan); }
+        
         body.premium-theme .face-back {
             background-image: 
                 radial-gradient(circle at top right, rgba(0, 229, 255, 0.2), transparent),
                 radial-gradient(circle at bottom left, rgba(213, 0, 249, 0.2), transparent),
                 linear-gradient(135deg, #1a0b2e, #000), 
-                linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); /* Guldet längst ner */
-            
-            /* Viktigt: De första 3 lagren ska vara inuti kortet (padding-box), 
-               det sista lagret (guldet) ska gå hela vägen ut i ramen (border-box) */
+                linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); 
             background-clip: padding-box, padding-box, padding-box, border-box;
             background-origin: padding-box, padding-box, padding-box, border-box;
-            
-            border: 5px solid transparent; /* Skapar utrymmet för guldramen */
-            color: var(--accent-gold);
-            text-shadow: 0 0 30px var(--accent-gold);
+            border: 5px solid transparent; 
+            color: var(--accent-gold); text-shadow: 0 0 30px var(--accent-gold);
         }
 
         .face-front { transform: rotateY(180deg); font-size: 1.3rem; font-weight: 500; line-height: 1.5; background: linear-gradient(135deg, var(--bg-medium), var(--bg-dark)); }
         body.premium-theme .face-front {
-             background-image: 
-                linear-gradient(135deg, #2a1a3a, #050511), 
-                linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+             background-image: linear-gradient(135deg, #2a1a3a, #050511), linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
         }
 
         .category-label { position: absolute; top: 25px; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 3px; font-weight: bold; color: var(--accent-cyan); }
-        
-        /* PREMIUM RUBRIKER */
-        body.premium-theme .category-label { 
-            font-size: 1.8rem; /* Större */
-            letter-spacing: 2px;
-            font-weight: 900;
-        }
-        
-        /* Specifika färger för premium-rubrikerna (JS sätter klasser) */
+        body.premium-theme .category-label { font-size: 1.8rem; letter-spacing: 2px; font-weight: 900; }
+
         .text-sanning { color: #00e5ff; text-shadow: 0 0 15px rgba(0, 229, 255, 0.6); }
         .text-konsekvens { color: #d500f9; text-shadow: 0 0 15px rgba(213, 0, 249, 0.6); }
         .text-pekleken { color: var(--accent-cyan); text-shadow: 0 0 15px rgba(0, 229, 255, 0.6); }
         .text-jha { color: var(--accent-pink); text-shadow: 0 0 15px rgba(255, 107, 203, 0.6); }
 
-        /* --- FLASHIG BORDER FÖR PREMIUM VAL-KORT --- */
+        /* --- ÖVRIGT (FLASKA, ETC) --- */
+        #bottle-container { width: 300px; height: 300px; display: flex; align-items: center; justify-content: center; position: relative; touch-action: none; border-radius: 50%; }
+        #bottle-img { width: auto; height: 250px; filter: drop-shadow(0 0 15px var(--accent-cyan)); transform-origin: center center; cursor: grab; -webkit-user-drag: none; user-drag: none; }
+        body.premium-theme #bottle-img { filter: drop-shadow(0 0 25px var(--accent-cyan)); }
+        #bottle-img:active { cursor: grabbing; }
+        .spin-instruction { margin-top: 30px; font-style: italic; color: var(--accent-cyan); font-weight: bold; opacity: 0.8; min-height: 1.2em; animation: pulse 1.5s infinite; }
+        body.premium-theme .spin-instruction { color: var(--accent-cyan); }
+
         .choice-container { display: flex; gap: 15px; width: 100%; justify-content: center; }
         .choice-card { width: 48%; height: 220px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 900; text-transform: uppercase; box-shadow: 0 10px 30px rgba(0,0,0,0.5); cursor: pointer; border: 2px solid rgba(255,255,255,0.1); }
-        
-        /* Standard */
         .choice-card.truth { background: linear-gradient(135deg, var(--accent-cyan), #0072ff); }
         .choice-card.dare { background: linear-gradient(135deg, var(--accent-pink), #ff416c); }
-        
-        /* PREMIUM FLASHY BORDERS */
-        body.premium-theme .choice-card {
-            border: 3px solid transparent; 
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
-            box-shadow: 0 0 25px rgba(0,0,0,0.5); 
-        }
-
-        body.premium-theme .choice-card.truth { 
-            background-image: linear-gradient(135deg, #090919, #2b0052), linear-gradient(135deg, #00e5ff, #2979ff, #00e5ff); 
-            color: #00e5ff; box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
-        }
-
-        body.premium-theme .choice-card.dare { 
-            background-image: linear-gradient(135deg, #090919, #2b0052), linear-gradient(135deg, #d500f9, #aa00ff, #d500f9); 
-            color: #d500f9; box-shadow: 0 0 20px rgba(213, 0, 249, 0.4);
-        }
-
-        .top-bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: calc(env(safe-area-inset-top) + 10px) 15px 15px 15px; /* Magisk marginal för flärpen */
-    display: flex;
-    justify-content: space-between;
-    box-sizing: border-box;
-    z-index: 100;
-}
-        .icon-btn { background: rgba(0,0,0,0.5); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; backdrop-filter: blur(4px); }
-        body.premium-theme .icon-btn { color: var(--accent-gold); border-color: var(--accent-gold); }
-
+        body.premium-theme .choice-card { border: 3px solid transparent; background-origin: border-box; background-clip: padding-box, border-box; box-shadow: 0 0 25px rgba(0,0,0,0.5); }
+        body.premium-theme .choice-card.truth { background-image: linear-gradient(135deg, #090919, #2b0052), linear-gradient(135deg, #00e5ff, #2979ff, #00e5ff); color: #00e5ff; box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); }
+        body.premium-theme .choice-card.dare { background-image: linear-gradient(135deg, #090919, #2b0052), linear-gradient(135deg, #d500f9, #aa00ff, #d500f9); color: #d500f9; box-shadow: 0 0 20px rgba(213, 0, 249, 0.4); }
         .btn-bottom { margin-top: auto; background: linear-gradient(to right, var(--accent-pink), var(--accent-cyan)); border: none; width: 100%; }
-
     </style>
 </head>
 <body>
@@ -1075,6 +883,7 @@ body.premium-theme .card-object:active .card-face {
     </script>
 </body>
 </html>
+
 
 
 
