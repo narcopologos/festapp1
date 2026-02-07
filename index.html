@@ -490,17 +490,6 @@
             <p>Kort tillagt!</p>
         </div>
     </div>
-            <div class="center-btn-row">
-                <button class="btn btn-creator" onclick="saveCustomCard()">+ LÄGG TILL KORT</button>
-                <button class="btn-my-cards" onclick="openMyCards()">📂 Mina Kort</button>
-                <button class="btn btn-back" onclick="goHome()">TILLBAKA</button>
-            </div>
-        </div>
-        <div id="success-overlay" class="success-overlay">
-            <div class="checkmark-circle">✓</div>
-            <p>Kort tillagt!</p>
-        </div>
-    </div>
 
     <div id="bottle-choice-screen" class="screen">
         <div class="top-bar"><button class="icon-btn" onclick="goHome()">← Meny</button></div>
@@ -614,7 +603,7 @@
         }
         loadContent();
 
-        // --- PREMIUM LOGIK ---
+        // --- PREMIUM LOGIK & BETALNING ---
         
         function checkPremium(feature) {
             if (isAllIn) {
@@ -634,16 +623,36 @@
         }
 
         function buyPremium() {
+            // Kontrollera om vi kör inuti Android-appen (där "Android" objektet finns)
+            if (window.Android && window.Android.buyPremium) {
+                // Anropa Java-koden i Android Studio!
+                window.Android.buyPremium();
+            } else {
+                // Om vi är på webben (dator/iPhone), kör vi bara "fake"-köpet som test
+                if(confirm("Detta är webb-versionen. Vill du simulera ett köp?")) {
+                    unlockPremiumNow();
+                }
+            }
+        }
+
+        // Denna funktion anropas av ANDROID-APPEN när betalningen gått igenom!
+        // Måste ligga globalt (window) så Android hittar den.
+        window.unlockPremiumNow = function() {
             isAllIn = true;
             localStorage.setItem('hasBoughtPremium', 'true');
             document.body.classList.add('premium-theme');
-            closePremium();
-            cardDecks = {}; 
-            finishedFreeDecks = {}; 
-            alert("Köp lyckades! Ultimate är nu upplåst. 🚀");
+            closePremium(); // Stänger popupen
+            
+            // Nollställ kortlekar så de nya korten laddas in
+            cardDecks = {};
+            finishedFreeDecks = {};
+            
+            // Göm köpknappar
             document.getElementById('btn-all-in').style.display = 'none';
             document.getElementById('all-in-info').style.display = 'none';
-        }
+            
+            alert("🎉 KÖP BEKRÄFTAT! Ultimate är nu upplåst!");
+        };
 
         // --- SPEL LOGIK ---
         let currentGame = '';
@@ -711,8 +720,6 @@
                 const backFace = document.querySelector('.face-back');
                 if(backFace) {
                      backFace.style.filter = `hue-rotate(${randomHue}deg)`;
-                     // Om du vill använda CSS-variabeln istället (som vi la till förut):
-                     // backFace.style.setProperty('--back-hue', randomHue + 'deg');
                 }
             }, 0);
 
