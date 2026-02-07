@@ -106,6 +106,13 @@ body.premium-theme {
             50% { transform: translateY(-10px); }
             100% { transform: translateY(0px); }
         }
+
+        /* Animationen som får guldskenet att "andas" */
+@keyframes goldPulse {
+    0% { box-shadow: 0 0 30px rgba(191, 149, 63, 0.3), 0 25px 50px rgba(0, 0, 0, 0.9); }
+    50% { box-shadow: 0 0 50px rgba(191, 149, 63, 0.6), 0 25px 50px rgba(0, 0, 0, 0.9); }
+    100% { box-shadow: 0 0 30px rgba(191, 149, 63, 0.3), 0 25px 50px rgba(0, 0, 0, 0.9); }
+}
         
         /* --- KNAPPAR (STANDARD) --- */
         .btn {
@@ -326,14 +333,31 @@ body.premium-theme {
         .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px; box-sizing: border-box; background: var(--bg-light); color: #fff; border: 2px solid var(--accent-pink); }
         
         body.premium-theme .card-face { 
-            border: 5px solid transparent; 
-            background-image: 
-                linear-gradient(135deg, #1a0b2e, #000), 
-                linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); 
-            background-origin: border-box;
-            background-clip: padding-box, border-box; 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.9), inset 0 0 50px rgba(0,0,0,0.5); /* Djupare 3D skugga */
-        }
+    border: 5px solid transparent; 
+    background-image: 
+        linear-gradient(135deg, #1a0b2e, #000), 
+        linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); 
+    background-origin: border-box;
+    background-clip: padding-box, border-box; 
+
+    /* NYTT: Tre lager skugga för maximal premium-känsla */
+    box-shadow: 
+        0 0 40px rgba(191, 149, 63, 0.4),   /* 1. Det yttre mjuka guld-skenet */
+        0 25px 50px rgba(0, 0, 0, 0.9),      /* 2. Tung 3D-skugga som ger djup */
+        inset 0 0 15px rgba(251, 245, 183, 0.2); /* 3. Inre glans längs kanten */
+    
+    /* Valfritt: Gör att kortet "lyfter" lite när man rör det */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: goldPulse 4s ease-in-out infinite;
+}
+
+/* Extra lyx: Öka glöden när man håller på kortet (på webben) */
+body.premium-theme .card-object:active .card-face {
+    box-shadow: 
+        0 0 60px rgba(191, 149, 63, 0.6), 
+        0 15px 30px rgba(0, 0, 0, 0.9);
+    transform: scale(1.02);
+}
 
         .face-back { background: radial-gradient(circle at top right, rgba(72, 219, 251, 0.4), transparent), radial-gradient(circle at bottom left, rgba(255, 107, 203, 0.4), transparent), var(--bg-dark); color: var(--accent-pink); font-size: 6rem; text-shadow: 0 0 20px var(--accent-pink), 0 0 40px var(--accent-cyan); }
         body.premium-theme .face-back {
@@ -980,6 +1004,7 @@ body.premium-theme {
     </script>
 </body>
 </html>
+
 
 
 
