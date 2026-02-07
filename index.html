@@ -785,13 +785,15 @@
             
             // --- FIX FÖR ATT INTE RITA ÖVER GULDRAMEN I PREMIUM ---
             if (!isAllIn) {
+                // Om inte premium: Visa de färgade strecken för Sanning/Konka
                 if (type === 'sanning') frontFace.style.borderTop = "10px solid #48dbfb";
                 else if (type === 'konka') frontFace.style.borderTop = "10px solid #ff6b6b";
                 else frontFace.style.borderTop = "none";
             } else {
-                 frontFace.style.borderTop = "none"; // Tar bort eventuella gamla stilar i premium
+                // OM PREMIUM: Återställ borderTop så att CSS-guldramen kan visas!
+                // Vi sätter den till "inherit" eller tom sträng så att CSS-filen bestämmer.
+                frontFace.style.borderTop = ""; 
             }
-
             document.getElementById('the-card').classList.remove('is-flipped');
             isCardFlipped = false;
             showScreen('result-screen');
@@ -959,5 +961,6 @@
     </script>
 </body>
 </html>
+
 
 
