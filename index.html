@@ -120,27 +120,16 @@
             font-size: 1.3rem;
         }
 
-        /* Info text under All-in knappen */
+        /* --- NY STIL FÖR ALL-IN INFO TEXT --- */
         .all-in-info-text {
-            color: #ccc;
-            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7); /* Lite transparent vit för snyggare look */
+            font-size: 0.8rem;
             margin-top: 10px;
-            line-height: 1.6;
-            text-align: left;
-            width: 85%;
-            max-width: 320px;
-            background: rgba(0,0,0,0.2);
-            padding: 15px;
-            border-radius: 15px;
-            box-sizing: border-box;
-        }
-        .all-in-info-text ul {
-            margin: 0;
-            padding-left: 20px;
-            list-style-type: disc;
-        }
-        .all-in-info-text li {
-            margin-bottom: 5px;
+            line-height: 1.4;
+            text-align: center; /* Centrerad */
+            width: 90%;
+            max-width: 350px;
+            font-weight: 500;
         }
 
         /* --- SKAPARLÄGE KNAPPAR & LAYOUT --- */
@@ -190,7 +179,7 @@
             color: var(--accent-cyan);
             font-weight: bold;
             cursor: pointer;
-            text-transform: uppercase; /* Samma format som "Lägg till" */
+            text-transform: uppercase; 
             letter-spacing: 1px;
             transition: 0.2s;
         }
@@ -516,7 +505,7 @@
             opacity: 0.7;
         }
 
-        /* --- NY SWITCH STYLING --- */
+        /* --- SWITCH STYLING --- */
         .share-row {
             display: flex;
             align-items: center;
@@ -535,7 +524,6 @@
             cursor: pointer;
         }
 
-        /* The Switch Box */
         .switch {
             position: relative;
             display: inline-block;
@@ -554,7 +542,7 @@
             position: absolute;
             cursor: pointer;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--accent-red); /* RÖD som standard (Nej) */
+            background-color: var(--accent-red); /* RÖD */
             transition: .4s;
             border-radius: 34px;
         }
@@ -572,7 +560,7 @@
         }
 
         input:checked + .slider {
-            background-color: var(--accent-green); /* GRÖN vid Ja */
+            background-color: var(--accent-green); /* GRÖN */
         }
 
         input:focus + .slider {
@@ -667,12 +655,7 @@
         <button id="btn-all-in" class="btn btn-all-in" onclick="checkPremium('all-in')">All-in 💎</button>
         
         <div id="all-in-info" class="all-in-info-text">
-            <ul>
-                <li>500+ kort med regelbundna uppdateringar</li>
-                <li>Lås upp skaparläget</li>
-                <li>Ny design</li>
-                <li>Engångskostnad, inga prenumerationer</li>
-            </ul>
+            500+ kort, ny unik design och tillgång till skaparläget för 69kr.<br>Engångskostnad.
         </div>
     </div>
 
