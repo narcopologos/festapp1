@@ -21,28 +21,30 @@
             --btn-border-grad: linear-gradient(to right, var(--accent-pink), var(--accent-cyan));
         }
 
-        /* --- PREMIUM TEMA (Levande Guld & Lyx) --- */
+        /* --- PREMIUM TEMA (Deep Space Nebula) --- */
         body.premium-theme {
-            /* Animerad Bakgrund */
-            background: linear-gradient(-45deg, #000000, #1a0b2e, #2e1c0b, #0d0d0d);
+            /* En djupare, mörkare rymd-gradient */
+            background: linear-gradient(
+                300deg,
+                #050511, /* Nästan svart */
+                #1a0b2e, /* Djup lila */
+                #000000, 
+                #0f2027, /* Mörk teal */
+                #203a43, 
+                #1a0b2e
+            );
             background-size: 400% 400%;
-            animation: luxuryBG 15s ease infinite;
+            animation: cosmicFlow 25s ease infinite;
 
-            /* Guld och Lila accenter */
-            --accent-pink: #ffd700; 
-            --accent-cyan: #b8860b; 
+            /* Justerade accentfärger för premium */
+            --accent-pink: #d500f9; 
+            --accent-cyan: #00e5ff; 
         }
 
-        @keyframes luxuryBG {
+        @keyframes cosmicFlow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
-        }
-
-        /* Justera All-in knappen i premiumläget */
-        body.premium-theme .btn-all-in {
-            filter: grayscale(1); 
-            opacity: 0.5;
         }
 
         body {
@@ -89,7 +91,7 @@
         }
 
         body.premium-theme .main-logo {
-            filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.8));
+            filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.6)); /* Cyan skugga i rymden */
         }
 
         @keyframes float {
@@ -98,7 +100,7 @@
             100% { transform: translateY(0px); }
         }
         
-        /* --- KNAPPAR --- */
+        /* --- KNAPPAR (STANDARD) --- */
         .btn {
             width: 85%;
             max-width: 320px;
@@ -126,31 +128,72 @@
             line-height: 1.2;
         }
 
-        /* --- LEVANDE PREMIUM KNAPPAR --- */
-        body.premium-theme .btn {
-            /* Liquid Gold Gradient */
-            background: linear-gradient(90deg, 
-                rgba(0,0,0,0.7), 
-                rgba(0,0,0,0.7)), 
-                linear-gradient(90deg, #ffd700, #b8860b, #ffeebb, #ffd700, #9d00ff);
+        /* --- PREMIUM KNAPP-STYLER --- */
+
+        /* 1. SPELKNAPPAR: SPACE/NEON (Blå/Lila/Cyan) */
+        body.premium-theme .game-btn {
+            background: linear-gradient(
+                90deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5)
+            ), 
+            /* Den levande gradienten */
+            linear-gradient(
+                110deg, 
+                #090919 0%,   /* Mörk rymd */
+                #2b0052 25%,  /* Djup lila */
+                #00e5ff 50%,  /* NEON CYAN (Ljusstrålen) */
+                #2b0052 75%,  /* Djup lila */
+                #090919 100%  /* Mörk rymd */
+            );
             
-            background-size: 300% 100%;
+            background-size: 200% 100%; 
             background-origin: border-box;
             background-clip: padding-box, border-box;
             
-            /* Animationen som får den att röra sig */
-            animation: shimmer 3s infinite linear;
+            animation: fluidShine 5s linear infinite; /* Långsammare, majestätisk rörelse */
             
-            /* Guldskugga */
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
             border: 2px solid transparent;
             color: #fff;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8); /* Bättre läsbarhet mot guld */
+            text-shadow: 0 0 5px rgba(0, 229, 255, 0.6);
         }
 
-        @keyframes shimmer {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
+        /* 2. SKAPARLÄGE: GOLD/LUXURY (Sticker ut) */
+        body.premium-theme .btn-creator {
+            background: linear-gradient(
+                90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.6)
+            ), 
+            linear-gradient(
+                110deg, 
+                #b8860b 0%, 
+                #ffd700 20%, 
+                #ffffff 50%, /* Vitare blänk för mer guld-känsla */
+                #ffd700 80%, 
+                #b8860b 100%
+            );
+            
+            background-size: 200% 100%; 
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            
+            animation: fluidShine 4s linear infinite;
+            
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+            border: 2px solid transparent;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+
+        /* 3. VARIATION (DELAYS) - Gör att knapparna inte blinkar samtidigt */
+        body.premium-theme .game-btn:nth-of-type(1) { animation-delay: 0s; }
+        body.premium-theme .game-btn:nth-of-type(2) { animation-delay: 1.2s; } /* Förskjuten */
+        body.premium-theme .game-btn:nth-of-type(3) { animation-delay: 2.4s; } /* Förskjuten mer */
+        
+        /* Skaparläget får en egen rytm */
+        body.premium-theme .btn-creator { animation-delay: 0.5s; animation-duration: 3.5s; }
+
+        @keyframes fluidShine {
+            0% { background-position: 200% 0; }
+            100% { background-position: 0% 0; }
         }
 
         .btn:active { transform: scale(0.96); }
@@ -168,6 +211,16 @@
         }
 
         .menu-spacer { height: 30px; width: 100%; }
+
+        /* All-in knappen dimmas ner rejält i premium */
+        body.premium-theme .btn-all-in {
+            filter: grayscale(1); 
+            opacity: 0.3;
+            animation: none;
+            background: rgba(255,255,255,0.1);
+            box-shadow: none;
+            color: #aaa;
+        }
 
         .btn-all-in {
             color: var(--accent-gold);
@@ -188,21 +241,7 @@
             font-weight: 500;
         }
 
-        /* --- SKAPARLÄGE KNAPPAR & LAYOUT --- */
-        .btn-creator {
-            color: white;
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                              linear-gradient(to right, #8e2de2, #4a00e0);
-            box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
-            font-family: inherit;
-            border: 1px solid rgba(138, 43, 226, 0.5);
-        }
-        
-        body.premium-theme .btn-creator {
-             /* Överrider standard-animeringen för att göra denna mer unik om man vill */
-             box-shadow: 0 0 25px rgba(157, 0, 255, 0.4);
-        }
-
+        /* --- SKAPARLÄGE STYLING --- */
         .center-btn-row {
             display: flex;
             flex-direction: column;
@@ -210,7 +249,66 @@
             width: 100%;
             margin-top: 25px;
         }
+        
+        .creator-container {
+            width: 100%;
+            max-width: 350px;
+            text-align: left;
+        }
 
+        .input-label {
+            display: block;
+            color: var(--accent-cyan);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        body.premium-theme .input-label { color: var(--accent-gold); }
+
+        .neon-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--accent-pink);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
+        body.premium-theme .neon-input { border-color: var(--accent-gold); }
+
+        .neon-input:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(72, 219, 251, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+        }
+        body.premium-theme .neon-input:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .text-area {
+            height: 100px;
+            resize: none;
+        }
+
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        /* --- ÖVRIGA PREMIUM STYLING --- */
         .btn-back {
             width: 100%;
             max-width: 320px;
@@ -227,12 +325,9 @@
             cursor: pointer;
             margin-top: 10px;
         }
-        
-        /* Tillbaka-knappen ska inte skimra i premium, den ska vara röd/neutral */
         body.premium-theme .btn-back {
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
                         linear-gradient(to right, #ff414d, #ff4b1f);
-            background-size: 100%;
             animation: none;
             box-shadow: none;
             border-color: rgba(255, 65, 77, 0.5);
@@ -254,15 +349,8 @@
             letter-spacing: 1px;
             transition: 0.2s;
         }
-
-        .btn-my-cards:active {
-            background: rgba(72, 219, 251, 0.2);
-        }
-        
-        body.premium-theme .btn-my-cards {
-            border-color: var(--accent-gold);
-            color: var(--accent-gold);
-        }
+        .btn-my-cards:active { background: rgba(72, 219, 251, 0.2); }
+        body.premium-theme .btn-my-cards { border-color: var(--accent-gold); color: var(--accent-gold); }
 
         /* --- MODALER --- */
         .modal-overlay {
@@ -294,7 +382,6 @@
             max-height: 80vh;
             overflow-y: auto;
         }
-        
         body.premium-theme .modal-content {
             border-color: var(--accent-gold);
             box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
@@ -311,7 +398,6 @@
             cursor: pointer;
             color: var(--accent-pink);
         }
-        
         body.premium-theme .close-modal { color: var(--accent-gold); }
 
         /* My Cards List Styles */
@@ -373,276 +459,6 @@
             font-weight: 900;
         }
 
-        /* --- SPELPLAN --- */
-        #bottle-container {
-            width: 300px;
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            touch-action: none; 
-            border-radius: 50%;
-        }
-
-        #bottle-img {
-            width: auto;
-            height: 250px;
-            filter: drop-shadow(0 0 15px var(--accent-cyan));
-            transform-origin: center center;
-            cursor: grab;
-            -webkit-user-drag: none;
-            user-drag: none;
-        }
-
-        body.premium-theme #bottle-img {
-             filter: drop-shadow(0 0 25px var(--accent-gold)); 
-        }
-
-        #bottle-img:active { cursor: grabbing; }
-
-        .spin-instruction {
-            margin-top: 30px;
-            font-style: italic;
-            color: var(--accent-cyan);
-            font-weight: bold;
-            opacity: 0.8;
-            min-height: 1.2em;
-            animation: pulse 1.5s infinite;
-        }
-        
-        body.premium-theme .spin-instruction { color: var(--accent-gold); }
-
-        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
-
-        .card-scene {
-            width: 300px;
-            height: 450px;
-            perspective: 1000px;
-            margin-bottom: 20px;
-            cursor: pointer;
-        }
-
-        .card-object {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-        }
-
-        .card-object.is-flipped { transform: rotateY(180deg); }
-
-        .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden; 
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 25px;
-            box-sizing: border-box;
-            background: var(--bg-light);
-            color: #fff;
-            border: 2px solid var(--accent-pink);
-        }
-        
-        body.premium-theme .card-face { 
-            border-color: var(--accent-gold); 
-            background: linear-gradient(135deg, #2a1a3a, #000);
-        }
-
-        .face-back {
-            background: 
-                radial-gradient(circle at top right, rgba(72, 219, 251, 0.4), transparent),
-                radial-gradient(circle at bottom left, rgba(255, 107, 203, 0.4), transparent),
-                var(--bg-dark);
-            color: var(--accent-pink);
-            font-size: 6rem;
-            text-shadow: 0 0 20px var(--accent-pink), 0 0 40px var(--accent-cyan);
-        }
-        
-        body.premium-theme .face-back {
-            background: 
-                radial-gradient(circle at top right, rgba(157, 0, 255, 0.3), transparent),
-                radial-gradient(circle at bottom left, rgba(255, 215, 0, 0.3), transparent),
-                var(--bg-dark);
-            color: var(--accent-gold);
-            text-shadow: 0 0 30px var(--accent-gold), 0 0 50px #9d00ff;
-        }
-
-        .face-front {
-            transform: rotateY(180deg);
-            font-size: 1.3rem;
-            font-weight: 500;
-            line-height: 1.5;
-            background: linear-gradient(135deg, var(--bg-medium), var(--bg-dark));
-        }
-
-        .category-label {
-            position: absolute;
-            top: 25px;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 3px;
-            font-weight: bold;
-            color: var(--accent-cyan);
-        }
-        
-        body.premium-theme .category-label { color: var(--accent-gold); }
-
-        .choice-container {
-            display: flex;
-            gap: 15px;
-            width: 100%;
-            justify-content: center;
-        }
-
-        .choice-card {
-            width: 48%;
-            height: 220px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            cursor: pointer;
-            border: 2px solid rgba(255,255,255,0.1);
-        }
-
-        .choice-card.truth { background: linear-gradient(135deg, var(--accent-cyan), #0072ff); }
-        .choice-card.dare { background: linear-gradient(135deg, var(--accent-pink), #ff416c); }
-        
-        body.premium-theme .choice-card.truth { 
-            background: linear-gradient(135deg, #b8860b, #ffd700); 
-            color: #000;
-            border-color: #ffd700;
-        }
-        body.premium-theme .choice-card.dare { 
-            background: linear-gradient(135deg, #4a00e0, #8e2de2); 
-            color: #fff;
-            border-color: #8e2de2;
-        }
-
-        .top-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            box-sizing: border-box;
-            z-index: 100;
-        }
-
-        .icon-btn {
-            background: rgba(0,0,0,0.5);
-            color: var(--accent-cyan);
-            border: 1px solid var(--accent-cyan);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            backdrop-filter: blur(4px);
-        }
-        
-        body.premium-theme .icon-btn {
-            color: var(--accent-gold);
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
-        }
-
-        .btn-bottom {
-            margin-top: auto;
-            background: linear-gradient(to right, var(--accent-pink), var(--accent-cyan));
-            border: none;
-            width: 100%;
-        }
-        
-        body.premium-theme .btn-bottom {
-            background: linear-gradient(to right, #ffd700, #9d00ff);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-            color: black;
-        }
-        
-        #loading-msg {
-            margin-top: 10px;
-            font-size: 0.9rem;
-            color: var(--accent-cyan);
-            font-style: italic;
-        }
-
-        /* --- SKAPARLÄGE STYLING --- */
-        .creator-container {
-            width: 100%;
-            max-width: 350px;
-            text-align: left;
-        }
-
-        .input-label {
-            display: block;
-            color: var(--accent-cyan);
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-            margin-top: 15px;
-            font-weight: bold;
-        }
-        
-        body.premium-theme .input-label { color: var(--accent-gold); }
-
-        .neon-input {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--accent-pink);
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-family: inherit;
-            box-sizing: border-box;
-            outline: none;
-            transition: 0.3s;
-        }
-        
-        body.premium-theme .neon-input { border-color: var(--accent-gold); }
-
-        .neon-input:focus {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 10px rgba(72, 219, 251, 0.3);
-            background: rgba(0, 0, 0, 0.5);
-        }
-        
-        body.premium-theme .neon-input:focus {
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-        }
-
-        .text-area {
-            height: 100px;
-            resize: none;
-        }
-
-        .info-icon {
-            width: 20px;
-            height: 20px;
-            border: 1px solid #fff;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 20px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            opacity: 0.7;
-        }
-
         /* --- SWITCH STYLING --- */
         .share-row {
             display: flex;
@@ -656,58 +472,15 @@
             user-select: none; 
         }
 
-        .switch-label {
-            font-size: 0.9rem;
-            flex: 1;
-            cursor: pointer;
-        }
+        .switch-label { font-size: 0.9rem; flex: 1; cursor: pointer; }
 
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 26px;
-            margin: 0 10px;
-        }
-
-        .switch input { 
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--accent-red); /* RÖD */
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: var(--accent-green); /* GRÖN */
-        }
-
-        input:focus + .slider {
-            box-shadow: 0 0 1px var(--accent-green);
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(24px);
-        }
+        .switch { position: relative; display: inline-block; width: 50px; height: 26px; margin: 0 10px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--accent-red); transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent-green); }
+        input:focus + .slider { box-shadow: 0 0 1px var(--accent-green); }
+        input:checked + .slider:before { transform: translateX(24px); }
 
         /* Success Animation Popup */
         .success-overlay {
@@ -731,6 +504,149 @@
             margin-bottom: 20px;
             box-shadow: 0 0 30px var(--accent-green);
         }
+
+        /* --- SPELPLAN & KORT STYLES (Som innan men anpassade för premium) --- */
+        #bottle-container {
+            width: 300px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            touch-action: none; 
+            border-radius: 50%;
+        }
+
+        #bottle-img {
+            width: auto;
+            height: 250px;
+            filter: drop-shadow(0 0 15px var(--accent-cyan));
+            transform-origin: center center;
+            cursor: grab;
+            -webkit-user-drag: none;
+            user-drag: none;
+        }
+        body.premium-theme #bottle-img { filter: drop-shadow(0 0 25px var(--accent-cyan)); }
+        #bottle-img:active { cursor: grabbing; }
+
+        .spin-instruction {
+            margin-top: 30px;
+            font-style: italic;
+            color: var(--accent-cyan);
+            font-weight: bold;
+            opacity: 0.8;
+            min-height: 1.2em;
+            animation: pulse 1.5s infinite;
+        }
+        body.premium-theme .spin-instruction { color: var(--accent-cyan); } /* Behåll cyan för neon-look */
+
+        .card-scene {
+            width: 300px;
+            height: 450px;
+            perspective: 1000px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .card-object {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+        .card-object.is-flipped { transform: rotateY(180deg); }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; 
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            box-sizing: border-box;
+            background: var(--bg-light);
+            color: #fff;
+            border: 2px solid var(--accent-pink);
+        }
+        body.premium-theme .card-face { 
+            border-color: var(--accent-gold); 
+            background: linear-gradient(135deg, #1a0b2e, #000);
+        }
+
+        .face-back {
+            background: 
+                radial-gradient(circle at top right, rgba(72, 219, 251, 0.4), transparent),
+                radial-gradient(circle at bottom left, rgba(255, 107, 203, 0.4), transparent),
+                var(--bg-dark);
+            color: var(--accent-pink);
+            font-size: 6rem;
+            text-shadow: 0 0 20px var(--accent-pink), 0 0 40px var(--accent-cyan);
+        }
+        body.premium-theme .face-back {
+            background: 
+                radial-gradient(circle at top right, rgba(0, 229, 255, 0.2), transparent),
+                radial-gradient(circle at bottom left, rgba(213, 0, 249, 0.2), transparent),
+                var(--bg-dark);
+            color: var(--accent-gold);
+            text-shadow: 0 0 30px var(--accent-gold);
+        }
+
+        .face-front {
+            transform: rotateY(180deg);
+            font-size: 1.3rem;
+            font-weight: 500;
+            line-height: 1.5;
+            background: linear-gradient(135deg, var(--bg-medium), var(--bg-dark));
+        }
+
+        .category-label {
+            position: absolute;
+            top: 25px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            font-weight: bold;
+            color: var(--accent-cyan);
+        }
+        body.premium-theme .category-label { color: var(--accent-gold); }
+
+        .choice-container { display: flex; gap: 15px; width: 100%; justify-content: center; }
+        .choice-card {
+            width: 48%; height: 220px; border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; font-weight: 900; text-transform: uppercase;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        .choice-card.truth { background: linear-gradient(135deg, var(--accent-cyan), #0072ff); }
+        .choice-card.dare { background: linear-gradient(135deg, var(--accent-pink), #ff416c); }
+        
+        body.premium-theme .choice-card.truth { background: linear-gradient(135deg, #00e5ff, #2979ff); color: #000; border-color: #00e5ff; }
+        body.premium-theme .choice-card.dare { background: linear-gradient(135deg, #d500f9, #aa00ff); color: #fff; border-color: #d500f9; }
+
+        .top-bar {
+            position: absolute; top: 0; left: 0; width: 100%; padding: 15px;
+            display: flex; justify-content: space-between; box-sizing: border-box; z-index: 100;
+        }
+        .icon-btn {
+            background: rgba(0,0,0,0.5); color: var(--accent-cyan); border: 1px solid var(--accent-cyan);
+            padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; backdrop-filter: blur(4px);
+        }
+        body.premium-theme .icon-btn { color: var(--accent-gold); border-color: var(--accent-gold); }
+
+        .btn-bottom {
+            margin-top: auto; background: linear-gradient(to right, var(--accent-pink), var(--accent-cyan));
+            border: none; width: 100%;
+        }
+        body.premium-theme .btn-bottom { background: linear-gradient(to right, #ffd700, #d500f9); color: black; }
+
     </style>
 </head>
 <body>
@@ -897,12 +813,10 @@
     </div>
 
     <script type="module">
-        // Vi hämtar Firebase via nätet (CDN) så det funkar direkt i webbläsaren
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 
-        // --- DIN KONFIGURATION ---
         const firebaseConfig = {
             apiKey: "AIzaSyC4Cc2YVZGrTdEM76ghw_7RKVPCM7Y5Zy4",
             authDomain: "festapp1-play.firebaseapp.com",
@@ -913,18 +827,15 @@
             measurementId: "G-PXZ54GJTTL"
         };
 
-        // 1. Starta Firebase
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app); // Startar statistik
-        const db = getFirestore(app);      // Startar databasen
+        const analytics = getAnalytics(app); 
+        const db = getFirestore(app);
 
-        // 2. Skapa funktionen som skickar kort (Global så HTML hittar den)
         window.sendCardToFirebase = async (cardData) => {
             try {
-                // Vi lägger till kortet i samlingen "submitted_cards"
                 await addDoc(collection(db, "submitted_cards"), {
                     ...cardData,
-                    timestamp: serverTimestamp(), // Tiden just nu
+                    timestamp: serverTimestamp(),
                     platform: 'android/web'
                 });
                 console.log("Kort skickat till molnet!");
@@ -939,11 +850,8 @@
     <script>
         // --- DATA HANTERING ---
         let content = {}; 
-        
-        // KOLLA OM PREMIUM ÄR KÖPT (Hämtas från minnet)
         let isAllIn = localStorage.getItem('hasBoughtPremium') === 'true'; 
 
-        // APPLICERA TEMA DIREKT OM KÖPT
         if (isAllIn) {
             document.body.classList.add('premium-theme');
         }
@@ -959,16 +867,12 @@
                 document.querySelectorAll('.game-btn').forEach(btn => btn.disabled = false);
                 document.getElementById('loading-msg').style.display = 'none';
                 
-                // Om man redan köpt, dölj köp-knappen och infon
                 if (isAllIn) {
                     document.getElementById('btn-all-in').style.display = 'none';
                     document.getElementById('all-in-info').style.display = 'none';
                 }
-
-                console.log("Innehåll laddat!");
             } catch (error) {
                 document.getElementById('loading-msg').innerText = "Fel: Kunde inte ladda frågorna.";
-                console.error(error);
             }
         }
         loadContent();
@@ -981,7 +885,6 @@
                     showScreen('creator-screen'); 
                 }
             } else {
-                // Visa standard premium-modal
                 document.querySelector('#premium-modal .premium-highlight').innerText = "69 KR FÖR RUBBET!";
                 document.querySelector('.premium-list').style.display = "inline-block";
                 document.querySelector('.premium-desc').style.display = "none";
@@ -994,19 +897,13 @@
         }
 
         function buyPremium() {
-            // SPARA KÖP
             isAllIn = true;
             localStorage.setItem('hasBoughtPremium', 'true');
-
-            // AKTIVERA TEMA
             document.body.classList.add('premium-theme');
-
             closePremium();
             cardDecks = {}; 
             finishedFreeDecks = {}; 
             alert("Köp lyckades! Ultimate är nu upplåst. 🚀");
-            
-            // Dölj knappar och info
             document.getElementById('btn-all-in').style.display = 'none';
             document.getElementById('all-in-info').style.display = 'none';
         }
@@ -1074,20 +971,16 @@
 
             if (!cardDecks[currentGame][type] || cardDecks[currentGame][type].length === 0) {
                 
-                // KOLL OM GRATIS-KORT ÄR SLUT
                 if (!isAllIn && finishedFreeDecks[deckId]) {
                     document.querySelector('#premium-modal .premium-highlight').innerText = "KORTEN ÄR SLUT!";
-                    // Dölj listan, visa texten
                     document.querySelector('.premium-list').style.display = "none";
                     const desc = document.querySelector('.premium-desc');
                     desc.style.display = "block";
                     desc.innerHTML = "Du har spelat igenom alla gratiskort.<br>Gå <strong>All-in</strong> för att låsa upp hundratals nya kort och fortsätta spela!";
-                    
                     document.getElementById('premium-modal').style.display = 'flex';
                     return; 
                 }
 
-                // HÄMTA KORT (Anpassat för din JSON-struktur)
                 let allCards = [];
                 if (currentGame === 'jha' || currentGame === 'pek') {
                     if (content[currentGame]['all']) allCards = [...content[currentGame]['all']];
@@ -1103,15 +996,12 @@
                 if (isAllIn) {
                     const customCards = JSON.parse(localStorage.getItem('myCustomCards')) || [];
                     const myCards = customCards.filter(c => c.game === currentGame && (currentGame !== 'sk' || c.type === type));
-                    
                     myCards.forEach(c => allCards.push(c.text));
-                    if (myCards.length > 0) console.log(`Lade till ${myCards.length} egna kort i leken!`);
                 }
 
                 if (!isAllIn) {
                     let limit = 20; 
                     if (allCards.length < limit) limit = allCards.length;
-                    
                     allCards = allCards.slice(0, limit);
                     allCards.sort(() => Math.random() - 0.5);
                     finishedFreeDecks[deckId] = true;
@@ -1176,13 +1066,11 @@
             const sign = document.getElementById('new-card-sign').value.trim();
             const share = document.getElementById('new-card-share').checked;
             
-            // 1. Validering
             if (!text) {
                 alert("Tomma kort är tråkigt, du behöver skriva något för att spara!");
                 return;
             }
 
-            // Bygg text för lokal lagring
             let displaySign = sign;
             let saveText = text;
             if (displaySign) {
@@ -1199,9 +1087,7 @@
             customCards.push(newCard);
             localStorage.setItem('myCustomCards', JSON.stringify(customCards));
 
-            // --- SKICKA TILL FIREBASE OM SWITCHEN ÄR PÅ ---
             if (share && window.sendCardToFirebase) {
-                // Vi skickar en renare version till databasen
                 window.sendCardToFirebase({
                     type: type,
                     content: text,
@@ -1213,7 +1099,6 @@
 
             const overlay = document.getElementById('success-overlay');
             overlay.style.display = 'flex';
-            
             document.getElementById('new-card-text').value = '';
 
             setTimeout(() => {
@@ -1224,7 +1109,6 @@
             }, 1500);
         }
 
-        // --- MINA KORT HANTERING ---
         function openMyCards() {
             const container = document.getElementById('my-cards-list-container');
             const noCardsMsg = document.getElementById('no-cards-msg');
@@ -1253,7 +1137,6 @@
                     container.appendChild(cardDiv);
                 });
             }
-
             document.getElementById('my-cards-modal').style.display = 'flex';
         }
 
@@ -1265,13 +1148,10 @@
             if(confirm("Är du säker på att du vill ta bort detta kort?")) {
                 let customCards = JSON.parse(localStorage.getItem('myCustomCards')) || [];
                 let removedCard = customCards.splice(index, 1)[0];
-                
                 localStorage.setItem('myCustomCards', JSON.stringify(customCards));
-                
                 if(removedCard && cardDecks[removedCard.game]) {
                     cardDecks[removedCard.game] = null;
                 }
-
                 openMyCards();
             }
         }
@@ -1325,12 +1205,10 @@
             let velocity = 1.5; 
             if (time < 200) velocity = 3.0; 
             if (time > 500) velocity = 1.0; 
-
             const direction = distance > 0 ? 1 : -1;
             const baseRot = 1080; 
             const randomRot = Math.random() * 360; 
             const totalRot = (baseRot + randomRot) * direction;
-
             currentRotation += totalRot; 
             bottle.style.transition = `transform 3.5s cubic-bezier(0.2, 0.8, 0.2, 1)`;
             bottle.style.transform = `rotate(${currentRotation}deg)`;
