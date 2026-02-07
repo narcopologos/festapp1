@@ -31,7 +31,7 @@
                 #000000, 
                 #0f2027, /* Mörk teal */
                 #203a43, 
-                #1a0b2e
+                #2b0052
             );
             background-size: 400% 400%;
             animation: cosmicFlow 25s ease infinite;
@@ -91,7 +91,7 @@
         }
 
         body.premium-theme .main-logo {
-            filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.6)); /* Cyan skugga i rymden */
+            filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.6));
         }
 
         @keyframes float {
@@ -149,7 +149,7 @@
             background-origin: border-box;
             background-clip: padding-box, border-box;
             
-            animation: fluidShine 5s linear infinite; /* Långsammare, majestätisk rörelse */
+            animation: fluidShine 5s linear infinite;
             
             box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
             border: 2px solid transparent;
@@ -166,7 +166,7 @@
                 110deg, 
                 #b8860b 0%, 
                 #ffd700 20%, 
-                #ffffff 50%, /* Vitare blänk för mer guld-känsla */
+                #ffffff 50%, /* Vitare blänk */
                 #ffd700 80%, 
                 #b8860b 100%
             );
@@ -183,13 +183,29 @@
             text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
 
-        /* 3. VARIATION (DELAYS) - Gör att knapparna inte blinkar samtidigt */
+        /* 3. NÄSTA RUNDA (Levande gradient) */
+        body.premium-theme .btn-bottom {
+            background: linear-gradient(
+                90deg, 
+                #2b0052 0%, 
+                #d500f9 25%, 
+                #00e5ff 50%, 
+                #d500f9 75%, 
+                #2b0052 100%
+            );
+            background-size: 200% 100%;
+            animation: fluidShine 6s linear infinite;
+            box-shadow: 0 0 25px rgba(213, 0, 249, 0.3);
+            border: none;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+
+        /* Animation delays */
         body.premium-theme .game-btn:nth-of-type(1) { animation-delay: 0s; }
-        body.premium-theme .game-btn:nth-of-type(2) { animation-delay: 1.2s; } /* Förskjuten */
-        body.premium-theme .game-btn:nth-of-type(3) { animation-delay: 2.4s; } /* Förskjuten mer */
-        
-        /* Skaparläget får en egen rytm */
-        body.premium-theme .btn-creator { animation-delay: 0.5s; animation-duration: 3.5s; }
+        body.premium-theme .game-btn:nth-of-type(2) { animation-delay: 1.2s; } 
+        body.premium-theme .game-btn:nth-of-type(3) { animation-delay: 2.4s; } 
+        body.premium-theme .btn-creator { animation-delay: 0.5s; }
 
         @keyframes fluidShine {
             0% { background-position: 200% 0; }
@@ -212,7 +228,6 @@
 
         .menu-spacer { height: 30px; width: 100%; }
 
-        /* All-in knappen dimmas ner rejält i premium */
         body.premium-theme .btn-all-in {
             filter: grayscale(1); 
             opacity: 0.3;
@@ -242,238 +257,61 @@
         }
 
         /* --- SKAPARLÄGE STYLING --- */
-        .center-btn-row {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            margin-top: 25px;
-        }
-        
-        .creator-container {
-            width: 100%;
-            max-width: 350px;
-            text-align: left;
-        }
+        .center-btn-row { display: flex; flex-direction: column; align-items: center; width: 100%; margin-top: 25px; }
+        .creator-container { width: 100%; max-width: 350px; text-align: left; }
 
-        .input-label {
-            display: block;
-            color: var(--accent-cyan);
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-            margin-top: 15px;
-            font-weight: bold;
-        }
+        .input-label { display: block; color: var(--accent-cyan); font-size: 0.9rem; margin-bottom: 5px; margin-top: 15px; font-weight: bold; }
         body.premium-theme .input-label { color: var(--accent-gold); }
 
-        .neon-input {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--accent-pink);
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-family: inherit;
-            box-sizing: border-box;
-            outline: none;
-            transition: 0.3s;
-        }
+        .neon-input { width: 100%; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--accent-pink); color: white; padding: 12px; border-radius: 10px; font-size: 1rem; font-family: inherit; box-sizing: border-box; outline: none; transition: 0.3s; }
         body.premium-theme .neon-input { border-color: var(--accent-gold); }
 
-        .neon-input:focus {
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 10px rgba(72, 219, 251, 0.3);
-            background: rgba(0, 0, 0, 0.5);
-        }
-        body.premium-theme .neon-input:focus {
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-        }
+        .neon-input:focus { border-color: var(--accent-cyan); box-shadow: 0 0 10px rgba(72, 219, 251, 0.3); background: rgba(0, 0, 0, 0.5); }
+        body.premium-theme .neon-input:focus { border-color: var(--accent-gold); box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
 
-        .text-area {
-            height: 100px;
-            resize: none;
-        }
+        .text-area { height: 100px; resize: none; }
+        .info-icon { width: 20px; height: 20px; border: 1px solid #fff; border-radius: 50%; text-align: center; line-height: 20px; font-size: 0.8rem; cursor: pointer; opacity: 0.7; }
 
-        .info-icon {
-            width: 20px;
-            height: 20px;
-            border: 1px solid #fff;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 20px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            opacity: 0.7;
-        }
-
-        /* --- ÖVRIGA PREMIUM STYLING --- */
         .btn-back {
-            width: 100%;
-            max-width: 320px;
-            color: #ddd;
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                              linear-gradient(to right, #ff414d, #ff4b1f);
-            box-shadow: none;
-            font-family: inherit;
-            border: 1px solid rgba(255, 65, 77, 0.3);
-            font-size: 1rem;
-            padding: 15px;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
+            width: 100%; max-width: 320px; color: #ddd;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), linear-gradient(to right, #ff414d, #ff4b1f);
+            box-shadow: none; font-family: inherit; border: 1px solid rgba(255, 65, 77, 0.3);
+            font-size: 1rem; padding: 15px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 10px;
         }
         body.premium-theme .btn-back {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        linear-gradient(to right, #ff414d, #ff4b1f);
-            animation: none;
-            box-shadow: none;
-            border-color: rgba(255, 65, 77, 0.5);
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), linear-gradient(to right, #ff414d, #ff4b1f);
+            animation: none; box-shadow: none; border-color: rgba(255, 65, 77, 0.5);
         }
 
         .btn-my-cards {
-            width: 100%; 
-            max-width: 320px; 
-            padding: 12px;
-            margin-top: 15px;
-            margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px dashed var(--accent-cyan);
-            border-radius: 50px; 
-            color: var(--accent-cyan);
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-            transition: 0.2s;
+            width: 100%; max-width: 320px; padding: 12px; margin-top: 15px; margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.05); border: 1px dashed var(--accent-cyan);
+            border-radius: 50px; color: var(--accent-cyan); font-weight: bold; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 1px; transition: 0.2s;
         }
         .btn-my-cards:active { background: rgba(72, 219, 251, 0.2); }
         body.premium-theme .btn-my-cards { border-color: var(--accent-gold); color: var(--accent-gold); }
 
         /* --- MODALER --- */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95); 
-            z-index: 200;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .modal-content {
-            background: var(--bg-medium);
-            color: #eee;
-            padding: 30px;
-            border-radius: 20px;
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-            position: relative;
-            border: 2px solid var(--accent-pink);
-            box-shadow: 0 0 30px rgba(255, 107, 203, 0.3);
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        body.premium-theme .modal-content {
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
-            background: rgba(20, 10, 30, 0.95);
-        }
-
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 200; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+        .modal-content { background: var(--bg-medium); color: #eee; padding: 30px; border-radius: 20px; max-width: 500px; width: 100%; text-align: center; position: relative; border: 2px solid var(--accent-pink); box-shadow: 0 0 30px rgba(255, 107, 203, 0.3); max-height: 80vh; overflow-y: auto; }
+        body.premium-theme .modal-content { border-color: var(--accent-gold); box-shadow: 0 0 30px rgba(255, 215, 0, 0.3); background: rgba(20, 10, 30, 0.95); }
         .modal-left-align { text-align: left; }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--accent-pink);
-        }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: var(--accent-pink); }
         body.premium-theme .close-modal { color: var(--accent-gold); }
 
-        /* My Cards List Styles */
-        .my-card-item {
-            background: rgba(0,0,0,0.3);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-align: left;
-            margin-bottom: 5px;
-            border-radius: 5px;
-        }
-        .card-text-preview {
-            font-size: 0.9rem;
-            color: #fff;
-            flex: 1;
-            padding-right: 10px;
-        }
-        .delete-btn {
-            background: none;
-            border: none;
-            color: var(--accent-red);
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
+        /* --- MY CARDS LIST & PREMIUM MODAL TEXT --- */
+        .my-card-item { background: rgba(0,0,0,0.3); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px; display: flex; justify-content: space-between; align-items: center; text-align: left; margin-bottom: 5px; border-radius: 5px; }
+        .card-text-preview { font-size: 0.9rem; color: #fff; flex: 1; padding-right: 10px; }
+        .delete-btn { background: none; border: none; color: var(--accent-red); font-size: 1.2rem; cursor: pointer; }
+        .premium-highlight { font-size: 1.5rem; color: var(--accent-gold); margin: 10px 0; font-weight: bold; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+        .premium-desc { font-size: 1rem; margin-bottom: 25px; line-height: 1.5; color: #ddd; }
+        .premium-list { text-align: left; margin-bottom: 25px; display: inline-block; font-size: 1rem; line-height: 1.6; color: #ddd; }
+        .btn-buy { background-image: linear-gradient(to right, #ffd700, #ff8c00); color: black; border: none; width: 100%; font-weight: 900; }
 
-        /* Premium Highlights */
-        .premium-highlight {
-            font-size: 1.5rem;
-            color: var(--accent-gold);
-            margin: 10px 0;
-            font-weight: bold;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-        
-        .premium-desc {
-            font-size: 1rem;
-            margin-bottom: 25px;
-            line-height: 1.5;
-            color: #ddd;
-        }
-        
-        .premium-list {
-            text-align: left; 
-            margin-bottom: 25px; 
-            display: inline-block;
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #ddd;
-        }
-
-        .btn-buy {
-            background-image: linear-gradient(to right, #ffd700, #ff8c00);
-            color: black;
-            border: none;
-            width: 100%;
-            font-weight: 900;
-        }
-
-        /* --- SWITCH STYLING --- */
-        .share-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 20px;
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 10px;
-            -webkit-user-select: none;
-            user-select: none; 
-        }
-
+        /* --- SWITCH --- */
+        .share-row { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; -webkit-user-select: none; user-select: none; }
         .switch-label { font-size: 0.9rem; flex: 1; cursor: pointer; }
-
         .switch { position: relative; display: inline-block; width: 50px; height: 26px; margin: 0 10px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--accent-red); transition: .4s; border-radius: 34px; }
@@ -482,170 +320,97 @@
         input:focus + .slider { box-shadow: 0 0 1px var(--accent-green); }
         input:checked + .slider:before { transform: translateX(24px); }
 
-        /* Success Animation Popup */
-        .success-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 300;
-        }
-        
-        .checkmark-circle {
-            font-size: 4rem;
-            color: var(--accent-green);
-            border: 4px solid var(--accent-green);
-            border-radius: 50%;
-            width: 80px; height: 80px;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 20px;
-            box-shadow: 0 0 30px var(--accent-green);
-        }
+        .success-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 300; }
+        .checkmark-circle { font-size: 4rem; color: var(--accent-green); border: 4px solid var(--accent-green); border-radius: 50%; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: 0 0 30px var(--accent-green); }
 
-        /* --- SPELPLAN & KORT STYLES (Som innan men anpassade för premium) --- */
-        #bottle-container {
-            width: 300px;
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            touch-action: none; 
-            border-radius: 50%;
-        }
-
-        #bottle-img {
-            width: auto;
-            height: 250px;
-            filter: drop-shadow(0 0 15px var(--accent-cyan));
-            transform-origin: center center;
-            cursor: grab;
-            -webkit-user-drag: none;
-            user-drag: none;
-        }
+        /* --- SPELPLAN & KORT STYLES --- */
+        #bottle-container { width: 300px; height: 300px; display: flex; align-items: center; justify-content: center; position: relative; touch-action: none; border-radius: 50%; }
+        #bottle-img { width: auto; height: 250px; filter: drop-shadow(0 0 15px var(--accent-cyan)); transform-origin: center center; cursor: grab; -webkit-user-drag: none; user-drag: none; }
         body.premium-theme #bottle-img { filter: drop-shadow(0 0 25px var(--accent-cyan)); }
         #bottle-img:active { cursor: grabbing; }
 
-        .spin-instruction {
-            margin-top: 30px;
-            font-style: italic;
-            color: var(--accent-cyan);
-            font-weight: bold;
-            opacity: 0.8;
-            min-height: 1.2em;
-            animation: pulse 1.5s infinite;
-        }
-        body.premium-theme .spin-instruction { color: var(--accent-cyan); } /* Behåll cyan för neon-look */
+        .spin-instruction { margin-top: 30px; font-style: italic; color: var(--accent-cyan); font-weight: bold; opacity: 0.8; min-height: 1.2em; animation: pulse 1.5s infinite; }
+        body.premium-theme .spin-instruction { color: var(--accent-cyan); }
 
-        .card-scene {
-            width: 300px;
-            height: 450px;
-            perspective: 1000px;
-            margin-bottom: 20px;
-            cursor: pointer;
-        }
-
-        .card-object {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-        }
+        .card-scene { width: 300px; height: 450px; perspective: 1000px; margin-bottom: 20px; cursor: pointer; }
+        .card-object { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         .card-object.is-flipped { transform: rotateY(180deg); }
 
-        .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden; 
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 25px;
-            box-sizing: border-box;
-            background: var(--bg-light);
-            color: #fff;
-            border: 2px solid var(--accent-pink);
-        }
+        /* --- "REAL GOLD" BORDER FÖR PREMIUM --- */
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px; box-sizing: border-box; background: var(--bg-light); color: #fff; border: 2px solid var(--accent-pink); }
+        
         body.premium-theme .card-face { 
-            border-color: var(--accent-gold); 
-            background: linear-gradient(135deg, #1a0b2e, #000);
+            /* Teknik för äkta metall-look */
+            border: 4px solid transparent; /* Genomskinlig för att visa gradienten under */
+            background-image: 
+                linear-gradient(135deg, #1a0b2e, #000), /* Innehållets bakgrund */
+                linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); /* Guldgradient som ram */
+            background-origin: border-box;
+            background-clip: padding-box, border-box; /* Klipp så gradienten bara syns i ramen */
+            box-shadow: 0 0 20px rgba(191, 149, 63, 0.4); /* Gyllene glöd */
         }
 
-        .face-back {
-            background: 
-                radial-gradient(circle at top right, rgba(72, 219, 251, 0.4), transparent),
-                radial-gradient(circle at bottom left, rgba(255, 107, 203, 0.4), transparent),
-                var(--bg-dark);
-            color: var(--accent-pink);
-            font-size: 6rem;
-            text-shadow: 0 0 20px var(--accent-pink), 0 0 40px var(--accent-cyan);
-        }
+        .face-back { background: radial-gradient(circle at top right, rgba(72, 219, 251, 0.4), transparent), radial-gradient(circle at bottom left, rgba(255, 107, 203, 0.4), transparent), var(--bg-dark); color: var(--accent-pink); font-size: 6rem; text-shadow: 0 0 20px var(--accent-pink), 0 0 40px var(--accent-cyan); }
         body.premium-theme .face-back {
-            background: 
+            background-image: 
                 radial-gradient(circle at top right, rgba(0, 229, 255, 0.2), transparent),
                 radial-gradient(circle at bottom left, rgba(213, 0, 249, 0.2), transparent),
-                var(--bg-dark);
+                linear-gradient(135deg, #1a0b2e, #000); /* Måste upprepa linear-gradient här för att inte tappa metallramen */
             color: var(--accent-gold);
             text-shadow: 0 0 30px var(--accent-gold);
         }
 
-        .face-front {
-            transform: rotateY(180deg);
-            font-size: 1.3rem;
-            font-weight: 500;
-            line-height: 1.5;
-            background: linear-gradient(135deg, var(--bg-medium), var(--bg-dark));
+        .face-front { transform: rotateY(180deg); font-size: 1.3rem; font-weight: 500; line-height: 1.5; background: linear-gradient(135deg, var(--bg-medium), var(--bg-dark)); }
+        
+        body.premium-theme .face-front {
+            /* Samma teknik här för att behålla ramen */
+             background-image: 
+                linear-gradient(135deg, #2a1a3a, #050511), 
+                linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
         }
 
-        .category-label {
-            position: absolute;
-            top: 25px;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 3px;
-            font-weight: bold;
-            color: var(--accent-cyan);
-        }
+        .category-label { position: absolute; top: 25px; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 3px; font-weight: bold; color: var(--accent-cyan); }
         body.premium-theme .category-label { color: var(--accent-gold); }
 
+        /* --- FLASHIG BORDER FÖR PREMIUM VAL-KORT --- */
         .choice-container { display: flex; gap: 15px; width: 100%; justify-content: center; }
-        .choice-card {
-            width: 48%; height: 220px; border-radius: 20px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; font-weight: 900; text-transform: uppercase;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); cursor: pointer;
-            border: 2px solid rgba(255,255,255,0.1);
-        }
+        .choice-card { width: 48%; height: 220px; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 900; text-transform: uppercase; box-shadow: 0 10px 30px rgba(0,0,0,0.5); cursor: pointer; border: 2px solid rgba(255,255,255,0.1); }
+        
+        /* Standard */
         .choice-card.truth { background: linear-gradient(135deg, var(--accent-cyan), #0072ff); }
         .choice-card.dare { background: linear-gradient(135deg, var(--accent-pink), #ff416c); }
         
-        body.premium-theme .choice-card.truth { background: linear-gradient(135deg, #00e5ff, #2979ff); color: #000; border-color: #00e5ff; }
-        body.premium-theme .choice-card.dare { background: linear-gradient(135deg, #d500f9, #aa00ff); color: #fff; border-color: #d500f9; }
+        /* PREMIUM FLASHY BORDERS */
+        body.premium-theme .choice-card {
+            border: 3px solid transparent; /* Plats för neonramen */
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            box-shadow: 0 0 25px rgba(0,0,0,0.5); /* Grundskugga */
+        }
 
-        .top-bar {
-            position: absolute; top: 0; left: 0; width: 100%; padding: 15px;
-            display: flex; justify-content: space-between; box-sizing: border-box; z-index: 100;
+        /* Flashy Cyan Border för Sanning */
+        body.premium-theme .choice-card.truth { 
+            background-image: 
+                linear-gradient(135deg, #090919, #2b0052), /* Mörk insida */
+                linear-gradient(135deg, #00e5ff, #2979ff, #00e5ff); /* Lysande ram */
+            color: #00e5ff;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
         }
-        .icon-btn {
-            background: rgba(0,0,0,0.5); color: var(--accent-cyan); border: 1px solid var(--accent-cyan);
-            padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; backdrop-filter: blur(4px);
+
+        /* Flashy Pink/Purple Border för Konsekvens */
+        body.premium-theme .choice-card.dare { 
+            background-image: 
+                linear-gradient(135deg, #090919, #2b0052), 
+                linear-gradient(135deg, #d500f9, #aa00ff, #d500f9); 
+            color: #d500f9;
+            box-shadow: 0 0 20px rgba(213, 0, 249, 0.4);
         }
+
+        .top-bar { position: absolute; top: 0; left: 0; width: 100%; padding: 15px; display: flex; justify-content: space-between; box-sizing: border-box; z-index: 100; }
+        .icon-btn { background: rgba(0,0,0,0.5); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); padding: 8px 15px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; backdrop-filter: blur(4px); }
         body.premium-theme .icon-btn { color: var(--accent-gold); border-color: var(--accent-gold); }
 
-        .btn-bottom {
-            margin-top: auto; background: linear-gradient(to right, var(--accent-pink), var(--accent-cyan));
-            border: none; width: 100%;
-        }
-        body.premium-theme .btn-bottom { background: linear-gradient(to right, #ffd700, #d500f9); color: black; }
+        .btn-bottom { margin-top: auto; background: linear-gradient(to right, var(--accent-pink), var(--accent-cyan)); border: none; width: 100%; }
 
     </style>
 </head>
@@ -765,8 +530,8 @@
     <div id="bottle-choice-screen" class="screen">
         <div class="top-bar"><button class="icon-btn" onclick="goHome()">← Meny</button></div>
         <h2>Hur vill ni spela?</h2>
-        <button class="btn" onclick="setBottleMode(true)">Digital Flaska (Snurra här)</button>
-        <button class="btn" onclick="setBottleMode(false)">Egen Flaska (Vi har en)</button>
+        <button class="btn game-btn" onclick="setBottleMode(true)">Digital Flaska (Snurra här)</button>
+        <button class="btn game-btn" onclick="setBottleMode(false)">Egen Flaska (Vi har en)</button>
     </div>
 
     <div id="bottle-spin-screen" class="screen">
