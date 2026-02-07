@@ -326,13 +326,14 @@
         body.premium-theme .choice-card.dare { background-image: linear-gradient(135deg, #090919, #2b0052), linear-gradient(135deg, #d500f9, #aa00ff, #d500f9); color: #d500f9; box-shadow: 0 0 20px rgba(213, 0, 249, 0.4); }
         .btn-bottom { margin-top: auto; background: linear-gradient(to right, var(--accent-pink), var(--accent-cyan)); border: none; width: 100%; }
 
-        #menu-screen .btn {
-            margin: 6px 0; /* Tajtare än standard 10px */
-            padding: 15px; /* Lite smalare knappar */
-            justify-content: center; 
-            padding-top: env(safe-area-inset-top); /* Tar bort den extra 130px paddingen här */
+      #menu-screen .btn {
+            margin: 8px 0; /* Lite luftigare än 6px, men tightare än 10px */
+            padding: 18px; /* Tillbaka till standardstorlek (var 15px) */
+            justify-content: center;
+            /* Tog bort 'padding-top: env...' härifrån då det förstörde textens placering i knappen */
         }
-        /* SPECIFIK JUSTERING FÖR MENYN */
+        
+        /* Behåll justeringen för själva skärmen */
         #menu-screen {
             justify-content: center; 
             padding-top: env(safe-area-inset-top);
