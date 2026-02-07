@@ -353,6 +353,8 @@
         /* Specifika färger för premium-rubrikerna (JS sätter klasser) */
         .text-sanning { color: #00e5ff; text-shadow: 0 0 15px rgba(0, 229, 255, 0.6); }
         .text-konsekvens { color: #d500f9; text-shadow: 0 0 15px rgba(213, 0, 249, 0.6); }
+        .text-pekleken { color: var(--accent-cyan); text-shadow: 0 0 15px rgba(0, 229, 255, 0.6); }
+        .text-jha { color: var(--accent-pink); text-shadow: 0 0 15px rgba(255, 107, 203, 0.6); }
 
         /* --- FLASHIG BORDER FÖR PREMIUM VAL-KORT --- */
         .choice-container { display: flex; gap: 15px; width: 100%; justify-content: center; }
@@ -745,7 +747,7 @@
                 rawText = rawText.replace(/{riktning}/g, directions[Math.floor(Math.random() * directions.length)]);
             }
             
-            // --- FIXAD RUBRIK LOGIK FÖR PREMIUM ---
+           // --- RUBRIK OCH FÄRG LOGIK (Hanterar alla speltyper) ---
             let categoryTitle = "";
             let categoryClass = "";
             
@@ -755,8 +757,15 @@
             } else if (type === 'sanning') {
                 categoryTitle = "SANNING";
                 categoryClass = "text-sanning";
+            } else if (currentGame === 'jha') {
+                categoryTitle = "JAG HAR ALDRIG";
+                categoryClass = "text-jha";
+            } else if (currentGame === 'pek') {
+                categoryTitle = "PEKLEKEN";
+                categoryClass = "text-pekleken";
             } else {
-                categoryTitle = content[currentGame].title;
+                categoryTitle = (content[currentGame] && content[currentGame].title) ? content[currentGame].title : "Festapp1";
+                categoryClass = ""; 
             }
             
             const catLabel = document.getElementById('res-category');
@@ -764,7 +773,11 @@
             
             // Återställ och sätt klass för färg i premium
             catLabel.className = "category-label"; 
-            if (isAllIn) catLabel.classList.add(categoryClass);
+            
+            // SÄKERHETSCHECK: Lägg bara till klassen om den INTE är tom
+            if (isAllIn && categoryClass !== "") { 
+                catLabel.classList.add(categoryClass);
+            }
 
             document.getElementById('res-text').innerHTML = rawText; 
             
@@ -946,4 +959,5 @@
     </script>
 </body>
 </html>
+
 
