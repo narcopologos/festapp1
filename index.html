@@ -318,28 +318,99 @@ body.premium-theme {
         .spin-instruction { margin-top: 30px; font-style: italic; color: var(--accent-cyan); font-weight: bold; opacity: 0.8; min-height: 1.2em; animation: pulse 1.5s infinite; }
         body.premium-theme .spin-instruction { color: var(--accent-cyan); }
 
-        .card-scene {
-    width: 85vw; /* Anpassar sig efter skärmbredd */
+     Här är den kompletta koden för hela det avsnitt du klistrade in.
+
+Jag har bakat in "Anti-Web"-koden (som gör att det känns som en native Android-app) direkt i klasserna, och lagt till Premium-glöden utan skalning för att undvika hack i animationen.
+
+Ersätt hela det blocket du visade mig med detta:
+
+CSS
+/* --- APP-KÄNSLA (ANTI-WEB) --- */
+/* Detta gör att appen känns stum och responsiv som en riktig Android-app */
+.card-scene, .card-object, .card-face {
+    -webkit-tap-highlight-color: transparent; /* Tar bort blå blinkning vid tryck */
+    -webkit-user-select: none; /* Ingen textmarkering */
+    user-select: none;
+    -webkit-touch-callout: none; /* Inga menyer vid långtryck */
+    touch-action: manipulation; /* Snabbare respons */
+}
+
+/* --- KORTENS LAYOUT --- */
+.card-scene {
+    width: 85vw;
     max-width: 320px;
-    height: 60vh; /* Anpassar sig efter skärmhöjd */
+    height: 60vh;
     max-height: 450px;
     perspective: 1000px;
-    margin: auto; /* Hjälper till med centreringen */
+    margin: auto;
 }
-        .card-object { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
-        .card-object.is-flipped { transform: rotateY(180deg); }
 
-        /* --- REAL GOLD BORDER + 3D SKUGGA --- */
-        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px; box-sizing: border-box; background: var(--bg-light); color: #fff; border: 2px solid var(--accent-pink); }
-        
-        body.premium-theme .card-face { 
+.card-object { 
+    width: 100%; 
+    height: 100%; 
+    position: relative; 
+    transform-style: preserve-3d; 
+    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); 
+    border-radius: 20px; 
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8); 
+    
+    /* VIKTIGT FÖR APK: Förhindrar att man drar iväg bilden */
+    -webkit-user-drag: none;
+}
+
+.card-object.is-flipped { transform: rotateY(180deg); }
+
+/* --- STANDARD UTSEENDE --- */
+.card-face { 
+    position: absolute; 
+    width: 100%; 
+    height: 100%; 
+    backface-visibility: hidden; 
+    border-radius: 20px; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 25px; 
+    box-sizing: border-box; 
+    background: var(--bg-light); 
+    color: #fff; 
+    border: 2px solid var(--accent-pink); 
+}
+
+/* --- PREMIUM TEMA (GULD & GLÖD) --- */
+body.premium-theme .card-face { 
     border: 5px solid transparent; 
+    
+    /* Bakgrundslagren för guldramen */
     background-image: 
         linear-gradient(135deg, #1a0b2e, #000), 
         linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); 
     background-origin: border-box;
     background-clip: padding-box, border-box; 
 
+    /* Konstant lyxig glöd + djup skugga */
+    box-shadow: 
+        0 0 40px rgba(191, 149, 63, 0.4),
+        0 25px 50px rgba(0, 0, 0, 0.9),
+        inset 0 0 15px rgba(251, 245, 183, 0.2);
+    
+    /* Mjukar upp skugg-övergången */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    /* Pulserande guld-effekt */
+    animation: goldPulse 4s ease-in-out infinite;
+}
+
+/* --- INTERAKTION (HÅLLA FINGER PÅ KORTET) --- */
+/* Här ökar vi bara glöden, men INGEN skalning/storleksändring för att undvika buggar på Android */
+body.premium-theme .card-object:active .card-face {
+    box-shadow: 
+        0 0 60px rgba(191, 149, 63, 0.8), /* Kraftigare sken */
+        0 15px 30px rgba(0, 0, 0, 0.9);
+    
+    /* OBS: Ingen transform: scale() här! */
+}
     /* NYTT: Tre lager skugga för maximal premium-känsla */
     box-shadow: 
         0 0 40px rgba(191, 149, 63, 0.4),   /* 1. Det yttre mjuka guld-skenet */
@@ -1004,6 +1075,7 @@ body.premium-theme .card-object:active .card-face {
     </script>
 </body>
 </html>
+
 
 
 
