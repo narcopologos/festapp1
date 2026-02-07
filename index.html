@@ -316,8 +316,16 @@
         }
 
         /* BAKSIDAN AV KORTET */
-        .face-back { background: radial-gradient(circle at top right, rgba(72, 219, 251, 0.4), transparent), radial-gradient(circle at bottom left, rgba(255, 107, 203, 0.4), transparent), var(--bg-dark); color: var(--accent-pink); font-size: 6rem; text-shadow: 0 0 20px var(--accent-pink), 0 0 40px var(--accent-cyan); }
-        
+            .face-back { 
+            background: radial-gradient(circle at top right, rgba(72, 219, 251, 0.4), transparent), radial-gradient(circle at bottom left, rgba(255, 107, 203, 0.4), transparent), var(--bg-dark); 
+            color: var(--accent-pink); 
+            font-size: 6rem; 
+            text-shadow: 0 0 20px var(--accent-pink), 0 0 40px var(--accent-cyan);
+            
+            /* NYTT: Detta gör att vi kan ändra färgen via JavaScript */
+            filter: hue-rotate(var(--back-hue, 0deg));
+            transition: filter 0.5s ease;
+        }        
         body.premium-theme .face-back {
             background-image: 
                 radial-gradient(circle at top right, rgba(0, 229, 255, 0.2), transparent),
@@ -654,8 +662,16 @@
         }
 
         function nextRound() {
+            // 1. Vänd tillbaka kortet
             document.getElementById('the-card').classList.remove('is-flipped');
             isCardFlipped = false;
+
+            // 2. NYTT: Byt färg på baksidan (slumpa mellan 0 och 360 grader)
+            // Detta sker direkt så man ser det medan kortet vänds tillbaka
+            const randomHue = Math.floor(Math.random() * 360);
+            document.querySelector('.face-back').style.setProperty('--back-hue', randomHue + 'deg');
+
+            // 3. Ladda nästa kort efter en kort fördröjning (när kortet är dolt)
             setTimeout(() => {
                 if (currentGame === 'sk') {
                     if (useDigitalBottle) {
