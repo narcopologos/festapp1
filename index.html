@@ -38,7 +38,10 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, var(--bg-dark), var(--bg-medium));
+            
+            /* GRATIS: Statisk, mörk bakgrund. Ingen rörelse. */
+            background: #0f0c29; 
+            
             color: white;
             height: 100vh;
             display: flex;
@@ -108,14 +111,19 @@
         body.premium-theme .icon-btn { color: var(--accent-gold); border-color: var(--accent-gold); }
 
         /* --- LOGOTYP --- */
-        .main-logo {
+     .main-logo {
             max-width: 70%;
             height: auto;
             margin-bottom: 15px;
-            filter: drop-shadow(0 0 20px rgba(255, 107, 203, 0.4));
-            animation: float 4s ease-in-out infinite;
+            /* Ingen animation här i gratisversionen! */
+            filter: drop-shadow(0 0 10px rgba(255, 107, 203, 0.2)); 
         }
-        body.premium-theme .main-logo { filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.6)); }
+
+        /* PREMIUM: Nu svävar den och lyser mer! */
+        body.premium-theme .main-logo { 
+            filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.6)); 
+            animation: float 4s ease-in-out infinite; 
+        }
 
         @keyframes float {
             0% { transform: translateY(0px); }
@@ -130,23 +138,55 @@
         }
 
         /* --- KNAPPAR & MENY --- */
+        /* --- KNAPPAR (STANDARD / GRATIS) --- */
         .btn {
-            width: 85%; max-width: 320px; padding: 18px; margin: 10px 0;
-            font-size: 1.1rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;
-            color: white; background: rgba(0, 0, 0, 0.6); border: 2px solid transparent; border-radius: 50px;
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), var(--btn-border-grad);
-            background-origin: border-box; background-clip: padding-box, border-box;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05); cursor: pointer; backdrop-filter: blur(5px);
-            transition: 0.3s; line-height: 1.2;
+            width: 85%; 
+            max-width: 320px; 
+            padding: 18px; 
+            margin: 8px 0;
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            color: white; 
+            
+            /* GRATIS: Platt och mörk. Ingen gradient inuti. */
+            background: rgba(255, 255, 255, 0.05); 
+            
+            /* En enkel border med dina neonfärger, men ingen "fyllning" */
+            border: 2px solid #302b63; 
+            border-image: var(--btn-border-grad) 1; /* Detta ger regnbågsramen, men platt inuti */
+            
+            /* Fallback om border-image inte funkar på vissa mobiler: */
+            border-radius: 0px; /* Border-image kräver ofta kantiga hörn, eller så kör vi solid border */
+            
+            box-shadow: none; /* Inget sken! */
+            cursor: pointer; 
+            transition: 0.3s; 
+            line-height: 1.2;
+        }
+        
+        /* En liten justering för att runda hörn ska funka med border-gradient på ett enkelt sätt i gratis: */
+        .btn {
+            border: 2px solid var(--accent-pink); /* Enkel rosa ram i gratis */
+            border-image: none;
+            border-radius: 50px;
         }
 
-        /* PREMIUM KNAPPAR */
+        /* --- PREMIUM KNAPPAR (HÄR HÄNDER MAGIN) --- */
+        /* När man låser upp får man tillbaka ALLT: Glans, Gradient, Animation */
         body.premium-theme .game-btn {
             background: linear-gradient(90deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
             linear-gradient(110deg, #090919 0%, #2b0052 25%, #00e5ff 50%, #2b0052 75%, #090919 100%);
-            background-size: 200% 100%; background-origin: border-box; background-clip: padding-box, border-box;
-            animation: fluidShine 5s linear infinite; box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
-            border: 2px solid transparent; color: #fff; text-shadow: 0 0 5px rgba(0, 229, 255, 0.6);
+            background-size: 200% 100%; 
+            background-origin: border-box; 
+            background-clip: padding-box, border-box;
+            animation: fluidShine 5s linear infinite; 
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+            border: 2px solid transparent; 
+            color: #fff; 
+            text-shadow: 0 0 5px rgba(0, 229, 255, 0.6);
+            border-radius: 50px;
         }
         body.premium-theme .btn-creator {
             background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
