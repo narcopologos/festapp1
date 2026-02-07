@@ -114,9 +114,9 @@
 
         /* --- LOGOTYP --- */
         .main-logo {
-            max-width: 85%;
+            max-width: 70%;
             height: auto;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             filter: drop-shadow(0 0 20px rgba(255, 107, 203, 0.4));
             animation: float 4s ease-in-out infinite;
         }
@@ -181,7 +181,7 @@
 
         body.premium-theme .btn-all-in { filter: grayscale(1); opacity: 0.3; animation: none; background: rgba(255,255,255,0.1); box-shadow: none; color: #aaa; }
         .btn-all-in { color: var(--accent-gold); background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), linear-gradient(to right, #ffd700, #ff8c00); box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); font-size: 1.3rem; }
-        .all-in-info-text { color: rgba(255, 255, 255, 0.7); font-size: 0.8rem; margin-top: 10px; line-height: 1.4; text-align: center; width: 90%; max-width: 350px; font-weight: 500; }
+        .all-in-info-text { color: rgba(255, 255, 255, 0.7); font-size: 0.75rem; margin-top: 5px; line-height: 1.4; text-align: center; width: 90%; max-width: 90%; font-weight: 500; }
 
         /* --- SKAPARLÄGE & INPUTS --- */
         .center-btn-row { display: flex; flex-direction: column; align-items: center; width: 100%; margin-top: 25px; }
@@ -326,6 +326,14 @@
         body.premium-theme .choice-card.truth { background-image: linear-gradient(135deg, #090919, #2b0052), linear-gradient(135deg, #00e5ff, #2979ff, #00e5ff); color: #00e5ff; box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); }
         body.premium-theme .choice-card.dare { background-image: linear-gradient(135deg, #090919, #2b0052), linear-gradient(135deg, #d500f9, #aa00ff, #d500f9); color: #d500f9; box-shadow: 0 0 20px rgba(213, 0, 249, 0.4); }
         .btn-bottom { margin-top: auto; background: linear-gradient(to right, var(--accent-pink), var(--accent-cyan)); border: none; width: 100%; }
+
+        #menu-screen .btn {
+    margin: 6px 0; /* Tajtare än standard 10px */
+    padding: 15px; /* Lite smalare knappar */
+    justify-content: center; 
+    padding-top: env(safe-area-inset-top); /* Tar bort den extra 130px paddingen här */
+}
+
     </style>
 </head>
 <body>
@@ -711,17 +719,24 @@
             
             const frontFace = document.getElementById('card-front-face');
             
-            // --- FIX FÖR ATT INTE RITA ÖVER GULDRAMEN I PREMIUM ---
-            if (!isAllIn) {
-                // Om inte premium: Visa de färgade strecken för Sanning/Konka
-                if (type === 'sanning') frontFace.style.borderTop = "10px solid #48dbfb";
-                else if (type === 'konka') frontFace.style.borderTop = "10px solid #ff6b6b";
-                else frontFace.style.borderTop = "none";
+            // --- FIX FÖR RAMARNA ---
+        if (!isAllIn) {
+            // Om standard (gratis):
+            if (type === 'sanning') {
+                // Behåll den tjocka blå linjen för Sanning
+                frontFace.style.borderTop = "10px solid #48dbfb";
+            } else if (type === 'konka') {
+                // Behåll den tjocka röda linjen för Konsekvens
+                frontFace.style.borderTop = "10px solid #ff6b6b";
             } else {
-                // OM PREMIUM: Återställ borderTop så att CSS-guldramen kan visas!
-                // Vi sätter den till "inherit" eller tom sträng så att CSS-filen bestämmer.
+                // FÖR ALLA ANDRA (JHA, Pekleken): 
+                // Ta bort specialregler så att CSS-ramen (rosa linjen) syns i toppen också!
                 frontFace.style.borderTop = ""; 
             }
+        } else {
+            // OM PREMIUM: Låt CSS hantera guldramen helt
+            frontFace.style.borderTop = "";
+        }
             document.getElementById('the-card').classList.remove('is-flipped');
             isCardFlipped = false;
             showScreen('result-screen');
@@ -889,6 +904,7 @@
     </script>
 </body>
 </html>
+
 
 
 
