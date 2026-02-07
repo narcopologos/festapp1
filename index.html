@@ -47,7 +47,7 @@
             padding: 20px;
             box-sizing: border-box;
             text-align: center;
-            overflow-y: auto; /* Tillåter scroll om skärmen är liten */
+            overflow-y: auto; 
         }
 
         .active { display: flex; }
@@ -98,15 +98,16 @@
         .btn:active { transform: scale(0.96); }
         .btn:disabled { opacity: 0.5; filter: grayscale(1); }
 
+        /* Undertitel: Samma stil som huvudtexten men mindre */
         .btn-subtitle {
             display: block;
             font-size: 0.75rem;
-            font-style: italic;
-            text-transform: none;
-            opacity: 0.8;
+            font-weight: normal; 
+            font-style: normal; /* Ej kursiv */
+            color: white;       /* Samma färg som huvudtexten */
+            opacity: 0.9;
             margin-top: 4px;
-            font-weight: normal;
-            color: var(--accent-cyan);
+            text-transform: none;
         }
 
         .menu-spacer { height: 30px; width: 100%; }
@@ -119,6 +120,29 @@
             font-size: 1.3rem;
         }
 
+        /* Info text under All-in knappen */
+        .all-in-info-text {
+            color: #ccc;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            line-height: 1.6;
+            text-align: left;
+            width: 85%;
+            max-width: 320px;
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 15px;
+            box-sizing: border-box;
+        }
+        .all-in-info-text ul {
+            margin: 0;
+            padding-left: 20px;
+            list-style-type: disc;
+        }
+        .all-in-info-text li {
+            margin-bottom: 5px;
+        }
+
         /* --- SKAPARLÄGE KNAPPAR & LAYOUT --- */
         .btn-creator {
             color: white;
@@ -129,7 +153,6 @@
             border: 1px solid rgba(138, 43, 226, 0.5);
         }
 
-        /* Container för att centrera knapparna */
         .center-btn-row {
             display: flex;
             flex-direction: column;
@@ -160,14 +183,14 @@
             max-width: 320px; 
             padding: 12px;
             margin-top: 15px;
-            margin-bottom: 15px; /* Luft till Tillbaka-knappen */
+            margin-bottom: 15px;
             background: rgba(255, 255, 255, 0.05);
-            border: 1px dashed var(--accent-cyan); /* Streckad kant */
+            border: 1px dashed var(--accent-cyan);
             border-radius: 50px; 
             color: var(--accent-cyan);
             font-weight: bold;
             cursor: pointer;
-            text-transform: uppercase;
+            text-transform: uppercase; /* Samma format som "Lägg till" */
             letter-spacing: 1px;
             transition: 0.2s;
         }
@@ -257,6 +280,15 @@
             font-size: 1rem;
             margin-bottom: 25px;
             line-height: 1.5;
+            color: #ddd;
+        }
+        
+        .premium-list {
+            text-align: left; 
+            margin-bottom: 25px; 
+            display: inline-block;
+            font-size: 1rem;
+            line-height: 1.6;
             color: #ddd;
         }
 
@@ -588,15 +620,19 @@
     <div id="premium-modal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-modal" onclick="closePremium()">✖</span>
-            <h2 style="text-transform:uppercase; letter-spacing:2px;">Gå All-in?</h2>
-            <div class="premium-highlight">ALLT FÖR 69 KR</div>
-            <p class="premium-desc">
-                🚀 Lås upp <strong>300+ nya kort</strong><br>
-                🛠️ Få tillgång till <strong>Skaparläget</strong><br>
-                ✨ Lås upp <strong>Ultimate Designen</strong><br>
-                🍺 Kostar mindre än en öl i baren!
-            </p>
-            <button class="btn btn-buy" onclick="buyPremium()">LÅS UPP NU (69kr)</button>
+            <h2 style="text-transform:uppercase; letter-spacing:2px;">GÅ ALL-IN?</h2>
+            <div class="premium-highlight">69 KR FÖR RUBBET!</div>
+            
+            <div class="premium-list">
+                🚀 Lås upp 500+ nya kort<br>
+                🛠️ Få tillgång till Skaparläget<br>
+                ✨ Stick ut från mängden med ny unik design!<br>
+                🍺 Sponsra utvecklaren med en öl
+            </div>
+            
+            <div class="premium-desc" style="display:none;"></div>
+
+            <button class="btn btn-buy" onclick="buyPremium()">LÅS UPP FÖR ALLTID (69kr)</button>
             <p style="font-size:0.8rem; margin-top:15px; opacity:0.6;">Engångskostnad. Inga prenumerationer.</p>
         </div>
     </div>
@@ -624,15 +660,24 @@
         
         <p id="loading-msg">Laddar frågor...</p>
 
+        <button id="btn-creator" class="btn btn-creator" style="margin-top:10px;" onclick="checkPremium('creator')">Skaparläge 🛠️</button>
+
         <div class="menu-spacer"></div>
 
         <button id="btn-all-in" class="btn btn-all-in" onclick="checkPremium('all-in')">All-in 💎</button>
-        <button id="btn-creator" class="btn btn-creator" onclick="checkPremium('creator')">Skaparläge 🛠️</button>
+        
+        <div id="all-in-info" class="all-in-info-text">
+            <ul>
+                <li>500+ kort med regelbundna uppdateringar</li>
+                <li>Lås upp skaparläget</li>
+                <li>Ny design</li>
+                <li>Engångskostnad, inga prenumerationer</li>
+            </ul>
+        </div>
     </div>
 
     <div id="creator-screen" class="screen">
-        <div class="top-bar">
-            </div>
+        <div class="top-bar"></div>
 
         <h2 style="color:var(--accent-cyan); margin-bottom:10px;">Skapa nytt kort</h2>
         
@@ -662,11 +707,11 @@
                     <span class="slider round"></span>
                 </label>
 
-                <div class="info-icon" onclick="alert('Om du kryssar i denna kan kortet skickas till utvecklaren i framtiden.')">?</div>
+                <div class="info-icon" onclick="alert('Dela ditt kort med utvecklaren, är det ett riktigt bra sådant kan det läggas till i appen och visas i framtida spel tillsammans med din signatur.')">?</div>
             </div>
 
             <div class="center-btn-row">
-                <button class="btn btn-creator" onclick="saveCustomCard()">LÄGG TILL KORT</button>
+                <button class="btn btn-creator" onclick="saveCustomCard()">+ LÄGG TILL KORT</button>
                 
                 <button class="btn-my-cards" onclick="openMyCards()">📂 Mina Kort</button>
 
@@ -733,7 +778,10 @@
     <script>
         // --- DATA HANTERING ---
         let content = {}; 
-        let isAllIn = false; 
+        
+        // KOLLA OM PREMIUM ÄR KÖPT (Hämtas från minnet)
+        let isAllIn = localStorage.getItem('hasBoughtPremium') === 'true'; 
+
         let finishedFreeDecks = {}; 
 
         async function loadContent() {
@@ -744,6 +792,13 @@
                 
                 document.querySelectorAll('.game-btn').forEach(btn => btn.disabled = false);
                 document.getElementById('loading-msg').style.display = 'none';
+                
+                // Om man redan köpt, dölj köp-knappen och infon
+                if (isAllIn) {
+                    document.getElementById('btn-all-in').style.display = 'none';
+                    document.getElementById('all-in-info').style.display = 'none';
+                }
+
                 console.log("Innehåll laddat!");
             } catch (error) {
                 document.getElementById('loading-msg').innerText = "Fel: Kunde inte ladda frågorna.";
@@ -760,6 +815,10 @@
                     showScreen('creator-screen'); 
                 }
             } else {
+                // Visa standard premium-modal
+                document.querySelector('#premium-modal .premium-highlight').innerText = "69 KR FÖR RUBBET!";
+                document.querySelector('.premium-list').style.display = "inline-block";
+                document.querySelector('.premium-desc').style.display = "none";
                 document.getElementById('premium-modal').style.display = 'flex';
             }
         }
@@ -769,12 +828,18 @@
         }
 
         function buyPremium() {
+            // SPARA KÖP
             isAllIn = true;
+            localStorage.setItem('hasBoughtPremium', 'true');
+
             closePremium();
             cardDecks = {}; 
             finishedFreeDecks = {}; 
             alert("Köp lyckades! Ultimate är nu upplåst. 🚀");
+            
+            // Dölj knappar och info
             document.getElementById('btn-all-in').style.display = 'none';
+            document.getElementById('all-in-info').style.display = 'none';
         }
 
         // --- SPEL LOGIK ---
@@ -833,93 +898,70 @@
         }
 
         function showResult(type) {
-            // Kontrollera att spelet finns i datan
-            if (!content[currentGame]) {
-                console.error("Spelet hittades inte i JSON");
-                return;
-            }
+            if (!content[currentGame]) return;
 
             if (!cardDecks[currentGame]) cardDecks[currentGame] = {};
             const deckId = currentGame + '_' + type;
 
-            // Kontrollera om kortleken behöver laddas
             if (!cardDecks[currentGame][type] || cardDecks[currentGame][type].length === 0) {
                 
-                // Spärr för gratisanvändare: Om "finishedFreeDecks" är satt, stoppa här.
+                // KOLL OM GRATIS-KORT ÄR SLUT
                 if (!isAllIn && finishedFreeDecks[deckId]) {
                     document.querySelector('#premium-modal .premium-highlight').innerText = "KORTEN ÄR SLUT!";
-                    document.querySelector('#premium-modal .premium-desc').innerHTML = "Du har spelat igenom alla gratiskort.<br>Gå <strong>All-in</strong> för att låsa upp hundratals nya kort och fortsätta spela!";
+                    // Dölj listan, visa texten
+                    document.querySelector('.premium-list').style.display = "none";
+                    const desc = document.querySelector('.premium-desc');
+                    desc.style.display = "block";
+                    desc.innerHTML = "Du har spelat igenom alla gratiskort.<br>Gå <strong>All-in</strong> för att låsa upp hundratals nya kort och fortsätta spela!";
+                    
                     document.getElementById('premium-modal').style.display = 'flex';
                     return; 
                 }
 
-                // --- HÄMTA KORT FRÅN DIN JSON-STRUKTUR ---
+                // HÄMTA KORT (Anpassat för din JSON-struktur)
                 let allCards = [];
-
-                // Fall 1: Jag har aldrig (jha) eller Pekleken (pek) -> Använder listan "all"
                 if (currentGame === 'jha' || currentGame === 'pek') {
-                    if (content[currentGame]['all']) {
-                        allCards = [...content[currentGame]['all']];
-                    }
-                } 
-                // Fall 2: Snurra Flaskan (sk) -> Använder "sanning" eller "konka"
-                else if (currentGame === 'sk') {
-                    if (content[currentGame][type]) {
-                        allCards = [...content[currentGame][type]];
-                    }
+                    if (content[currentGame]['all']) allCards = [...content[currentGame]['all']];
+                } else if (currentGame === 'sk') {
+                    if (content[currentGame][type]) allCards = [...content[currentGame][type]];
                 }
 
-                // Om inga kort hittades
                 if (allCards.length === 0) {
                     alert("Kunde inte ladda korten. Kolla JSON-strukturen.");
                     return;
                 }
 
-                // --- BLANDA IN EGNA KORT (Om man är Premium) ---
                 if (isAllIn) {
                     const customCards = JSON.parse(localStorage.getItem('myCustomCards')) || [];
                     const myCards = customCards.filter(c => c.game === currentGame && (currentGame !== 'sk' || c.type === type));
+                    
                     myCards.forEach(c => allCards.push(c.text));
+                    if (myCards.length > 0) console.log(`Lade till ${myCards.length} egna kort i leken!`);
                 }
 
-                // --- BEGRÄNSNINGS-LOGIK ---
                 if (!isAllIn) {
-                    // GRATIS: Vi tar ALLTID de första 20 korten (index 0-20)
-                    // Detta kräver att du lagt de "öppna" frågorna först i din JSON-fil.
                     let limit = 20; 
-                    
-                    // Säkerställ att vi inte kraschar om listan är kortare än 20
                     if (allCards.length < limit) limit = allCards.length;
-
+                    
                     allCards = allCards.slice(0, limit);
-                    
-                    // Sen blandar vi dem så ordningen varierar
                     allCards.sort(() => Math.random() - 0.5);
-                    
-                    // Markera att gratis-leken är laddad. Nästa gång den tar slut blir det stopp.
                     finishedFreeDecks[deckId] = true;
-                    console.log(`Gratisversion: Laddade de ${allCards.length} första korten.`);
                 } else {
-                    // PREMIUM: Ladda allt och blanda
                     allCards.sort(() => Math.random() - 0.5);
-                    console.log(`Unlimited: Laddar om alla ${allCards.length} kort.`);
                 }
 
                 cardDecks[currentGame][type] = allCards;
             }
 
-            // Dra ett kort och visa det
             const currentDeck = cardDecks[currentGame][type];
             const randomIndex = Math.floor(Math.random() * currentDeck.length);
             let rawText = currentDeck.splice(randomIndex, 1)[0]; 
 
-            // Hantera {riktning}
             if (rawText.includes("{riktning}")) {
                 const directions = ["höger", "vänster"];
                 rawText = rawText.replace(/{riktning}/g, directions[Math.floor(Math.random() * directions.length)]);
             }
             
-            // Uppdatera UI
             document.getElementById('res-category').innerText = type === 'all' ? content[currentGame].title : type.toUpperCase();
             document.getElementById('res-text').innerHTML = rawText; 
             
@@ -964,9 +1006,9 @@
             let text = document.getElementById('new-card-text').value.trim();
             const sign = document.getElementById('new-card-sign').value.trim();
             
-            // 1. Validering: Text måste finnas
+            // 1. Validering
             if (!text) {
-                alert("Du måste skriva något på kortet för att spara!");
+                alert("Tomma kort är tråkigt, du behöver skriva något för att spara!");
                 return;
             }
 
@@ -1004,7 +1046,7 @@
         function openMyCards() {
             const container = document.getElementById('my-cards-list-container');
             const noCardsMsg = document.getElementById('no-cards-msg');
-            container.innerHTML = ''; // Töm listan först
+            container.innerHTML = ''; 
 
             let customCards = JSON.parse(localStorage.getItem('myCustomCards')) || [];
 
@@ -1012,12 +1054,10 @@
                 noCardsMsg.style.display = 'block';
             } else {
                 noCardsMsg.style.display = 'none';
-                // Loopa igenom och skapa HTML för varje kort
                 customCards.forEach((card, index) => {
                     const cardDiv = document.createElement('div');
                     cardDiv.className = 'my-card-item';
                     
-                    // Rensa HTML-taggar för snyggare preview
                     let cleanText = card.text.replace(/<br>/g, " ").replace(/<[^>]*>?/gm, "");
                     if(cleanText.length > 30) cleanText = cleanText.substring(0, 30) + "...";
 
@@ -1042,17 +1082,14 @@
         function deleteCustomCard(index) {
             if(confirm("Är du säker på att du vill ta bort detta kort?")) {
                 let customCards = JSON.parse(localStorage.getItem('myCustomCards')) || [];
-                // Ta bort kortet på det indexet
                 let removedCard = customCards.splice(index, 1)[0];
                 
                 localStorage.setItem('myCustomCards', JSON.stringify(customCards));
                 
-                // Nollställ kortleken för det spelet så kortet försvinner direkt om man spelar
                 if(removedCard && cardDecks[removedCard.game]) {
                     cardDecks[removedCard.game] = null;
                 }
 
-                // Ladda om listan
                 openMyCards();
             }
         }
@@ -1127,4 +1164,3 @@
     </script>
 </body>
 </html>
-
