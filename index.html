@@ -22,21 +22,27 @@
         }
 
         /* --- PREMIUM TEMA (Deep Space Nebula) --- */
-       /* En lyxig mix av djupt lila, guld och rymdsvart */
+body.premium-theme {
+    /* En lyxig mix av djupt lila, guld och rymdsvart i 45 grader */
     background: linear-gradient(
         45deg,
         #0a0415, /* Nästan svart lila */
         #2e004f, /* Djup purpur */
-        #aa771c, /* Matt guld (för en "nebula"-effekt) */
+        #aa771c, /* Matt guld */
         #4a0e8f, /* Kraftig lila */
-        #000000, /* Ren svart för kontrast */
+        #000000, /* Svart för djup */
         #8b6b13  /* Mörkt guld */
     );
-    background-size: 400% 400%;
-    animation: cosmicFlow 20s ease infinite; /* Något snabbare för mer liv */
+    
+    /* Detta gör att bakgrunden kan flyta runt */
+    background-size: 400% 400% !important;
+    
+    /* Startar rörelsen */
+    animation: cosmicFlow 20s ease infinite;
 
-    --accent-pink: #d500f9; /* Behåll neonlila */
-    --accent-cyan: #00e5ff; /* Behåll neonblå */
+    /* Dina premium-neonfärger */
+    --accent-pink: #d500f9; 
+    --accent-cyan: #00e5ff; 
 }
 
         @keyframes cosmicFlow {
@@ -974,6 +980,7 @@
     </script>
 </body>
 </html>
+
 
 
 
