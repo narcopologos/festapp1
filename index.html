@@ -18,30 +18,28 @@
             --accent-green: #00ff41;  
             --accent-red: #ff414d;
             
-            --btn-grad-1: rgba(0,0,0,0.6);
-            --btn-grad-2: rgba(0,0,0,0.6);
             --btn-border-grad: linear-gradient(to right, var(--accent-pink), var(--accent-cyan));
         }
 
-        /* --- PREMIUM TEMA (Guld & Lyx) --- */
+        /* --- PREMIUM TEMA (Levande Guld & Lyx) --- */
         body.premium-theme {
-            /* Mörkare, lyxigare bakgrund */
-            --bg-dark: #000000;
-            --bg-medium: #1c1c1c; 
-            --bg-light: #2a2a2a;
+            /* Animerad Bakgrund */
+            background: linear-gradient(-45deg, #000000, #1a0b2e, #2e1c0b, #0d0d0d);
+            background-size: 400% 400%;
+            animation: luxuryBG 15s ease infinite;
 
             /* Guld och Lila accenter */
-            --accent-pink: #ffd700; /* Guld istället för rosa */
-            --accent-cyan: #9d00ff; /* Lila istället för cyan */
-            
-            /* Guld-gradient på knappar */
-            --btn-border-grad: linear-gradient(to right, #ffd700, #b8860b, #ffd700);
-            
-            /* Bakgrundsbild (valfritt, men snyggt med en subtil effekt) */
-            background: radial-gradient(circle at center, #1c1c1c 0%, #000000 100%);
+            --accent-pink: #ffd700; 
+            --accent-cyan: #b8860b; 
         }
 
-        /* Justera All-in knappen i premiumläget (gör den diskretare eller dölj helt om du vill) */
+        @keyframes luxuryBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Justera All-in knappen i premiumläget */
         body.premium-theme .btn-all-in {
             filter: grayscale(1); 
             opacity: 0.5;
@@ -59,7 +57,7 @@
             overflow: hidden;
             user-select: none;
             -webkit-user-select: none;
-            transition: background 1s ease; /* Snygg övergång vid köp */
+            transition: background 1s ease;
         }
 
         /* --- SKÄRMAR --- */
@@ -90,9 +88,8 @@
             animation: float 4s ease-in-out infinite;
         }
 
-        /* Ändra skuggan på loggan i premium-läge */
         body.premium-theme .main-logo {
-            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6)); /* Guldskugga */
+            filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.8));
         }
 
         @keyframes float {
@@ -128,11 +125,32 @@
             transition: 0.3s;
             line-height: 1.2;
         }
-        
-        /* Specifik guld-skugga för premium */
+
+        /* --- LEVANDE PREMIUM KNAPPAR --- */
         body.premium-theme .btn {
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
+            /* Liquid Gold Gradient */
+            background: linear-gradient(90deg, 
+                rgba(0,0,0,0.7), 
+                rgba(0,0,0,0.7)), 
+                linear-gradient(90deg, #ffd700, #b8860b, #ffeebb, #ffd700, #9d00ff);
+            
+            background-size: 300% 100%;
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            
+            /* Animationen som får den att röra sig */
+            animation: shimmer 3s infinite linear;
+            
+            /* Guldskugga */
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            border: 2px solid transparent;
             color: #fff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8); /* Bättre läsbarhet mot guld */
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
 
         .btn:active { transform: scale(0.96); }
@@ -180,12 +198,9 @@
             border: 1px solid rgba(138, 43, 226, 0.5);
         }
         
-        /* Anpassa skaparknappen för premiumtema (mer guld/lila) */
         body.premium-theme .btn-creator {
-             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                              linear-gradient(to right, #9d00ff, #ffd700);
-             border: 1px solid #ffd700;
-             box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+             /* Överrider standard-animeringen för att göra denna mer unik om man vill */
+             box-shadow: 0 0 25px rgba(157, 0, 255, 0.4);
         }
 
         .center-btn-row {
@@ -212,6 +227,16 @@
             cursor: pointer;
             margin-top: 10px;
         }
+        
+        /* Tillbaka-knappen ska inte skimra i premium, den ska vara röd/neutral */
+        body.premium-theme .btn-back {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        linear-gradient(to right, #ff414d, #ff4b1f);
+            background-size: 100%;
+            animation: none;
+            box-shadow: none;
+            border-color: rgba(255, 65, 77, 0.5);
+        }
 
         .btn-my-cards {
             width: 100%; 
@@ -234,7 +259,6 @@
             background: rgba(72, 219, 251, 0.2);
         }
         
-        /* Justera mina kort-knappen för premium */
         body.premium-theme .btn-my-cards {
             border-color: var(--accent-gold);
             color: var(--accent-gold);
@@ -248,7 +272,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95); /* Lite mörkare för premiumkänsla */
+            background: rgba(0, 0, 0, 0.95); 
             z-index: 200;
             align-items: center;
             justify-content: center;
@@ -274,6 +298,7 @@
         body.premium-theme .modal-content {
             border-color: var(--accent-gold);
             box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            background: rgba(20, 10, 30, 0.95);
         }
 
         .modal-left-align { text-align: left; }
@@ -371,7 +396,7 @@
         }
 
         body.premium-theme #bottle-img {
-             filter: drop-shadow(0 0 15px var(--accent-gold)); /* Guldskugga på flaskan */
+             filter: drop-shadow(0 0 25px var(--accent-gold)); 
         }
 
         #bottle-img:active { cursor: grabbing; }
@@ -429,6 +454,7 @@
         
         body.premium-theme .card-face { 
             border-color: var(--accent-gold); 
+            background: linear-gradient(135deg, #2a1a3a, #000);
         }
 
         .face-back {
@@ -443,11 +469,11 @@
         
         body.premium-theme .face-back {
             background: 
-                radial-gradient(circle at top right, rgba(157, 0, 255, 0.4), transparent), /* Lila */
-                radial-gradient(circle at bottom left, rgba(255, 215, 0, 0.4), transparent), /* Guld */
+                radial-gradient(circle at top right, rgba(157, 0, 255, 0.3), transparent),
+                radial-gradient(circle at bottom left, rgba(255, 215, 0, 0.3), transparent),
                 var(--bg-dark);
             color: var(--accent-gold);
-            text-shadow: 0 0 20px var(--accent-gold), 0 0 40px var(--accent-cyan);
+            text-shadow: 0 0 30px var(--accent-gold), 0 0 50px #9d00ff;
         }
 
         .face-front {
@@ -495,10 +521,16 @@
         .choice-card.truth { background: linear-gradient(135deg, var(--accent-cyan), #0072ff); }
         .choice-card.dare { background: linear-gradient(135deg, var(--accent-pink), #ff416c); }
         
-        /* Justera val-korten lite för premium */
-        body.premium-theme .choice-card.truth { background: linear-gradient(135deg, #9d00ff, #0072ff); }
-        body.premium-theme .choice-card.dare { background: linear-gradient(135deg, #ffd700, #ff8c00); color: black; }
-
+        body.premium-theme .choice-card.truth { 
+            background: linear-gradient(135deg, #b8860b, #ffd700); 
+            color: #000;
+            border-color: #ffd700;
+        }
+        body.premium-theme .choice-card.dare { 
+            background: linear-gradient(135deg, #4a00e0, #8e2de2); 
+            color: #fff;
+            border-color: #8e2de2;
+        }
 
         .top-bar {
             position: absolute;
@@ -526,6 +558,7 @@
         body.premium-theme .icon-btn {
             color: var(--accent-gold);
             border-color: var(--accent-gold);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
         }
 
         .btn-bottom {
@@ -537,6 +570,8 @@
         
         body.premium-theme .btn-bottom {
             background: linear-gradient(to right, #ffd700, #9d00ff);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            color: black;
         }
         
         #loading-msg {
@@ -861,6 +896,46 @@
         <button class="btn btn-bottom" onclick="nextRound()">Nästa runda</button>
     </div>
 
+    <script type="module">
+        // Vi hämtar Firebase via nätet (CDN) så det funkar direkt i webbläsaren
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+
+        // --- DIN KONFIGURATION ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyC4Cc2YVZGrTdEM76ghw_7RKVPCM7Y5Zy4",
+            authDomain: "festapp1-play.firebaseapp.com",
+            projectId: "festapp1-play",
+            storageBucket: "festapp1-play.firebasestorage.app",
+            messagingSenderId: "1081983517667",
+            appId: "1:1081983517667:web:a0ba6670e1edafdd1196d6",
+            measurementId: "G-PXZ54GJTTL"
+        };
+
+        // 1. Starta Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app); // Startar statistik
+        const db = getFirestore(app);      // Startar databasen
+
+        // 2. Skapa funktionen som skickar kort (Global så HTML hittar den)
+        window.sendCardToFirebase = async (cardData) => {
+            try {
+                // Vi lägger till kortet i samlingen "submitted_cards"
+                await addDoc(collection(db, "submitted_cards"), {
+                    ...cardData,
+                    timestamp: serverTimestamp(), // Tiden just nu
+                    platform: 'android/web'
+                });
+                console.log("Kort skickat till molnet!");
+                return true;
+            } catch (e) {
+                console.error("Kunde inte skicka kort: ", e);
+                return false;
+            }
+        };
+    </script>
+
     <script>
         // --- DATA HANTERING ---
         let content = {}; 
@@ -1093,12 +1168,13 @@
             }
         }
 
-        // --- SKAPARLÄGE FUNKTIONER ---
+        // --- SKAPARLÄGE & FIREBASE FUNKTIONER ---
         
-        function saveCustomCard() {
+        async function saveCustomCard() {
             const type = document.getElementById('new-card-type').value;
             let text = document.getElementById('new-card-text').value.trim();
             const sign = document.getElementById('new-card-sign').value.trim();
+            const share = document.getElementById('new-card-share').checked;
             
             // 1. Validering
             if (!text) {
@@ -1106,22 +1182,34 @@
                 return;
             }
 
-            if (sign) {
-                text += `<br><br><span style="font-size:0.7em; opacity:0.7; font-style:italic;">— ${sign}</span>`;
+            // Bygg text för lokal lagring
+            let displaySign = sign;
+            let saveText = text;
+            if (displaySign) {
+                saveText += `<br><br><span style="font-size:0.7em; opacity:0.7; font-style:italic;">— ${displaySign}</span>`;
             }
 
             const newCard = {
                 type: type, 
-                text: text,
-                game: '' 
+                text: saveText,
+                game: (type === 'sanning' || type === 'konka') ? 'sk' : type
             };
-
-            if (type === 'sanning' || type === 'konka') newCard.game = 'sk';
-            else newCard.game = type; 
 
             let customCards = JSON.parse(localStorage.getItem('myCustomCards')) || [];
             customCards.push(newCard);
             localStorage.setItem('myCustomCards', JSON.stringify(customCards));
+
+            // --- SKICKA TILL FIREBASE OM SWITCHEN ÄR PÅ ---
+            if (share && window.sendCardToFirebase) {
+                // Vi skickar en renare version till databasen
+                window.sendCardToFirebase({
+                    type: type,
+                    content: text,
+                    signature: sign,
+                    fullText: saveText,
+                    game: newCard.game
+                });
+            }
 
             const overlay = document.getElementById('success-overlay');
             overlay.style.display = 'flex';
